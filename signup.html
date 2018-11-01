@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Signup</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+
+<!- Top button bar -->
+<div id="buttonBar">
+    <button type="button">HOME</button>
+    <button type="button">WHAT'S NEW</button>
+    <button type="button">ABOUT</button>
+    <!- TODO: Move these 2 buttons to the right side of the site -->
+    <button type="button">LOGIN</button>
+    <button type="button">LOGOUT</button>
+</div>
+
+<!- Forum za vpis. -->
+<div id="signupForm">
+    <ul>
+        <li>
+            <label for="id_name" required class="text">Name: </label>
+            <input type="text" name="name" required class="text" id="id_name">
+        </li>
+        <li>
+            <label for="id_surname" required class="text">Surname: </label>
+            <input type="text" name="surname" required class="text" id="id_surname">
+        </li>
+        <li>
+            <label for="id_username" required class="text">Username: </label>
+            <input type="text" name="username" required class="text" id="id_username">
+        </li>
+        <li>
+            <label for="id_gender" required class="text">Gender: </label>
+            <select name="gender" class="select" id="id_gender">
+                <option>Male</option>
+                <option>Female</option>
+            </select>
+        </li>
+        <li>
+            <label for="id_password" required class="text">Password: </label>
+            <input type="password" name="password" id="id_password">
+        </li>
+        <li>
+            <label for="id_confirm_password" required class="text">Confirm password: </label>
+            <input type="password" name="confirm_password" id="id_confirm_password">
+        </li>
+        <li>
+            <label for="id_email" required class="text">Email: </label>
+            <input type="email" name="confirm_password" id="id_email">
+        </li>
+        <li>
+            <input type="checkbox" name="confirm_password" id="id_checkbox">
+            <label for="id_checkbox" required class="text">I am not a robot.</label>
+        </li>
+        <li>
+            <input type="checkbox" name="confirm_password" id="id_checkbox_terms">
+            <label for="id_checkbox_terms" required class="text">I have read and agree to the <a href="">Terms and Conditions</a>.</label>
+        </li>
+    </ul>
+</div>
+
+<!- Confirm and resend buttons. -->
+<div id="confirmButtons">
+    <button type="button">CONFIRM</button>
+    <button type="button">RESEND</button>
+    <P>Please check your email inbox for a confirmation message.</P>
+</div>
+
+
+</body>
+</html>
