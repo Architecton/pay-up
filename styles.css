@@ -74,7 +74,7 @@ html, body {
     vertical-align: middle;
     text-align: center;
     background-color: lightgrey;
-    background-image: url("./images/Silver.jpg");
+    background-image: url("./images/SilverBackground.jpg");
     background-position: center;
     border-radius: 50%;
     border-style: solid;
@@ -102,6 +102,7 @@ html, body {
     height: 15px;
 }
 
+/* About section */
 .aboutDiv {
     border-style: ridge;
     border-width: 4px;
@@ -111,6 +112,6 @@ html, body {
     text-align: center;
     font-family: Times-New-Roman;
     font-weight: bold;
-    background-image: url("./images/Silver.jpg");
+    background-image: url("./images/SilverBackground.jpg");
     background-position: center;
 }
