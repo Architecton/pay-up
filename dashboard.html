@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en-us">    
+    <head>
+        <meta charset="utf-8">
+        <title>Bootstrap Demo</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    
+        <link rel="stylesheet" href="./styles.css">
+        
+    </head>
+    <body>
+        
+        <div class="container">
+            
+            <!-- Top navigation bar -->
+            <div class="row navbarRow" id="logoRow">
+                <div class="navbarTop" id="navbarTop">
+                    <ul>
+                        <li>
+                            <a href="./index.html">Home</a>
+                        </li>
+                        <li>
+                            <a href="#">What's New</a>
+                        </li>
+                        <li>
+                            <a href="#aboutDiv">About</a>
+                        </li>
+                        <li>
+                            <a href="./dashboard.html">Dashboard</a>
+                        </li>
+                        <a href="./signup.html" target="_blank" style="float:right">Sign Up</a>
+                        <a href="./login.html" target="_blank" style="float:right">Login</a>
+                  </ul>
+                </div>
+            </div>
+            <!-- Dashboard main buttons -->
+            <div class="row bodyRow" id="dashboardMain">
+                <div class="col-xs-12 col-sm-6 dashboard-left">
+                    <div class="v-align">
+                        <a href="./loans.html" target="_blank">Manage Loans</a>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 dashboard-right">
+                    <div class="v-align">
+                        <a href="./contacts.html" target="_blank">Contacts</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Selected Loans table -->
+            <div class="row bodyRow bottomRow" id="dashboardTopLoans">
+                <div class="center">
+                    <div class="v-align dashTableDiv">
+                        <h2 style="color:silver">Selected Loans:</h2>
+                        <div class="form-group">
+                            <label for="sel1" style="color:silver">Sort by:</label>
+                            <select class="form-control" id="sel1">
+                                <option>Issued/newest</option>
+                                <option>Issued/oldest</option>
+                                <option>Deadline/nearest</option>
+                                <option>Deadline/furthest</option>
+                                <option>Amount/highest</option>
+                                <option>Amount/lowest</option>
+                            </select>
+                        </div>
+                        <table class="table table-bordered table-striped table-dark loanTable">
+                            <thead class="thread-light">
+                                <tr>
+                                    <th>Loan ID</th>
+                                    <th>Source ID</th>
+                                    <th>Recepient ID</th>
+                                    <th>Issued</th>
+                                    <th>Deadline</th>
+                                    <th>Amount</th>
+                                    <th>Currency</th>
+                                    <th>Interest</th>
+                                    <th>Interest Type</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>01</td>
+                                    <td>1337</td>
+                                    <td>2666</td>
+                                    <td>1.1.2000</td>
+                                    <td>1.1.2019</td>
+                                    <td>2000</td>
+                                    <td>$</td>
+                                    <td>1%</td>
+                                    <td>Simple</td>
+                                    <td>Active</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    </body>
+</html>
