@@ -220,3 +220,16 @@ h2 {
     color: silver;
     font-family: Times-New-Roman;
 }
+
+.borderedSilverBox {
+    margin-top:10px; 
+    border: 4px ridge silver; 
+    text-align: center;
+    background-image:url('./backgrounds/SilverBackground.jpg'); 
+    background-position: center; 
+    overflow:hidden
+}
+
+.patchnotesList li {
+    color: silver;
+}

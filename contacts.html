@@ -71,32 +71,37 @@
                             </div>
                         </div>
 
-                        
-                        <!-- Table of contacts -->
-                        <h2 style="color:silver; float:left;">Your Contacts:</h2>
-                        <table class="table table-bordered table-striped table-dark loanTable">
-                            <thead class="thread-light">
-                                <tr>
-                                    <!-- Example contact -->
-                                    <th>Name</th>
-                                    <th>Last name</th>
-                                    <th>E-mail</th>
-                                    <th>Telephone</th>
-                                    <th>City/Region</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Janez</td>
-                                    <td>Novak</td>
-                                    <td>janez.novak@example.com</td>
-                                    <td>+0386 70 123 123</td>
-                                    <td>Celje</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        
-                        
+                        <div class="row" style="border:none">
+                            <div class="col-xs-6">
+                                <table class="table table-bordered table-responsive loanTable">
+                                    <thead>
+                                        <th>Username</th>
+                                        <th>Name</th>
+                                        <th>Surname</th>
+                                    </thead>
+                                    <tbody>
+                                        <td>jn9283</td>
+                                        <td>Janez</td>
+                                        <td>Novak</td>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <h3 style="color:silver">User details</h3>
+                            <div class="col-xs-6 borderedSilverBox">
+                                <ul>
+                                    <li>Username: jn9283</li>
+                                    <li>Name: Janez</li>
+                                    <li>Surname: Novak</li>
+                                    <li>Email: janez.novak@example.com</li>
+                                    <li>Phone: (+386) 70 123 123</li>
+                                    <li>Region: Celje</li>
+                                    <li>Notes: <p>Janez is a very good friend from work</p></li>
+                                </ul>
+                                
+                                <input type="button" class="button_loanEdit" id="button_confirmLoanEdit" value="Edit notes" style="float:left; margin:10px">
+                                
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div> 
