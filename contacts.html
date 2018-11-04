@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en-us">    
+    <head>
+        <meta charset="utf-8">
+        <title>Bootstrap Demo</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    
+        <link rel="stylesheet" href="./styles.css">
+        <link rel="stylesheet" href="./styles_modal.css">
+        
+    </head>
+    <body>
+        
+        <div class="container">
+            
+            <!-- Top navigation bar -->
+            <div class="row navbarRow" id="logoRow">
+                <div class="navbarTop" id="navbarTop">
+                    <ul>
+                        <li>
+                            <a href="./index.html">Home</a>
+                        </li>
+                        <li>
+                            <a href="./index.html">What's New</a>
+                        </li>
+                        <li>
+                            <a href="./index.html">About</a>
+                        </li>
+                        <li>
+                            <a href="./dashboard.html">Dashboard</a>
+                        </li>
+                        <a href="./signup.html" style="float:right">Sign Up</a>
+                        <a href="./login.html" style="float:right">Login</a>
+                  </ul>
+                </div>
+            </div>
+            
+            
+           
+            <!-- #################### Contacts Section ########################## -->
+            <div class="row bodyRow bottomRow" id="dashboardTopLoans">
+                <div class="center">
+                    <div class="v-align dashTableDiv">
+                        <h1 style="color:silver">Contacts</h1>
+                        
+                        <!-- Filter and new contact functionality -->
+                        <div class="row" style="border:none">
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <!-- filter selection -->
+                                    <label for="sel1" style="color:silver;">Apply filter:</label>
+                                    <select class="form-control" id="sel1">
+                                        <option>Lenders with pending loans</option>
+                                        <option>Loaners with pending loans</option>
+                                        <option>Contacts with no loans</option>
+                                        <option>Contacts from same region</option>
+                                    </select>
+                                </div>
+                                    
+                                    
+                            <!-- Button for adding new contacts -->
+                            </div>
+                            <div class="col-xs-6">
+                                <label for="addnew" style="color:silver">Add New Contact:</label>
+                                <div>
+                                    <button class="contactbtn" onclick="document.getElementById('id04').style.display='block'">New Contact</button> 
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <!-- Table of contacts -->
+                        <h2 style="color:silver; float:left;">Your Contacts:</h2>
+                        <table class="table table-bordered table-striped table-dark loanTable">
+                            <thead class="thread-light">
+                                <tr>
+                                    <!-- Example contact -->
+                                    <th>Name</th>
+                                    <th>Last name</th>
+                                    <th>E-mail</th>
+                                    <th>Telephone</th>
+                                    <th>City/Region</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Janez</td>
+                                    <td>Novak</td>
+                                    <td>janez.novak@example.com</td>
+                                    <td>+0386 70 123 123</td>
+                                    <td>Celje</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        
+                    </div>
+                </div>
+            </div> 
+           <!-- #################### /Contacts Section ########################## -->
+           
+           
+           
+          <!-- ################################## NEW CONTACT BOX ############################ -->
+            
+        <!-- login box -->
+        <div id="id04" class="modal">
+            <!-- close login box -->
+            <span onclick="document.getElementById('id04').style.display='none'" class="close" title="Close Modal">&times;</span>
+            
+            <!-- Contents of login box -->
+            <form class="modal-content animate" style="margin: 0% auto 0% auto;" action="/TODO">
+                
+                <!-- avatar image -->
+                <div class="ttlcontainer">
+                    <h1><b>Add New Contact</b></h1>
+                </div>
+                
+                <!-- forms links and checkboxes -->
+                <div class="container">
+                    <h2 style="color:black;">Search Database for Users</h2>
+                    <input type="text" placeholder="Search for User" name="uname" required>
+                    <button type="submit" class="loginbtn">Add Contact</button>
+                    <span onclick="document.getElementById('id04').style.display='none'" class="opts" title="Cancel" onmouseover="" style="cursor: pointer;" >Cancel</span>
+                    
+                    <h2 style="color:black;">Manually Add New Contact</h2>
+                    
+                    <label for="psw"><b>First Name</b></label>
+                    <input type="text" placeholder="Enter first name" name="name" required>
+                    <label for="psw"><b>Last Name</b></label>
+                    <input type="text" placeholder="Enter last name" name="lastname" required>
+                    <label for="psw"><b>E-mail</b></label>
+                    <input type="text" placeholder="Enter e-mail" name="email" required>
+                    <label for="psw"><b>Telephone number</b></label>
+                    <input type="text" placeholder="Enter telephone number" name="phone" required>
+                    <label for="psw"><b>City/Region</b></label>
+                    <input type="text" placeholder="Enter city/region" name="region" required>
+                    
+                    
+                    <button type="submit" class="loginbtn">Add Contact</button>
+                    <span onclick="document.getElementById('id04').style.display='none'" class="opts" title="Cancel" onmouseover="" style="cursor: pointer;" >Cancel</span>
+                </div>
+                
+            </form>
+        </div>
+            
+        <!-- ################################## /NEW CONTACT BOX ############################ -->
+        
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    </body>
+</html>
