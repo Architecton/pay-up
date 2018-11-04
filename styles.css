@@ -157,6 +157,15 @@ html, body {
     color: silver;
 }
 
+/* Login Form */
+.loginForm {
+    border: 4px ridge silver;
+    padding-top: 15px;
+    background-image: url("./images/SilverBackground.jpg");
+    background-position: center;
+}
+
+
 /* Align element to center */
 .center {
     display: table;
@@ -168,4 +177,8 @@ html, body {
     display: table-cell;
     text-align: center;
     vertical-align: middle;
+}
+
+.loginDiv {
+    width: 33%;
 }
