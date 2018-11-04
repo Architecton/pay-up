@@ -8,7 +8,8 @@
         <!-- Optional theme -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     
-        <link rel="stylesheet" href="./styles.css">
+        <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="css/styles_modal.css">
         
     </head>
     <body>
@@ -32,7 +33,8 @@
                             <a href="./dashboard.html">Dashboard</a>
                         </li>
                         <a href="./signup.html" style="float:right">Sign Up</a>
-                        <a href="./login.html" style="float:right">Login</a>
+                        <!-- ########### LOGIN BUTTON ############# -->
+                        <button class="navbutton" onclick="document.getElementById('id01').style.display='block'" style="float:right">Login</button>
                   </ul>
                 </div>
             </div>
@@ -97,6 +99,43 @@
             </div>
             
         </div>
+        
+        
+        <!-- ################################## LOGIN BOX ############################ -->
+        
+        <!-- login box -->
+        <div id="id01" class="modal">
+            <!-- close login box -->
+            <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+            
+            <!-- Contents of login box -->
+            <form class="modal-content animate" action="/TODO">
+                
+                <!-- avatar image -->
+                <div class="imgcontainer">
+                    <h1><b>Welcome back!</b></h1>
+                    <img src="images/avatar.jpg" alt="Avatar" class="avatar">
+                </div>
+                
+                <!-- forms links and checkboxes -->
+                <div class="container" style="padding: 5px; width: 50%;">
+                    <label for="uname"><b>Username</b></label>
+                    <input type="text" placeholder="Enter Username" name="uname" required>
+                    <label for="psw"><b>Password</b></label>
+                    <input type="password" placeholder="Enter Password" name="psw" required>
+                    <button type="submit" class="loginbtn">Login</button>
+                    <input class="opts" type="checkbox" checked="checked" name="remember"> Remember me
+                </div>
+                
+                <!-- forgot password section -->
+                <div style="text-align: center;">
+                    <span class="opts"><a href="TODO">Forgot password?</a></span>
+                </div>
+            </form>
+        </div>
+        
+        
+        <!-- ################################## /LOGIN BOX ############################ -->
         
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

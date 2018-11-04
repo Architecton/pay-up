@@ -68,7 +68,7 @@ html, body {
     display: table-cell;
     vertical-align: middle;
     text-align: center;
-    background-image: url("./images/MoneyBackground.jpg");
+    background-image: url("./backgrounds/MoneyBackground.jpg");
     border-radius: 8px;
     background-position: center;
     height: 260px;
@@ -82,7 +82,7 @@ html, body {
     vertical-align: middle;
     text-align: center;
     background-color: lightgrey;
-    background-image: url("./images/SilverBackground.jpg");
+    background-image: url("./backgrounds/SilverBackground.jpg");
     background-position: center;
     border-radius: 50%;
     border-style: solid;
@@ -120,7 +120,7 @@ html, body {
     text-align: center;
     font-family: Times-New-Roman;
     font-weight: bold;
-    background-image: url("./images/SilverBackground.jpg");
+    background-image: url("./backgrounds/SilverBackground.jpg");
     background-position: center;
 }
 
@@ -135,7 +135,7 @@ html, body {
 .dashboard-right a, .dashboard-left a {
     position: relative;
     display:block ;
-    background-image: url("./images/SilverBackground.jpg");
+    background-image: url("./backgrounds/SilverBackground.jpg");
     background-position: center;
     text-align: center;
     font-family: Times-New-Roman;
@@ -166,7 +166,7 @@ html, body {
 .loginForm {
     border: 4px ridge silver;
     padding-top: 15px;
-    background-image: url("./images/SilverBackground.jpg");
+    background-image: url("./backgrounds/SilverBackground.jpg");
     background-position: center;
 }
 

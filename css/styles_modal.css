@@ -37,7 +37,7 @@ input[type=text], input[type=password] {
 
 
 /* Mimic hover on links in navigation bar. */
-button:hover {
+.navbutton:hover {
     background-color: grey;
     color: black;
 }
@@ -126,7 +126,7 @@ span.psw {
     background-color: #fefefe;
     margin: 1% auto 10% auto;
     border: 1px solid #888;
-    width: 80%;
+    width: 70%;
 }
 
 /* The Close Button */
