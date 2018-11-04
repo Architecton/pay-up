@@ -153,8 +153,13 @@ html, body {
     border: 4px ridge silver;
 }
 
-.dashTableDiv th {
+.loanTable th {
     color: silver;
+}
+
+.loanTable td {
+    background-color: silver;
+    border: 1px solid #333;
 }
 
 /* Login Form */
@@ -179,6 +184,7 @@ html, body {
     vertical-align: middle;
 }
 
-.loginDiv {
-    width: 33%;
+h2 {
+    color: silver;
+    font-family: Times-New-Roman;
 }
