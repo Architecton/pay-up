@@ -137,6 +137,31 @@ html, body {
     margin:10px;
 }
 
+
+.button_loanMod.leftLoanButton {
+    float:left;
+    margin:10px;
+}
+
+.button_loanMod.centerLoanButton {
+    display:inline-block; 
+    margin:10px;
+}
+
+.button_loanMod.rightLoanButton {
+    float:right;
+    margin:10px;
+}
+
+.loanModPanel {
+    margin-top:10px;
+    border: 4px ridge silver; 
+    text-align:center; 
+    background-image:url('./css/backgrounds/SilverBackground.jpg'); 
+    background-position: center; 
+    overflow:hidden;
+}
+
 /* Home logo text */
 .logo-text {
     font-family: Times-New-Roman;
@@ -207,6 +232,7 @@ html, body {
     border: 1px solid #333;
 }
 
+
 /* Login Form */
 .loginForm {
     border: 4px ridge silver;
@@ -252,7 +278,7 @@ h2 {
     font-family: Times-New-Roman;
 }
 
-.sortLabel {
+.sortLabel, .loansLabel {
     color:silver;
 }
 
