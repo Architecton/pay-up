@@ -5,7 +5,7 @@ html, body {
 }
 
 /* Row styles */
-.row {
+.row, .contactsRow {
     padding-left: 15px;
     padding-right: 15px;
     border-left-style: ridge;
@@ -19,6 +19,7 @@ html, body {
     padding-left: 15px;
     padding-right: 15px;
     background-color: #333;
+    border:none;
 }
 
 
