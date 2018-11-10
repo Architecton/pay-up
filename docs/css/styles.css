@@ -21,9 +21,6 @@ html, body {
     background-color: #333;
 }
 
-.contactsLabel {
-    color:silver;
-}
 
 .bodyRow {
     padding-bottom: 10px;
@@ -253,4 +250,8 @@ h2 {
 .announce {
     color:silver; 
     font-family: Times-New-Roman;
+}
+
+.sortLabel {
+    color:silver;
 }

@@ -73,6 +73,14 @@ input[type=text], input[type=password] {
     cursor: pointer;
 }
 
+.opts.resend {
+    margin-right:10px;
+}
+
+.opts.delete {
+    color:red;
+}
+
 /* Center the image and position the close button */
 .imgcontainer {
     text-align: center;
@@ -90,11 +98,20 @@ input[type=text], input[type=password] {
     width:80%;
 }
 
+.container.loginForms {
+    padding: 5px; width: 50%;
+}
+
+.container.settings {
+    padding: 5px; 
+    width: 50%;
+}
+
 .contactsLabel {
     color:silver;
 }
 
-databaseSearchHeading {
+.databaseSearchHeading {
     color:black;
 }
 

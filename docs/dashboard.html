@@ -42,7 +42,7 @@
                             <button class="navbutton" onclick="document.getElementById('id01').style.display='block'" style="float:right">Login</button>
                             <button class="navbutton" onclick="document.getElementById('id03').style.display='block'" style="float:right">Profile</button>    
                             <button class="navbutton" onclick="document.getElementById('id02').style.display='block'" style="float:right">Settings</button>
-                            <a href="./signup.html" style="float:right">Sign Up</a>    
+                            <a class="navbarRowRight" href="./signup.html">Sign Up</a>    
                     
                         
                   </ul>
@@ -67,7 +67,7 @@
                     <div class="v-align dashTableDiv">
                         <h2 style="color:silver">Selected Loans:</h2>
                         <div class="form-group">
-                            <label for="sel0" style="color:silver">Sort by:</label>
+                            <label class="sortLabel" for="sel0">Sort by:</label>
                             <select class="form-control" id="sel0">
                                 <option>Issued/newest</option>
                                 <option>Issued/oldest</option>
@@ -132,7 +132,7 @@
                 </div>
                 
                 <!-- forms links and checkboxes -->
-                <div class="container"  style="padding: 5px; width: 50%;">
+                <div class="container loginForms">
                     <label for="uname"><b>Username</b></label>
                     <input type="text" placeholder="Enter Username" name="uname" required>
                     <label for="psw"><b>Password</b></label>
@@ -168,7 +168,7 @@
                 </div>
                 
                 <!-- forms links and checkboxes -->
-                <div class="container"  style="padding: 5px; width: 50%;">
+                <div class="container loginForms">
                     <img src="./images/avatar2.png" alt="Avatar" align="left">
                     <div>
                         <b>Name: </b>
@@ -185,7 +185,7 @@
                     </div>
                     <div>
                         <b>E-mail: </b>
-                        <small style="white-space: nowrap;" align="left">janez.novak@example.com</small>
+                        <small align="left">janez.novak@example.com</small>
                     </div>
                     <div>
                         <button type="submit" class="confirmbtn">Confirm</button>
@@ -194,8 +194,8 @@
                 
                 <!-- forgot password section -->
                 <div style="text-align: center;">
-                    <span class="opts"><a href="TODO" style="margin-right:10px;">Resend activation email</a></span>    
-                    <span class="opts"><a href="TODO" style="color:red">Delete account</a></span>    
+                    <span class="opts resend"><a href="TODO">Resend activation email</a></span>    
+                    <span class="opts delete"><a href="TODO">Delete account</a></span>    
                 </div>
             </form>
         </div>
@@ -219,7 +219,7 @@
                 </div>
                 
                 <!-- Settings list -->
-                <div class="container"  style="padding: 5px; width: 50%;">
+                <div class="container settings">
                     <label for="currency"><b>Default Currency</b></label>
                     <div class="bfh-selectbox bfh-currencies" data-currency="EUR" data-flags="true"></div>
                     <input class="opts" type="checkbox" checked="checked" name="mode"> Night Mode
@@ -228,7 +228,7 @@
                 <!-- Save button section -->
                 <div style="text-align: center;">
                     <button type="submit" class="savebtn">Save</button>
-                    <span onclick="document.getElementById('id02').style.display='none'" class="opts" title="Cancel" onmouseover="" style="cursor: pointer;" >Cancel</span>
+                    <span onclick="document.getElementById('id02').style.display='none'" class="opts" title="Cancel" onmouseover="" >Cancel</span>
                 </div>
             </form>
         </div>
