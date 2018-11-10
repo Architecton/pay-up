@@ -255,3 +255,7 @@ h2 {
 .sortLabel {
     color:silver;
 }
+
+.carousel-image {
+    width:100%;
+}

@@ -23,6 +23,7 @@ input[type=text], input[type=password] {
     cursor: pointer;
     display: inline-block;
     border-radius: 4px;
+    float:right;
 }
 
 
@@ -65,7 +66,7 @@ input[type=text], input[type=password] {
     color: white;
 }
 
-.opts {
+.opts, .delete, .resend {
     width: auto;
     padding: 10px 0px;
     margin-bottom: 20px;
@@ -73,12 +74,12 @@ input[type=text], input[type=password] {
     cursor: pointer;
 }
 
-.opts.resend {
+.resend {
     margin-right:10px;
 }
 
-.opts.delete {
-    color:red;
+.delete {
+    color: red;
 }
 
 /* Center the image and position the close button */
