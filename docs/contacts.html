@@ -32,8 +32,8 @@
                         <li>
                             <a href="./dashboard.html">Dashboard</a>
                         </li>
-                        <a href="./signup.html" style="float:right">Sign Up</a>
-                        <a href="./login.html" style="float:right">Login</a>
+                        <a class = "navbarRowRight" href="./signup.html">Sign Up</a>
+                        <a class = "navbarRowRight" href="./login.html">Login</a>
                   </ul>
                 </div>
             </div>
@@ -44,14 +44,14 @@
             <div class="row bodyRow bottomRow" id="dashboardTopLoans">
                 <div class="center">
                     <div class="v-align dashTableDiv">
-                        <h1 style="color:silver">Contacts</h1>
+                        <h1 class="contactsLabel">Contacts</h1>
                         
                         <!-- Filter and new contact functionality -->
-                        <div class="row" style="border:none">
+                        <div class="contactsRow">
                             <div class="col-xs-6">
                                 <div class="form-group">
                                     <!-- filter selection -->
-                                    <label for="sel1" style="color:silver;">Apply filter:</label>
+                                    <label class="contactsLabel" for="sel1">Apply filter:</label>
                                     <select class="form-control" id="sel1">
                                         <option>Lenders with pending loans</option>
                                         <option>Loaners with pending loans</option>
@@ -64,14 +64,14 @@
                             <!-- Button for adding new contacts -->
                             </div>
                             <div class="col-xs-6">
-                                <label for="addnew" style="color:silver">Add New Contact:</label>
+                                <label class="contactsLabel" for="addnew">Add New Contact:</label>
                                 <div>
                                     <button class="contactbtn" onclick="document.getElementById('id04').style.display='block'">New Contact</button> 
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row" style="border:none">
+                        <div class="contactsRow">
                             <div class="col-xs-6">
                                 <table class="table table-bordered table-responsive loanTable">
                                     <thead>
@@ -86,7 +86,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <h3 style="color:silver">User details</h3>
+                            <h3 class="contactsLabel">User details</h3>
                             <div class="col-xs-6 borderedSilverBox">
                                 <ul>
                                     <li>Username: jn9283</li>
@@ -98,7 +98,7 @@
                                     <li>Notes: <p>Janez is a very good friend from work</p></li>
                                 </ul>
                                 
-                                <input type="button" class="button_loanEdit" id="button_confirmLoanEdit" value="Edit notes" style="float:left; margin:10px">
+                                <input type="button" class="button_loanEdit" id="button_confirmLoanEdit" value="Edit notes">
                                 
                             </div>
                         </div>
@@ -116,7 +116,7 @@
             <span onclick="document.getElementById('id04').style.display='none'" class="close" title="Close Modal">&times;</span>
             
             <!-- Contents of login box -->
-            <form class="modal-content animate" style="margin: 0% auto 0% auto;" action="/TODO">
+            <form class="modal-content2 animate" action="/TODO">
                 
                 <!-- avatar image -->
                 <div class="ttlcontainer">
@@ -124,13 +124,13 @@
                 </div>
                 
                 <!-- forms links and checkboxes -->
-                <div class="container" style="width:80%">
-                    <h2 style="color:black;">Search Database for Users</h2>
+                <div class="container contactsContainer" >
+                    <h2 class="databaseSearchHeading">Search Database for Users</h2>
                     <input type="text" placeholder="Search for User" name="uname" required>
                     <button type="submit" class="loginbtn">Add Contact</button>
-                    <span onclick="document.getElementById('id04').style.display='none'" class="opts" title="Cancel" onmouseover="" style="cursor: pointer;" >Cancel</span>
+                    <span onclick="document.getElementById('id04').style.display='none'" class="opts" title="Cancel" onmouseover="">Cancel</span>
                     
-                    <h2 style="color:black;">Manually Add New Contact</h2>
+                    <h2 class="databaseSearchHeading">Manually Add New Contact</h2>
                     
                     <label for="psw"><b>First Name</b></label>
                     <input type="text" placeholder="Enter first name" name="name" required>
@@ -145,7 +145,7 @@
                     
                     
                     <button type="submit" class="loginbtn">Add Contact</button>
-                    <span onclick="document.getElementById('id04').style.display='none'" class="opts" title="Cancel" onmouseover="" style="cursor: pointer;" >Cancel</span>
+                    <span onclick="document.getElementById('id04').style.display='none'" class="opts" title="Cancel" onmouseover="">Cancel</span>
                 </div>
                 
             </form>

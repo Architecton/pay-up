@@ -70,6 +70,7 @@ input[type=text], input[type=password] {
     padding: 10px 0px;
     margin-bottom: 20px;
     display: inline-block;
+    cursor: pointer;
 }
 
 /* Center the image and position the close button */
@@ -83,6 +84,18 @@ input[type=text], input[type=password] {
     text-align: center;
     margin: 24px 0 12px 0;
     position: relative;
+}
+
+.container.contactsContainer {
+    width:80%;
+}
+
+.contactsLabel {
+    color:silver;
+}
+
+databaseSearchHeading {
+    color:black;
 }
 
 img.avatar {
@@ -117,6 +130,14 @@ span.psw {
     margin: 1% auto 10% auto;
     border: 1px solid #888;
     width: 70%;
+    margin: 0% auto 0% auto;
+}
+
+.modal-content2 {
+    background-color: #fefefe;
+    border: 1px solid #888;
+    width: 70%;
+    margin: 0% auto 0% auto;
 }
 
 /* The Close Button */

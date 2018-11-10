@@ -15,6 +15,16 @@ html, body {
     background-color: #333;
 }
 
+.contactsRow {
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: #333;
+}
+
+.contactsLabel {
+    color:silver;
+}
+
 .bodyRow {
     padding-bottom: 10px;
     padding-top: 10px;
@@ -25,6 +35,10 @@ html, body {
     border-top-width: 6px;
     border-bottom-style: ridge; 
     border-bottom-width: 6px;
+}
+
+.navbarRowRight {
+    float: right;
 }
 
 .bottomRow {
@@ -122,6 +136,8 @@ html, body {
     font-size: 16px;
     color: black;
     border-radius: 8px;
+    float:left; 
+    margin:10px;
 }
 
 /* Home logo text */
@@ -232,4 +248,9 @@ h2 {
 
 .patchnotesList li {
     color: silver;
+}
+
+.announce {
+    color:silver; 
+    font-family: Times-New-Roman;
 }
