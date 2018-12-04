@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en-us">    
+    <head>
+        <meta charset="utf-8">
+        <title>Bootstrap Demo</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    
+        <!-- Bootstrap -->
+	    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" media="screen">
+	    <!-- Bootstrap Form Helpers -->
+	    <link href="form-helpers/dist/css/bootstrap-formhelpers.min.css" rel="stylesheet" media="screen">
+    
+    
+        <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="css/styles_modal.css">
+        
+    </head>
+    <body>
+        
+        <div class="container">
+            
+            <!-- Top navigation bar -->
+            <div class="row navbarRow" id="logoRow">
+                <div class="navbarTop" id="navbarTop">
+                    <ul>
+                        <li>
+                            <a href="./index.html">Home</a>
+                        </li>
+                        <li>
+                            <a href="./index.html">What's New</a>
+                        </li>
+                        <li>
+                            <a href="./index.html">About</a>
+                        </li>
+                        <li>
+                            <a href="./dashboard.html">Dashboard</a>
+                        </li>
+                    
+                            <button class="navbutton" onclick="document.getElementById('id01').style.display='block'" style="float:right">Login</button>
+                            <button class="navbutton" onclick="document.getElementById('id03').style.display='block'" style="float:right">Profile</button>    
+                            <button class="navbutton" onclick="document.getElementById('id02').style.display='block'" style="float:right">Settings</button>
+                            <a class="navbarRowRight" href="./signup.html">Sign Up</a>    
+                    
+                        
+                  </ul>
+                </div>
+            </div>
+            <!-- Dashboard main buttons -->
+            <div class="row bodyRow" id="dashboardMain">
+                <div class="col-xs-12 col-sm-6 dashboard-left">
+                    <div class="v-align">
+                        <a href="./loans.html">Manage Loans</a>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 dashboard-right">
+                    <div class="v-align">
+                        <a href="./contacts.html">Contacts</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Selected Loans table -->
+            <div class="row bodyRow bottomRow" id="dashboardTopLoans">
+                <div class="center">
+                    <div class="v-align dashTableDiv">
+                        <h2 style="color:silver">Selected Loans:</h2>
+                        <div class="form-group">
+                            <label class="sortLabel" for="sel0">Sort by:</label>
+                            <select class="form-control" id="sel0">
+                                <option>Issued/newest</option>
+                                <option>Issued/oldest</option>
+                                <option>Deadline/nearest</option>
+                                <option>Deadline/furthest</option>
+                                <option>Amount/highest</option>
+                                <option>Amount/lowest</option>
+                            </select>
+                        </div>
+                        <table class="table table-bordered table-striped table-dark loanTable">
+                            <thead class="thread-light">
+                                <tr>
+                                    <th>Loan ID</th>
+                                    <th>Source ID</th>
+                                    <th>Recepient ID</th>
+                                    <th>Issued</th>
+                                    <th>Deadline</th>
+                                    <th>Amount</th>
+                                    <th>Currency</th>
+                                    <th>Interest</th>
+                                    <th>Interest Type</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>01</td>
+                                    <td>1337</td>
+                                    <td>1666</td>
+                                    <td>1.1.2000</td>
+                                    <td>1.1.2019</td>
+                                    <td>1000</td>
+                                    <td>$</td>
+                                    <td>1%</td>
+                                    <td>Simple</td>
+                                    <td>Active</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <!-- ################################## LOGIN BOX ############################ -->
+        
+        <!-- login box -->
+        <div id="id01" class="modal">
+            <!-- close login box -->
+            <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+            
+            <!-- Contents of login box -->
+            <!-- TODO: confirm username and password. If sucessful, display html for logged user (for example ./logged.html) --> 
+            <form class="modal-content animate" action="./index.html">
+                
+                <!-- avatar image -->
+                <div class="imgcontainer">
+                    <h1><b>Welcome back!</b></h1>
+                    <img src="images/avatar.jpg" alt="Avatar" class="avatar">
+                </div>
+                
+                <!-- forms links and checkboxes -->
+                <div class="container loginForms">
+                    <label for="uname"><b>Username</b></label>
+                    <input type="text" placeholder="Enter Username" name="uname" required>
+                    <label for="psw"><b>Password</b></label>
+                    <input type="password" placeholder="Enter Password" name="psw" required>
+                    <button type="submit" class="loginbtn">Login</button>
+                    <input class="opts" type="checkbox" checked="checked" name="remember"> Remember me
+                </div>
+                
+                <!-- forgot password section -->
+                <div style="text-align: center;">
+                    <span class="opts"><a href="TODO">Forgot password?</a></span>
+                </div>
+            </form>
+        </div>
+        
+        
+        <!-- ################################## /LOGIN BOX ############################ -->
+        
+        <!-- ################################## PROFILE BOX ############################ -->
+        
+        <!-- login box -->
+        <div id="id03" class="modal">
+            <!-- close login box -->
+            <span onclick="document.getElementById('id03').style.display='none'" class="close" title="Close Modal">&times;</span>
+            
+            <!-- Contents of login box -->
+            <!-- TODO: action calls script that closes the modal window -->
+            <form class="modal-content animate" action="./dashboard.html">
+                
+                <!-- avatar image -->
+                <div class="imgcontainer">
+                    <h1><b>Your Profile</b></h1>
+                </div>
+                
+                <!-- forms links and checkboxes -->
+                <div class="container loginForms">
+                    <img src="./images/avatar2.png" alt="Avatar" align="left">
+                    <div>
+                        <b>Name: </b>
+                        <small>Janez</small>    
+                        
+                    </div>
+                    <div>
+                        <b>Last name: </b>
+                        <small>Novak</small>    
+                    </div>
+                    <div>
+                        <b>Username: </b>
+                        <small>jn9283</small>    
+                    </div>
+                    <div>
+                        <b>E-mail: </b>
+                        <small align="left">janez.novak@example.com</small>
+                    </div>
+                    <div>
+                        <button type="submit" class="confirmbtn">Confirm</button>
+                    </div>
+                </div>
+                
+                <!-- forgot password section -->
+                <div style="text-align: center;">
+                    <span class="resend"><a href="TODO">Resend activation email</a></span>    
+                    <span class="delete" style="color:red"><a href="TODO">Delete account</a></span>    
+                </div>
+            </form>
+        </div>
+        
+        <!-- ################################## /PROFILE BOX ############################ -->
+        
+        
+        <!-- ########################### SETTINGS BOX ########################### -->
+        <!-- Settings box -->
+        <div id="id02" class="modal">
+            <!-- close login box -->
+            <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
+            
+            <!-- Contents of settings box -->
+            <!-- TODO: save settings -->
+            <form class="modal-content animate" action="./dashboard.html">
+                
+                <!-- title -->
+                <div class="ttlcontainer">
+                    <h1><b>Settings</b></h1>
+                </div>
+                
+                <!-- Settings list -->
+                <div class="container settings">
+                    <label for="currency"><b>Default Currency</b></label>
+                    <div class="bfh-selectbox bfh-currencies" data-currency="EUR" data-flags="true"></div>
+                    <input class="opts" type="checkbox" checked="checked" name="mode"> Night Mode
+                </div>
+                
+                <!-- Save button section -->
+                <div style="text-align: center;">
+                    <button type="submit" class="savebtn">Save</button>
+                    <span onclick="document.getElementById('id02').style.display='none'" class="opts" title="Cancel" onmouseover="" >Cancel</span>
+                </div>
+            </form>
+        </div>
+        <!-- ########################### /SETTINGS BOX ########################### -->
+        
+        <!-- ########### Script for closing the modal boxes when a user clicks outside ########### -->
+        <script>
+        // Get all the modal elements on page.
+        var modal1 = document.getElementById('id01');
+        var modal2 = document.getElementById('id02');
+        var modal3 = document.getElementById('id03');
+        
+        // When the user clicks anywhere outside of the modal, close it.
+        window.onclick = function(event) {
+            // If target of click was any of the modal boxes, close it.
+            if (event.target == modal1 || event.target == modal2 || event.target == modal3) {
+                event.target.style.display = "none";
+            }
+        }
+        </script>
+        <!-- ########### /Script for closing the modal boxes when a user clicks outside ########### -->
+        
+        
+        <!-- jQuery -->
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	
+	    <!-- Bootstrap -->
+	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	    <!-- Bootstrap Form Helpers -->
+	    <script src="form-helpers/dist/js/bootstrap-formhelpers.min.js"></script>
+        
+        
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    </body>
+</html>
