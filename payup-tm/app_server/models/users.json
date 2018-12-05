@@ -1,0 +1,29 @@
+{"users": [
+    {
+        "name": "Jozef",
+        "surname": "Novak",
+        "username": "gozdnijoza97",
+        "password": "jozef123",
+        "email": "joze.novak@email.com",
+        "gender": true,
+        "date": "2018-11-15",
+        "status": 1,
+        "proDefauld": true,
+        "defaultCurrency": "EUR",
+        "nightmode": false,
+    },
+    {
+        "name": "Miha",
+        "surname": "Gorenc",
+        "username": "mihazgore96",
+        "password": "mihec123",
+        "email": "miha.gorenc@email.com",
+        "gender": true,
+        "date": "2018-10-14",
+        "status": 1,
+        "proDefauld": false,
+        "defaultCurrency": "EUR",
+        "nightmode": false
+    }
+    ]
+}

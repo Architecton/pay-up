@@ -2,8 +2,8 @@
 var mongoose = require("mongoose");
 
 var loanShema = new mongoose.Schema({
-  loaner: [uporabnikShema],
-  recipient: [uporabnikShema],
+  loaner: [userShema],
+  recipient: [userShema],
   dateIssued: {type: Date, "default": Date.now()},
   deadline: Date,
   amount: {type: Number, required: true},
@@ -13,7 +13,7 @@ var loanShema = new mongoose.Schema({
   status: {type: Number, "default": 0, required: true} // 0 ~ pending; 1 ~ active; 2 ~ resolved
 });
 
-var uporabnikShema = new mongoose.Schema({
+var userShema = new mongoose.Schema({
   name: {type: String, required: true},
   surname: {type: String, required: true},
   username: {type: String, required: true, unique: true},
@@ -28,5 +28,5 @@ var uporabnikShema = new mongoose.Schema({
 });
 
 // TODO: Zment se a so oznacbe cool.
-// mongoose.model('Uporabnik', uporabnikShema, 'Uporabniki');
+mongoose.model('User', userShema, 'Users');
 mongoose.model('Loan', loanShema, 'Loans');

@@ -1,8 +1,10 @@
 var express = require('express');
 var router = express.Router();
-var ctrlOther = require('../controllers/loans');
+var ctrlLoans = require('../controllers/loans');
 
 /* GET home page. */
-router.get('/', ctrlOther.index);
+router.get('/', ctrlLoans.index);
+
+router.post('/loans', ctrlLoans.loansKreiraj);
 
 module.exports = router;

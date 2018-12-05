@@ -1,27 +1,4 @@
-var mongoose = require("mongoose");
-var Loan = mongoose.model("Loan");
-
-var JSONcallback = function(res, status, msg) {
-  res.status(status);
-  res.json(msg);
-};
-
-//exec has function(error, data)
-
-module.exports.index = function(req, res){
-  
-  Loan.find().exec(function(err, data){
-    JSONcallback(res, 200, data);
-  });
-}
-
-var vrniJsonOdgovor = function(odgovor, status, vsebina) {
-  odgovor.status(status);
-  odgovor.json(vsebina);
-};
-
-module.exports.loansKreiraj = function(zahteva, odgovor) {
-  Loan.create({
+[{
     "loaner": [{
         "name": "Jozef",
         "surname": "Novak",
@@ -55,11 +32,4 @@ module.exports.loansKreiraj = function(zahteva, odgovor) {
     "interest": "0.05",
     "compoundInterest": false,
     "status": 1
-  }, function(napaka, loan){
-    if (napaka) {
-      vrniJsonOdgovor(odgovor, 400, napaka);
-    } else {
-      vrniJsonOdgovor(odgovor, 201, loan);
-    }
-  });
-};
+}]
