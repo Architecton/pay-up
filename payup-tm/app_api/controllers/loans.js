@@ -15,11 +15,13 @@ module.exports.index = function(req, res){
   });
 }
 
+// Pretvori v JSON
 var vrniJsonOdgovor = function(odgovor, status, vsebina) {
   odgovor.status(status);
   odgovor.json(vsebina);
 };
 
+// Funkcija za kreiranje nove LOAN sheme v bazi z api klicem
 module.exports.loansKreiraj = function(zahteva, odgovor) {
   Loan.create({
     "loaner": [{

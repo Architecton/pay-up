@@ -2,8 +2,8 @@
 var mongoose = require("mongoose");
 
 var loanShema = new mongoose.Schema({
-  loaner: [userShema],
-  recipient: [userShema],
+  loaner: {type: String, required: true},
+  recipient: {type: String, required: true},
   dateIssued: {type: Date, "default": Date.now()},
   deadline: Date,
   amount: {type: Number, required: true},

@@ -1,11 +1,17 @@
 var mongoose = require('mongoose');
 
-//{podatkovna_baza}
+// link za mLab bazo:
 // var dbURI = 'mongodb://payup:payup123@ds123844.mlab.com:23844/payup-tm';
+
+// Dodamo povezavo na lokalno bazo.
 var dbURI = 'mongodb://localhost/mongodb';
 if (process.env.NODE_ENV === 'production') {
   dbURI = process.env.MLAB_URI;
 } 
+
+/*--------------------------------------------------*/
+//               Koda kopirana iz vaj.              //    
+/*--------------------------------------------------*/
 
 if(process.env.DB_URI){
   dbURI = process.env.DB_URI;

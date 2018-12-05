@@ -1,6 +1,6 @@
 //inside mongodb console.
 //check the data structure.
-var schemaObj= db.Comments.findOne();
+var schemaObj= db.Loans.findOne();
 
 function printSchema(obj, indent) {
         for (var key in obj) {
