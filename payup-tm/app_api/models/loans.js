@@ -28,5 +28,5 @@ var uporabnikShema = new mongoose.Schema({
 });
 
 // TODO: Zment se a so oznacbe cool.
-
+// mongoose.model('Uporabnik', uporabnikShema, 'Uporabniki');
 mongoose.model('Loan', loanShema, 'Loans');

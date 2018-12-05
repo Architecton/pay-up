@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');
 
 //{podatkovna_baza}
-var dbURI = 'mongodb://payup:payup123@ds123844.mlab.com:23844/payup-tm';
+// var dbURI = 'mongodb://payup:payup123@ds123844.mlab.com:23844/payup-tm';
+var dbURI = 'mongodb://localhost/mongodb';
 if (process.env.NODE_ENV === 'production') {
   dbURI = process.env.MLAB_URI;
 } 
@@ -54,4 +55,5 @@ process.on('SIGTERM', function() {
   });
 });
 
+// Dodamo shemo za bazo
 require("./loans")
