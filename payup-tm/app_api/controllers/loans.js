@@ -29,8 +29,7 @@ module.exports.index = function(req, res) {
   // Get all loans. return data as msg in callback function.
   Loan.find().exec(function(err, data) {
     if(err) {
-      // TODO - what to put for data if error?
-      JSONcallback(res, 400, '');
+      JSONcallback(res, 400, err);
     } else {
       JSONcallback(res, 200, data);
     }
