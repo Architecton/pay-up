@@ -1,6 +1,7 @@
-//do not forget to add this sheme in db.js
+// Do not forget to add this sheme in db.js
 var mongoose = require("mongoose");
 
+// Schema representing a loan
 var loanShema = new mongoose.Schema({
   loaner: {type: String, required: true},
   recipient: {type: String, required: true},
@@ -13,6 +14,7 @@ var loanShema = new mongoose.Schema({
   status: {type: Number, "default": 0, required: true} // 0 ~ pending; 1 ~ active; 2 ~ resolved
 });
 
+// Schema representing a user
 var userShema = new mongoose.Schema({
   name: {type: String, required: true},
   surname: {type: String, required: true},

@@ -13,24 +13,30 @@ if (process.env.NODE_ENV === 'production') {
 //               Koda kopirana iz vaj.              //    
 /*--------------------------------------------------*/
 
+// If the process exists.
 if(process.env.DB_URI){
   dbURI = process.env.DB_URI;
 }
 
-mongoose.connect(dbURI, { useNewUrlParser: true, useCreateIndex: true });
+// Connect to resource.
+mongoose.connect(dbURI, {useNewUrlParser: true, useCreateIndex: true });
 
+// If mongoose connected.
 mongoose.connection.on('connected', function() {
   console.log('Mongoose connected to ' + dbURI);
 });
 
+// If mongoose encountered error.
 mongoose.connection.on('error', function(err) {
   console.log('Mongoose error at connection: ' + err);
 });
 
+// If mongoose disconnected.
 mongoose.connection.on('disconnected', function() {
   console.log('Mongoose connection has been terminated.');
 });
 
+// Function executed when closing.
 var runOK = function(message, callback) {
   mongoose.connection.close(function() {
     console.log('Mongoose has been closed on ' + message);
@@ -61,5 +67,6 @@ process.on('SIGTERM', function() {
   });
 });
 
-// Dodamo shemo za bazo
-require("./loans")
+// Add schemas to DB.
+require("./loans");
+require("./users");

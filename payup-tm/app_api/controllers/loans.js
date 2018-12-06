@@ -45,6 +45,7 @@ var JSONresponse = function(response, status, content) {
 
 // Function for creating a new Loan schema in the database using an API call.
 // request contains the loan object in JSON format.
+// Return successfuly created loan.
 module.exports.loansCreate = function(request, response) {
   Loan.create({
     "loaner": [{
