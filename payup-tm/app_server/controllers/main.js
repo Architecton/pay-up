@@ -1,8 +1,3 @@
-// Get JSON from models.
-var usersJSON = require("../models/users.json");
-var loansJSON = require("../models/loans.json");
-
-
 // index is the function exposed by this module. It displays the index page.
 module.exports.index = function(req, res) {
     /* Klic prevajanja PUG v html datoteko.

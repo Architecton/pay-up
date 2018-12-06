@@ -1,3 +1,5 @@
+
+/*
 // Do not forget to add this sheme in db.js
 var mongoose = require("mongoose");
 
@@ -32,3 +34,4 @@ var userShema = new mongoose.Schema({
 // TODO: Zment se a so oznacbe cool.
 mongoose.model('User', userShema, 'Users');
 mongoose.model('Loan', loanShema, 'Loans');
+*/

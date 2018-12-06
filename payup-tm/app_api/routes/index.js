@@ -15,10 +15,11 @@ router.put('/users/:idUser', ctrlUsers.userUpdateSelected);
 router.delete('/users/:idUser', ctrlUsers.userDeleteSelected);
 
 // Controlers for working with loans
-router.post('/lokacije/:idLokacije/komentarji', ctrlLoans.komentarjiKreiraj);
-router.get('/lokacije/:idLokacije/komentarji/:idKomentarja', ctrlLoans.komentarjiPreberiIzbranega);
-router.put('/lokacije/:idLokacije/komentarji/:idKomentarja', ctrlLoans.komentarjiPosodobiIzbranega);
-router.delete('/lokacije/:idLokacije/komentarji/:idKomentarja', ctrlLoans.komentarjiIzbrisiIzbranega);
+router.get('/loans', ctrlLoans.loanGetAll);
+router.post('/loans', ctrlLoans.loanCreate);
+router.get('/loans/:idLoan', ctrlLoans.loanGetSelected);
+router.put('/loans/:idLoan', ctrlLoans.loanUpdateSelected);
+router.delete('/loan/:idLoan', ctrlLoans.loanDeleteSelected);
 
 
 // TODO: controllers for working with contacts

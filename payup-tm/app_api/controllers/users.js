@@ -1,5 +1,5 @@
-var mongoose = require('mongoose');
-var User = mongoose.model('User');
+/* var mongoose = require('mongoose');
+var User = mongoose.model('User'); */
 
 
 // getJsonResponse: take response, status and JSON data and add status and data to response.
