@@ -29,7 +29,7 @@ var contactSchema = new mongoose.Schema({
 
 
 // Schema representing a user
-var userShema = new mongoose.Schema({
+var userShema = new mongoose.Schema({                      
   name: {type: String, required: true},
   surname: {type: String, required: true},
   username: {type: String, required: true, unique: true},
