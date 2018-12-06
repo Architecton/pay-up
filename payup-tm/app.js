@@ -7,8 +7,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 // routers located in app_server directory
-var indexRouter = require('.app_server/routes/index');
-var usersRouter = require('.app_server/routes/users');
+var indexRouter = require('./app_server/routes/index');
+var usersRouter = require('./app_server/routes/users');
 
 // app - the application
 var app = express();
@@ -48,7 +48,7 @@ app.use(cookieParser());
 // To serve static files such as images, CSS files, and JavaScript files, use the express.static built-in middleware function in Express.
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Add routers: / is
+// Add routers: /
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
