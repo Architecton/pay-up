@@ -1,33 +1,32 @@
 var mongoose = require("mongoose");
 
+// function debtByTime(start_date, end_date, payment_interval, payment_amount, principal_amount, interest_rate, type_interest, interest_on_debt)
+
 // Schema representing a loan
 var loanShema = new mongoose.Schema({
-  loaner: {type: String, required: true},           // Loaner's username (pk)
-  recipient: {type: String, required: true},        // Recipient's username (pk)
-  dateIssued: {type: Date, "default": Date.now()},  // Date the loan was issued
-  deadline: {type: Date, required: true},           // Date the loan must be repaid
-  amount: {type: Number, required: true},           // Loan amount
-  currency: {type: String, required: true},         // Loan currency
-  interest: {type: Number, required: true},         // Interest rate (yearly)
-  compoundInterest: {type: Boolean, "default": false, required: true}, // false ~ simple interest; true ~ interest on interest
+  loaner: {type: String, required: true},              // Loaner's username (pk)
+  recipient: {type: String, required: true},           // Recipient's username (pk)
+  dateIssued: {type: Date, "default": Date.now()},     // Date the loan was issued
+  deadline: {type: Date, required: true},              // Date the loan must be repaid
+  amount: {type: Number, required: true},              // Loan amount
+  currency: {type: String, required: true},            // Loan currency
+  interest: {type: Number, required: true},            // Interest rate (yearly)
+  payment_interval: {type: Number, required: true},    // Payment interval (in days)
+  payment_amount: {type: Number, required: true},      // Payment amount - amount payed in each repayment interval
+  compoundInterest: {type: Boolean, required: true},   // false ~ simple interest; true ~ interest on interest
+  interest_on_debt: {type: Boolean, required: true},   // false ~ interest is computed using the total amount loaned (principal amount), true ~ interest is computed on the current debt
   status: {type: Number, "default": 0, required: true} // 0 ~ pending; 1 ~ active; 2 ~ resolved
 });
 
-// TODO
+
 // Schema representing a contact
 var contactSchema = new mongoose.Schema({
-  name: {type: String, required: true},
-  surname: {type: String, required: true},
-  username: {type: String, required: true, unique: true},
-  password: {type: String, required: true},
-  email: {type: String, required: true},
-  gender: {type: String, required: true},
-  dateJoined: {type: Date, "default": Date.now()},
-  status: {type: Number, "default": 0},                  // 0 ~ activated_no; 1 ~ activated_yes; 2 ~ terminated
-  proDefauld: {type: Boolean, "default": false},         // false ~ default; true ~ pro
-  defaultCurrency: {type: String, "default": "EUR"},
-  nightmode: {type: Boolean, "default": false}           // false ~ off; true ~ on
+  name: {type: String, required: true},               // Name of the contact
+  surname: {type: String, required: true},            // Last name of the contact
+  username: {type: String, required: true, unique: true}, // username of the contact (needed for linking with actual user)
+  email: {type: String, required: true},              // contact's email
 });
+
 
 // Schema representing a user
 var userShema = new mongoose.Schema({
@@ -39,9 +38,10 @@ var userShema = new mongoose.Schema({
   gender: {type: String, required: true},
   dateJoined: {type: Date, "default": Date.now()},
   status: {type: Number, "default": 0},                  // 0 ~ activated_no; 1 ~ activated_yes; 2 ~ terminated
-  proDefauld: {type: Boolean, "default": false},         // false ~ default; true ~ pro
   defaultCurrency: {type: String, "default": "EUR"},
-  nightmode: {type: Boolean, "default": false}           // false ~ off; true ~ on
+  nightmode: {type: Boolean, "default": false},           // false ~ off; true ~ on
+  loans: [loanShema],
+  contacts: [contactSchema]
   // TODO avatar: {type: Buffer, "defa"}
 });
 
