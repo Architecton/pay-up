@@ -7,26 +7,20 @@ var ctrlUsers = require('../controllers/users');
 var ctrlLoans = require('../controllers/loans');
 
 
-/* Lokacije */
-router.get('/lokacije', 
-  ctrlLokacije.lokacijeSeznamPoRazdalji);
-router.post('/lokacije', 
-  ctrlLokacije.lokacijeKreiraj);
-router.get('/lokacije/:idLokacije', 
-  ctrlLokacije.lokacijePreberiIzbrano);
-router.put('/lokacije/:idLokacije', 
-  ctrlLokacije.lokacijePosodobiIzbrano);
-router.delete('/lokacije/:idLokacije', 
-  ctrlLokacije.lokacijeIzbrisiIzbrano);
+// Controlers for working with users.
+router.get('/users', ctrlUsers.userGetAll);
+router.post('/users', ctrlUsers.userCreate);
+router.get('/users/:idUser', ctrlUsers.userGetSelected);
+router.put('/users/:idUser', ctrlUsers.userUpdateSelected);
+router.delete('/users/:idUser', ctrlUsers.userDeleteSelected);
 
-/* Komentarji */
-router.post('/lokacije/:idLokacije/komentarji', 
-  ctrlKomentarji.komentarjiKreiraj);
-router.get('/lokacije/:idLokacije/komentarji/:idKomentarja', 
-  ctrlKomentarji.komentarjiPreberiIzbranega);
-router.put('/lokacije/:idLokacije/komentarji/:idKomentarja', 
-  ctrlKomentarji.komentarjiPosodobiIzbranega);
-router.delete('/lokacije/:idLokacije/komentarji/:idKomentarja', 
-  ctrlKomentarji.komentarjiIzbrisiIzbranega);
+// Controlers for working with loans
+router.post('/lokacije/:idLokacije/komentarji', ctrlLoans.komentarjiKreiraj);
+router.get('/lokacije/:idLokacije/komentarji/:idKomentarja', ctrlLoans.komentarjiPreberiIzbranega);
+router.put('/lokacije/:idLokacije/komentarji/:idKomentarja', ctrlLoans.komentarjiPosodobiIzbranega);
+router.delete('/lokacije/:idLokacije/komentarji/:idKomentarja', ctrlLoans.komentarjiIzbrisiIzbranega);
+
+
+// TODO: controllers for working with contacts
 
 module.exports = router;

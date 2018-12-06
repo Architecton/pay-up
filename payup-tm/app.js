@@ -1,5 +1,6 @@
 // All request to the Express server are initialy processed here.
 
+require('./app_api/models/db');
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');

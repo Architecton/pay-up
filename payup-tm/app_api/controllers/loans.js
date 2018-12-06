@@ -1,5 +1,7 @@
-// getJsonResponse: take response, status and JSON data and add status and data
-// to response.
+var mongoose = require('mongoose');
+var Loan = mongoose.model('Loan');
+
+// getJsonResponse: take response, status and JSON data and add status and data to response.
 var getJsonResponse = function(response, status, data) {
   // Add status and JSON to response.
   response.status(status);
