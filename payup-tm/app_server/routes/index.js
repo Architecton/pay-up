@@ -1,13 +1,8 @@
-// Router that routes to root page
-
 var express = require('express');
 var router = express.Router();
+var ctrlMain = require('../controllers/main');
 
-/* GET root page. */
-router.get('/', function(req, res, next) {
-    // render root
-    res.render('index', { title: 'Express' });
-});
+/* GET home page. */
+router.get('/', ctrlMain.index);
 
-// expose this router as module (sed in app.js)
 module.exports = router;
