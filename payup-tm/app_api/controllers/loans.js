@@ -1,28 +1,52 @@
 var mongoose = require("mongoose");
+
+/* 
+To use our schema definition, we need to convert our blogSchema into a Model we can work with. 
+To do so, we pass it into mongoose.model(modelName, schema)
+*/
 var Loan = mongoose.model("Loan");
 
+// callback function that sets status and msg to res.
 var JSONcallback = function(res, status, msg) {
   res.status(status);
   res.json(msg);
 };
 
-//exec has function(error, data)
+/*
+The module.exports or exports is a special object which is included in every JS file 
+in the Node.js application by default. module is a variable that represents current module 
+and exports is an object that will be exposed as a module. So, whatever you assign to 
+module.exports or exports, will be exposed as a module.
+*/
 
-module.exports.index = function(req, res){
-  
-  Loan.find().exec(function(err, data){
-    JSONcallback(res, 200, data);
+/*
+module.exports is the object that's actually returned as 
+the result of a require call.
+*/
+
+// exec has function(error, data)
+module.exports.index = function(req, res) {
+  // Get all loans. return data as msg in callback function.
+  Loan.find().exec(function(err, data) {
+    if(err) {
+      // TODO - what to put for data if error?
+      JSONcallback(res, 400, '');
+    } else {
+      JSONcallback(res, 200, data);
+    }
   });
 }
 
 // Pretvori v JSON
-var vrniJsonOdgovor = function(odgovor, status, vsebina) {
-  odgovor.status(status);
-  odgovor.json(vsebina);
+var JSONresponse = function(response, status, content) {
+  response.status(status);
+  response.json(content);
 };
 
-// Funkcija za kreiranje nove LOAN sheme v bazi z api klicem
-module.exports.loansKreiraj = function(zahteva, odgovor) {
+
+// Function for creating a new Loan schema in the database using an API call.
+// request contains the loan object in JSON format.
+module.exports.loansCreate = function(request, response) {
   Loan.create({
     "loaner": [{
         "name": "Jozef",
@@ -59,9 +83,9 @@ module.exports.loansKreiraj = function(zahteva, odgovor) {
     "status": 1
   }, function(napaka, loan){
     if (napaka) {
-      vrniJsonOdgovor(odgovor, 400, napaka);
+      JSONresponse(response, 400, napaka);
     } else {
-      vrniJsonOdgovor(odgovor, 201, loan);
+      JSONresponse(response, 201, loan);
     }
   });
 };
