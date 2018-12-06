@@ -5,6 +5,8 @@ var mongoose = require('mongoose');
 
 // Dodamo povezavo na lokalno bazo.
 var dbURI = 'mongodb://localhost/mongodb';
+
+// If production, connect to MLAB
 if (process.env.NODE_ENV === 'production') {
   dbURI = process.env.MLAB_URI;
 } 
@@ -13,7 +15,7 @@ if (process.env.NODE_ENV === 'production') {
 //               Koda kopirana iz vaj.              //    
 /*--------------------------------------------------*/
 
-// If the process exists.
+// If DB_RUI exists, set uri to local DB.
 if(process.env.DB_URI){
   dbURI = process.env.DB_URI;
 }
