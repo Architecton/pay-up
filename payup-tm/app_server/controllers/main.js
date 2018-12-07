@@ -43,3 +43,8 @@ module.exports.signup = function(req, res) {
     // TODO
     res.render('index', {title: 'Express'});
 };
+
+// db is the function exposed by this module. It displays the db page.
+module.exports.db = function(req, res) {
+  res.render('db');
+};
