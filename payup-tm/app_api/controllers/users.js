@@ -11,27 +11,27 @@ var getJsonResponse = function(response, status, data) {
 };
 
 
-
-
-
-
-
-
-
-
-// TODO: 7.12.2018
-// userGetAll: get all users 
+// userGetAll: get all users in database
 module.exports.userGetAll = function(request, response) {
-  
-  // Return JSON response
-  getJsonResponse(response, 200, {"status": "uspešno"});
+  // Return all users
+  User
+    .find({})
+    .exec(function(error, users) {
+      if (!users) {  // If user not found
+        getJsonResponse(response, 404, {
+          "message": 
+            "Cannot find user with given identifier idUser."
+        });
+        return;
+      // if error while executing function
+      } else if (error) {
+        getJsonResponse(response, 500, error);
+        return;
+      }
+      // if success
+      getJsonResponse(response, 200, users);
+    });
 };
-
-
-
-
-
-
 
 
 // userCreate: create new user

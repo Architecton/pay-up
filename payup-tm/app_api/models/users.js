@@ -4,6 +4,7 @@ var mongoose = require("mongoose");
 
 // Schema representing a loan
 var loanShema = new mongoose.Schema({
+  loanID: {type: Number, required: true, unique: true}, // loanID
   loaner: {type: String, required: true},              // Loaner's username (pk)
   recipient: {type: String, required: true},           // Recipient's username (pk)
   dateIssued: {type: Date, "default": Date.now()},     // Date the loan was issued
