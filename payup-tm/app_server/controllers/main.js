@@ -14,11 +14,13 @@ module.exports.comingSoon = function(req, res) {
     res.render('comingSoon', {title: 'Patchnotes'});
 };
 
+
 // index is the function exposed by this module. It displays the index page.
 module.exports.contacts = function(req, res) {
     // TODO
     res.render('contacts', {title: 'Contacts'});
 };
+
 
 // index is the function exposed by this module. It displays the index page.
 module.exports.dashboard = function(req, res) {
@@ -26,16 +28,19 @@ module.exports.dashboard = function(req, res) {
     res.render('dashboard', {title: 'Dashboard'});
 };
 
+
 // index is the function exposed by this module. It displays the index page.
 module.exports.loans = function(req, res) {
     // TODO
     res.render('loans', {title: 'Loans'});
 };
 
+
 // index is the function exposed by this module. It displays the index page.
 module.exports.patchnotes = function(req, res) {
     res.render('patchnotes', {title: 'Patchnotes'});
 };
+
 
 // index is the function exposed by this module. It displays the index page.
 module.exports.signup = function(req, res) {

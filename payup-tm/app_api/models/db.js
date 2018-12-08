@@ -69,8 +69,5 @@ process.on('SIGTERM', function() {
   });
 });
 
-/*
 // Add schemas to DB.
-require("./loans");
 require("./users");
-*/

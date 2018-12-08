@@ -21,31 +21,29 @@ var loanShema = new mongoose.Schema({
 
 // Schema representing a contact
 var contactSchema = new mongoose.Schema({
-  name: {type: String, required: true},               // Name of the contact
-  surname: {type: String, required: true},            // Last name of the contact
+  name: {type: String, required: true},                  // Name of the contact
+  surname: {type: String, required: true},               // Last name of the contact
   username: {type: String, required: true, unique: true}, // username of the contact (needed for linking with actual user)
-  email: {type: String, required: true},              // contact's email
+  email: {type: String, required: true},                  // contact's email
 });
 
 
 // Schema representing a user
 var userShema = new mongoose.Schema({                      
-  name: {type: String, required: true},
-  surname: {type: String, required: true},
-  username: {type: String, required: true, unique: true},
-  password: {type: String, required: true},
-  email: {type: String, required: true},
-  gender: {type: String, required: true},
-  dateJoined: {type: Date, "default": Date.now()},
-  status: {type: Number, "default": 0},                  // 0 ~ activated_no; 1 ~ activated_yes; 2 ~ terminated
-  defaultCurrency: {type: String, "default": "EUR"},
+  name: {type: String, required: true},                   // name
+  surname: {type: String, required: true},                // last name
+  username: {type: String, required: true, unique: true}, // username
+  password: {type: String, required: true},               // password
+  email: {type: String, required: true},                  // email
+  gender: {type: String, required: true},                 // gender
+  dateJoined: {type: Date, "default": Date.now()},        // date the user joined the app
+  status: {type: Number, "default": 0},                   // 0 ~ activated_no; 1 ~ activated_yes; 2 ~ terminated
+  defaultCurrency: {type: String, "default": "EUR"},      // user's default currency
   nightmode: {type: Boolean, "default": false},           // false ~ off; true ~ on
-  loans: [loanShema],
-  contacts: [contactSchema]
+  loans: [loanShema],                                     // loans associated with user.
+  contacts: [contactSchema]                               // user's contacts
   // TODO avatar: {type: Buffer, "defa"}
 });
-
-
 
 
 // Compile the schema into a model.
