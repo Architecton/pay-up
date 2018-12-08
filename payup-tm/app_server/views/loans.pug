@@ -1,0 +1,133 @@
+extends layout
+
+block content
+    // Manage Loans main page
+    #loans-main.row.bodyRow.bottomRow
+        .col-xs-12.col-lg-8.loans-left
+          h2.loansLabel My Loans
+          .form-group
+            label.loansLabel(for='select_loanSort') Sort by:
+            select#select_loanSort.form-control
+              option Issued/newest
+              option Issued/oldest
+              option Deadline/nearest
+              option Deadline/furthest
+              option Amount/highest
+              option Amount/lowest
+              option Source
+              option Recepient
+            br
+            label.loansLabel(for='search_loanByName') Or search by name:
+            input.text(type='text' name='partySearch' required='' id='')
+            br
+            label.loansLabel(for='select_userType') Party:
+            select#select_userType.form-control
+              option Source
+              option Recepient
+          table.table.table-bordered.table-responsive.loanTable
+            thead
+              tr
+                th ID
+                th Source
+                th Recepient
+                th Issued
+                th Deadline
+                th Amount
+                th Curr.
+                th Interest
+                th Int. Type
+                th Status
+            tbody
+              tr
+                td 01
+                td Doge
+                td Pepe
+                td 1.1.2000
+                td 1.1.2019
+                td 1000
+                td $
+                td 1%
+                td Simple
+                td Active
+              tr
+                td 02
+                td Doge
+                td Dolan
+                td 2.2.2000
+                td 2.2.2019
+                td 2000
+                td &euro;
+                td 2%
+                td Compount
+                td Pending
+              tr
+                td 03
+                td Harambe
+                td Doge
+                td 3.3.2000
+                td 3.3.2019
+                td 3000
+                td £
+                td 3%
+                td Simple
+                td Resolved
+        .col-xs-12.col-lg-4.loans-right
+          h2.loansLabel Edit loans
+          br
+          .loanModPanel
+            h3.loanMan Edit Loan
+            p.loanMan2
+              | Select loan from table to edit.
+            input#button_confirmLoanEdit.button_loanMod.leftLoanButton(type='button' value='Confirm')
+            input#button_loanResolve.button_loanMod.centerLoanButton(type='button' value='Resolve')
+            input#button_loanDelete.button_loanMod.rightLoanButton(type='button' value='Delete')
+          div
+            button.button_newLoan(onclick="document.getElementById('id07').style.display='block'") New Loan
+
+    // Add loan box
+    #id07.modal
+      // close login box
+      span.close(onclick="document.getElementById('id07').style.display='none'" title='Close Modal') &times;
+      // Contents of login box
+      form.modal-content2.animate(action='/TODO')
+        // avatar image
+        .ttlcontainer
+          h1
+            b Add Loan
+        // forms links and checkboxes
+        .container.contactsContainer
+          from(action='/todo' method='get')
+            h2.databaseSearchHeading Add new loan
+            label(for='recipient')
+              b Recipient username
+            input(type='text' placeholder='Enter recipient username.' name='username' required='')
+            label(for='deadline')
+              b Repayment Deadline
+            div
+              input#loanCreateDate(type='date' placeholder='Enter repayment deadline.' name='deadline' required='')
+            label(for='amount')
+              b Loan size
+            div
+              input#loanCreateAmount(type='number' name='amount' min='1' required='')
+            label(for='interest')
+              b Interest Rate (yearly percentage)
+            div
+              input#loanCreateInterest(type='number' name='interest' min='1' required='')
+            label(for='payment_interval')
+              b Payment Interval (in days)
+            div
+              input#loanCreatePaymentInterval(type='number' name='payment_interval' min='1' required='')
+            label(for='compoundInterest')
+              b Use compound or simple interest?
+            div
+              select#loanCreateSelectInterestType.select(name='compoundInterest' required='')
+                option Simple
+                option Compound
+            label(for='interestOnDebt')
+              b Compute interest on debt?
+            div
+              select#loanCreateSelectOnDebt.select(name='interestOnDebt' required='')
+                option yes
+                option no
+            button.loginbtn(type='submit') Confirm
+          span.opts(onclick="document.getElementById('id07').style.display='none'" title='Cancel' onmouseover='') Cancel

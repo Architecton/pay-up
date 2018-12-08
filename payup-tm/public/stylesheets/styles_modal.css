@@ -1,0 +1,193 @@
+body {font-family: Arial, Helvetica, sans-serif;}
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 8px 5px;
+    display: block;
+    border: 2px solid #ccc;
+    box-sizing: border-box;
+}
+
+/* Text button - same style as href elements in navigation bar */
+.navbutton {
+    border: none;
+    background-color: inherit;
+    font-weight: bold;
+    padding: 14px 16px;
+    font-size: 20px;
+    color: silver;
+    text-align: center;
+    font-family: Times-New-Roman;
+    cursor: pointer;
+    display: inline-block;
+    border-radius: 4px;
+    float:right;
+}
+
+
+/* Mimic hover on links in navigation bar. */
+.navbutton:hover {
+    background-color: grey;
+    color: black;
+}
+
+/* login button */
+.loginbtn {
+    width: 50%;
+    padding: 10px 18px;
+    margin-left: 10px;
+    margin-top: 11px;
+    margin-right: 20px;
+    background-color: #78b5db;
+    color: white;
+    display: inline-block;
+}
+
+/* login button */
+.savebtn {
+    width: 50%;
+    padding: 10px 18px;
+    margin-left: 10px;
+    margin-top: 11px;
+    margin-right: 10px;
+    background-color: #78b5db;
+    color: white;
+    display: inline-block;
+}
+
+.opts, .delete, .resend {
+    width: auto;
+    padding: 10px 0px;
+    margin-bottom: 20px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.resend {
+    margin-right:10px;
+}
+
+.delete {
+    color: red;
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+    position: relative;
+}
+
+.ttlcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+    position: relative;
+}
+
+.container.contactsContainer {
+    width:80%;
+}
+
+.container.loginForms {
+    padding: 5px; width: 50%;
+}
+
+.container.settings {
+    padding: 5px; 
+    width: 50%;
+}
+
+.contactsLabel {
+    color:silver;
+}
+
+.databaseSearchHeading {
+    color:black;
+}
+
+img.avatar {
+    width: 30%;
+    border-radius: 10%;
+}
+
+
+span.psw {
+    float: center;
+    padding-top: 16px;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: disabled; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity for background */
+    padding-top: 30px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 1% auto 10% auto;
+    border: 1px solid #888;
+    width: 70%;
+    margin: 0% auto 0% auto;
+}
+
+.modal-content2 {
+    background-color: #fefefe;
+    border: 1px solid #888;
+    width: 70%;
+    margin: 0% auto 0% auto;
+}
+
+/* The Close Button */
+.close {
+    position: absolute;
+    right: 25px;
+    top: 0;
+    color: #000;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: red;
+    cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+    -webkit-animation: animatezoom 0.6s;
+    animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+    from {-webkit-transform: scale(0)} 
+    to {-webkit-transform: scale(1)}
+}
+    
+@keyframes animatezoom {
+    from {transform: scale(0)} 
+    to {transform: scale(1)}
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+    span.psw {
+       display: block;
+       float: none;
+    }
+    .cancelbtn {
+       width: 100%;
+    }
+}
