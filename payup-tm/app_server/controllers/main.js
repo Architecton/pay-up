@@ -6,8 +6,6 @@ var apiParameters = {
 
 
 
-
-
 // COMING SOON PAGE //////////////////////////////////////////////////////
 
 module.exports.index = function(req, res) {
@@ -37,16 +35,36 @@ module.exports.comingSoon = function(req, res) {
 
 
 
-
-
-
-
-// CONTACTS PAGE ////////////////////////////////////////////////////////
+// CONTACTS PAGE //////////////////////////////////////////////////////// ***
 
 // contacts: contacts page controller.
 module.exports.contacts = function(req, res) {
     // Get path to API.
-    var path = '/api/contacts';
+    var idUser = req.params.idUser;
+    var path = '/api/' + idUser + '/contacts';
+    // Set request parameters.
+    var requestParameters = {
+        url: apiParameters.server + path,
+        method: 'GET',
+        json: {},
+    };
+    // Perform request.
+    request(
+        requestParameters,
+        // callback function - show website
+        function(error, response, content) {
+            showContactsPage(req, res, content);
+        }
+    );
+};
+
+// contacts: contacts page controller.
+module.exports.contactById = function(req, res) {
+    // Get user id and contact id from path parameters.
+    var idUser = req.params.idUser;
+    var idContact = req.params.idContact;
+    // Get path for API
+    var path = '/api/users/' + idUser + '/contacts/' + idContact;
     // Set request parameters.
     var requestParameters = {
         url: apiParameters.server + path,
@@ -72,23 +90,13 @@ var showContactsPage = function(req, res, content) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-// DASHBOARD PAGE ///////////////////////////////////////////////////////
+// DASHBOARD PAGE /////////////////////////////////////////////////////// ***
 
 // index is the function exposed by this module. It displays the index page.
 module.exports.dashboard = function(req, res) {
     // Get path to API.
-    var path = '/api/loans';
+    var idUser = req.params.idUser;
+    var path = '/api/' + idUser + '/loans';
     // Set request parameters.
     var requestParameters = {
         url: apiParameters.server + path,
@@ -105,7 +113,7 @@ module.exports.dashboard = function(req, res) {
     );
 };
 
-// 
+// showDashboardPage: show dashboard page.
 var showDashboardPage = function(req, res, content) {
     res.render('dashboard', {title: 'Dashboard'});
 };
@@ -119,16 +127,14 @@ var showDashboardPage = function(req, res, content) {
 
 
 
+// LOANS PAGE /////////////////////////////////////////////////////// ***
 
-
-
-
-// LOANS PAGE ///////////////////////////////////////////////////////
-
-// index is the function exposed by this module. It displays the index page.
+// loans: 
 module.exports.loans = function(req, res) {
-    // Get path to API.
-    var path = '/api/loans';
+    
+    var idUser = req.params.idUser;
+    var path = '/api/' + idUser + '/loans';
+    
     // Set request parameters.
     var requestParameters = {
         url: apiParameters.server + path,
@@ -145,23 +151,87 @@ module.exports.loans = function(req, res) {
     );
 };
 
+// TODO - INSERT JSON
+module.exports.loansManageCreate = function(req, res) {
+    var idUser = req.params.idUser;
+    var idLoan = req.params.idLoan;
+    var path = '/api/' + idUser + '/loans/' + idLoan;
+    
+    // Set request parameters.
+    var requestParameters = {
+        url: apiParameters.server + path,
+        method: 'POST',
+        json: {},
+    };
+    // Perform request.
+    request(
+        requestParameters,
+        // callback function - show website
+        function(error, response, content) {
+            showLoansPage(req, res, content);
+        }
+    );
+};
 
+// loansManageDelete: delete loan with specified ID
+module.exports.loansManageDelete = function(req, res) {
+    
+    var idUser = req.params.idUser;
+    var idLoan = req.params.idLoan;
+    var path = '/api/' + idUser + '/loans/' + idLoan;
+    
+    // Set request parameters.
+    var requestParameters = {
+        url: apiParameters.server + path,
+        method: 'DELETE',
+        json: {},
+    };
+    // Perform request.
+    request(
+        requestParameters,
+        // callback function - show website
+        function(error, response, content) {
+            showLoansPage(req, res, content);
+        }
+    );
+};
+
+
+// TODO - INSERTING JSON
+// loansManageUpdate: update loan with specified ID.
+module.exports.loansManageUpdate = function(req, res) {
+    
+    var idUser = req.params.idUser;
+    var idLoan = req.params.idLoan;
+    var path = '/api/' + idUser + '/loans/' + idLoan;
+    
+    // Set request parameters.
+    var requestParameters = {
+        url: apiParameters.server + path,
+        method: 'PUT',
+        json: {},
+    };
+    // Perform request.
+    request(
+        requestParameters,
+        // callback function - show website
+        function(error, response, content) {
+            showLoansPage(req, res, content);
+        }
+    );
+};
+
+// showLoansPage: show loans page
 var showLoansPage = function(req, res, content) {
     res.render('loans', {title: 'Loans'});
 };
- 
+
 /////////////////////////////////////////////////////////////////////
 
 
 
 
-
-
-
-
-
-
-// PATCHNOTES PAGE //////////////////////////////////////////////////
+// PATCHNOTES PAGE ////////////////////////////////////////////////// ***
 
 // index is the function exposed by this module. It displays the index page.
 module.exports.patchnotes = function(req, res) {
@@ -173,18 +243,41 @@ module.exports.patchnotes = function(req, res) {
 
 
 
-
-
-
-
-
 // SIGNUP PAGE //////////////////////////////////////////////////////
+
 
 // index is the function exposed by this module. It displays the index page.
 module.exports.signup = function(req, res) {
     // TODO
     res.render('signup', {title: 'Signup'});
 };
+
+// TODO INSERT JSON
+// signupSubmit: submit signup info.
+module.exports.signupSubmit = function(req, res) {
+    // Get path to API.
+    var path = '/api/users';
+    // Set request parameters.
+    var requestParameters = {
+        url: apiParameters.server + path,
+        method: 'POST',
+        json: {},
+    };
+    // Perform request.
+    request(
+        requestParameters,
+        // callback function - show website
+        function(error, response, content) {
+            showSignupPage(req, res, content);
+        }
+    );
+};
+
+// showSignupPage: display signup page.
+var showSignupPage = function(req, res, content) {
+    res.render('signup', {title: 'Signup'});
+};
+
 /////////////////////////////////////////////////////////////////////
 
 
@@ -194,8 +287,7 @@ module.exports.signup = function(req, res) {
 
 
 
-// DATABASE INITIALIZATION AND DROPPING /////////////////////////////
-
+// DATABASE INITIALIZATION AND DROPPING ///////////////////////////// ***
 
 // db page. If user clicks on nukeDB button, redirect to /db/nukeDB
 module.exports.db = function(req, res) {

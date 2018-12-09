@@ -9,11 +9,30 @@ router.get('/', ctrlMain.index);
 
 /* similar for other pages */
 router.get('/comingSoon', ctrlMain.comingSoon);
-router.get('/contacts', ctrlMain.contacts);
-router.get('/dashboard', ctrlMain.dashboard);
-router.get('/loans', ctrlMain.loans);
-router.get('/patchnotes', ctrlMain.patchnotes);
+
+// CONTACTS **
+router.get('/contacts/:idUser', ctrlMain.contacts);
+router.get('/user/:idUser/contacts/:idContact', ctrlMain.contactById);
+
+// DASHBOARD **
+router.get('/dashboard/:idUser', ctrlMain.dashboard);
+
+
+// LOANS
+router.get('/loans/:idUser', ctrlMain.loans);
+router.get('/loans/:idUser/loans/:idLoan/delete', ctrlMain.loansManageCreate);
+router.get('/loans/:idUser/loans/:idLoan/create', ctrlMain.loansManageDelete);
+router.get('/loans/:idUser/loans/:idLoan/update', ctrlMain.loansManageUpdate);
+
+
+
+
 router.get('/signup', ctrlMain.signup);
+router.get('/signup/submit', ctrlMain.signupSubmit);
+
+
+router.get('/patchnotes', ctrlMain.patchnotes);
+
 router.get('/db', ctrlMain.db);
 router.get('/db/nukeDB', ctrlMain.nukeDB);
 router.get('/db/fillDB', ctrlMain.fillDB);
