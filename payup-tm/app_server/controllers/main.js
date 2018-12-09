@@ -1,3 +1,6 @@
+var loanDataJSON = require('../models/loans.json');
+var contactsDataJSON = require('../models/contacts.json');
+
 // index is the function exposed by this module. It displays the index page.
 module.exports.index = function(req, res) {
     /* Klic prevajanja PUG v html datoteko.
@@ -18,21 +21,21 @@ module.exports.comingSoon = function(req, res) {
 // index is the function exposed by this module. It displays the index page.
 module.exports.contacts = function(req, res) {
     // TODO
-    res.render('contacts', {title: 'Contacts'});
+    res.render('contacts', contactsDataJSON);
 };
 
 
 // index is the function exposed by this module. It displays the index page.
 module.exports.dashboard = function(req, res) {
     // TODO
-    res.render('dashboard', {title: 'Dashboard'});
+    res.render('dashboard', loanDataJSON);
 };
 
 
 // index is the function exposed by this module. It displays the index page.
 module.exports.loans = function(req, res) {
     // TODO
-    res.render('loans', {title: 'Loans'});
+    res.render('loans', loanDataJSON);
 };
 
 

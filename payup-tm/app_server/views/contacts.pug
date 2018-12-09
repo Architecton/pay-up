@@ -1,5 +1,7 @@
 extends layout
 
+include _include/commonFunctions.pug
+
 block content
   // #################### Contacts Section ##########################
   #dashboardTopLoans.row.bodyRow.bottomRow
@@ -17,36 +19,29 @@ block content
                 option Lenders with pending loans
                 option Loaners with pending loans
             .col-xs-6
-              table.table.table-bordered.table-responsive.loanTable
+              table.table.table-bordered.table-responsive.table-hover.loanTable
                 thead
                   tr
                     th Username
                     th Name
                     th Surname
+                    th(style='display:none') Email
+                    th(style='display:none') Note
                 tbody
-                  tr
-                    td jn9283
-                    td Janez
-                    td Novak
-            // Button for adding new contacts
+                  each contact in contacts
+                      +addContactsRow(contact)
+          
           .col-xs-6
             label.contactsLabel(for='addnew') Add New Contact:
             div
               button#addnew.contactbtn(onclick="document.getElementById('id06').style.display='block'")
                 | New Contact
+        
         .contactsRow
           h3.contactsLabel User Details
           .col-xs-6.borderedSilverBox
-            ul
-              li Username: jn9283
-              li Name: Janez
-              li Surname: Novak
-              li Email: janez.novak@example.com
-              li Phone: (+386) 70 123 123
-              li Region: Celje
-              li
-                | Notes: 
-                p Janez is a very good friend from work
+            ul#extraContactInfo
+              li Select contact for more information
             input#button_confirmLoanEdit.button_loanMod(type='button' value='Edit notes')
   // #################### /Contacts Section ##########################
   
@@ -64,25 +59,28 @@ block content
       // forms links and checkboxes
       .container.contactsContainer
         h2.databaseSearchHeading Search Database for Users
-        input#username(type='text' placeholder='Search for User' name='uname' pattern='[a-zA-ZčćžšđČĆŽŠĐ0-9]{1,50}$' title='Username can only consist of letters and numbers and cannot be longer than 50 characters' minlength='1' maxlength='50' required='')
-        button.loginbtn(type='submit') Add Contact
+        form#addContactForm 
+          input#username(type='text' placeholder='Search for User' name='username' pattern='[a-zA-ZčćžšđČĆŽŠĐ0-9]{1,50}$' title='Username can only consist of letters and numbers and cannot be longer than 50 characters' minlength='1' maxlength='50' required='')
+          button.loginbtn(type='submit') Add Contact
+        
         span.opts(onclick="document.getElementById('id04').style.display='none'" title='Cancel' onmouseover='') Cancel
         h2.databaseSearchHeading Manually Add New Contact
-        label(for='firstName')
-          b First Name
-        input#firstName(type='text' placeholder='Enter first name' name='name' pattern="[A-ZČĆŽŠĐ][a-zčćžšđA-ZČĆŽŠĐ']{1,50}$" title='First name must start with a capital letter, followed by a maximum of 49 letters of any case. Apostrophes are allowed.' minlength='1' maxlength='50' required='')
-        label(for='lastName')
-          b Last Name
-        input#lastName(type='text' placeholder='Enter last name' name='lastname' pattern="(?=.{1,50}$)(([A-ZČĆŽŠĐ][a-zčćžšđA-ZČĆŽŠĐ']{1,50})+ *)+" title='Each last name must start with a capital letter, followed by a maximum of 49 letters of any case. Apostrophes are allowed.' minlength='1' maxlength='50' required='')
-        label(for='email')
-          b E-mail
-        input#email(type='email' placeholder='Enter e-mail' name='email' required='')
-        label(for='tel')
-          b Telephone number
-        input#tel(type='text' placeholder='Enter telephone number' name='phone' minlength='9' maxlength='11' pattern='(\+(\d\s?){11})|((\d\s?){7}((\d\s?){2})?)' title='Phone number must include at least 9 digits.' required='')
-        label(for='region')
-          b City/Region
-        input#region(type='text' placeholder='Enter city/region' pattern="[a-zA-ZčćžšđČĆŽŠĐ '0-9]{1,70}$" name='region' title='City/region name must be between 1 and 70 characters long.' minlength='1' maxlength='70' required='')
-        button.loginbtn(type='submit') Add Contact
+        
+        form#addContactManualForm
+          label(for='firstName')
+            b First Name
+          input#firstName(type='text' placeholder='Enter first name' name='name' pattern="[A-ZČĆŽŠĐ][a-zčćžšđA-ZČĆŽŠĐ']{1,50}$" title='First name must start with a capital letter, followed by a maximum of 49 letters of any case. Apostrophes are allowed.' minlength='1' maxlength='50' required='')
+          label(for='lastName')
+            b Last Name
+          input#lastName(type='text' placeholder='Enter last name' name='lastname' pattern="(?=.{1,50}$)(([A-ZČĆŽŠĐ][a-zčćžšđA-ZČĆŽŠĐ']{1,50})+ *)+" title='Each last name must start with a capital letter, followed by a maximum of 49 letters of any case. Apostrophes are allowed.' minlength='1' maxlength='50' required='')
+          label(for='email')
+            b E-mail
+          input#email(type='email' placeholder='Enter e-mail' name='email' required='')
+          br
+          label(for='region')
+            b City/Region
+          input#region(type='text' placeholder='Enter city/region' pattern="[a-zA-ZčćžšđČĆŽŠĐ '0-9]{1,70}$" name='region' title='City/region name must be between 1 and 70 characters long.' minlength='1' maxlength='70' required='')
+          button.loginbtn(type='submit') Add Contact
+        
         span.opts(onclick="document.getElementById('id04').style.display='none'" title='Cancel' onmouseover='') Cancel
   // ################################## /NEW CONTACT BOX ############################

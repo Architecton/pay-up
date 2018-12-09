@@ -1,5 +1,7 @@
 extends layout
 
+include _include/commonFunctions.pug
+
 block content
     // Manage Loans main page
     #loans-main.row.bodyRow.bottomRow
@@ -14,11 +16,9 @@ block content
               option Deadline/furthest
               option Amount/highest
               option Amount/lowest
-              option Source
-              option Recepient
             br
             label.loansLabel(for='search_loanByName') Or search by name:
-            input.text(type='text' name='partySearch' required='' id='')
+            input#searchLoansUsername.text(type='text' name='partySearch' required='')
             br
             label.loansLabel(for='select_userType') Party:
             select#select_userType.form-control
@@ -27,7 +27,7 @@ block content
           table.table.table-bordered.table-responsive.loanTable
             thead
               tr
-                th ID
+                th(style='display:none') ID
                 th Source
                 th Recepient
                 th Issued
@@ -37,46 +37,16 @@ block content
                 th Interest
                 th Int. Type
                 th Status
-            tbody
-              tr
-                td 01
-                td Doge
-                td Pepe
-                td 1.1.2000
-                td 1.1.2019
-                td 1000
-                td $
-                td 1%
-                td Simple
-                td Active
-              tr
-                td 02
-                td Doge
-                td Dolan
-                td 2.2.2000
-                td 2.2.2019
-                td 2000
-                td &euro;
-                td 2%
-                td Compount
-                td Pending
-              tr
-                td 03
-                td Harambe
-                td Doge
-                td 3.3.2000
-                td 3.3.2019
-                td 3000
-                td £
-                td 3%
-                td Simple
-                td Resolved
+            tbody#loansTableBody
+              each loan in loans
+                +addLoansRow(loan)
+                 
         .col-xs-12.col-lg-4.loans-right
           h2.loansLabel Edit loans
           br
           .loanModPanel
             h3.loanMan Edit Loan
-            p.loanMan2
+            p#loanParagraph.loanMan2
               | Select loan from table to edit.
             input#button_confirmLoanEdit.button_loanMod.leftLoanButton(type='button' value='Confirm')
             input#button_loanResolve.button_loanMod.centerLoanButton(type='button' value='Resolve')

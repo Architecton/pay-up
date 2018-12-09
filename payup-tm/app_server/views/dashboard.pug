@@ -1,5 +1,7 @@
 extends layout
 
+include _include/commonFunctions.pug
+
 block content
     #dashboardMain.row.bodyRow
         .col-xs-12.col-sm-6.dashboard-left
@@ -12,25 +14,19 @@ block content
         .center
           .v-align.dashTableDiv
             h2.selectedLoansHeader Selected Loans:
-            .form-group
-              label.sortLabel(for='sel0') Sort by:
-              select#sel0.form-control
-                option Issued/newest
-                option Issued/oldest
-                option Deadline/nearest
-                option Deadline/furthest
-                option Amount/highest
-                option Amount/lowest
         table.table.table-bordered.table-striped.table-dark.loanTable
               thead.thread-light
                 tr
-                  th ID
+                  th(style='display:none') ID
                   th Source
                   th Recepient
                   th Issued
                   th Deadline
                   th Amount
-                  th Currency
+                  th Curr.
                   th Interest
-                  th Interest Type
+                  th Int. Type
                   th Status
+              tbody#loansTableBody
+                each loan in loans
+                  +addLoansRow(loan)
