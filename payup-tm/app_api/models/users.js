@@ -25,7 +25,7 @@ var contactSchema = new mongoose.Schema({
   surname: {type: String, required: true},               // Last name of the contact
   username: {type: String, required: true, unique: true}, // username of the contact (needed for linking with actual user)
   email: {type: String, required: true},                  // contact's email
-  notes: {type: String, required: true}                   // notes associated with contact
+  notes: {type: String}                                  // notes associated with contact
 });
 
 
