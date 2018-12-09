@@ -167,6 +167,36 @@ var usernameExists = function(username) {
 
 // *************************** //
 
+// ** loanGetUsersLoans: get all loans of user with given id
+module.exports.contactGetUsersContacts = function(request, response) {
+    // if request has parameters and the parameters include idUser
+    if (request.params && request.params.idUser) {
+    User
+      .findById(request.params.idUser)
+      .exec(function(error, user) {
+        if (!user) {  // If user not found
+          getJsonResponse(response, 404, {
+            "message": 
+              "Cannot find user with given identifier idUser."
+          });
+          return;
+        // if error while executing function
+        } else if (error) {
+          getJsonResponse(response, 500, error);
+          return;
+        }
+        // If success, get all loans of user.
+        var contacts = user.contacts;
+        getJsonResponse(response, 200, contacts);
+      });
+  // else if no parameters or if parameters do not include idUser
+  } else {
+    getJsonResponse(response, 400, { 
+      "message": "identifier idUser is missing."
+    });
+  }
+};
+
 
 // contactGetSelected: return contact with given idContact (username) of user with given idUser (username)
 module.exports.contactGetSelected = function(request, response) {
