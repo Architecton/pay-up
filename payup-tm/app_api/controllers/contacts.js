@@ -303,7 +303,6 @@ module.exports.contactUpdateSelected = function(request, response) {
               });
               return;
             }
-            
             user.save(function(error, user) {
               // if encountered error
               if (error) {

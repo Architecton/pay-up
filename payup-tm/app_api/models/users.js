@@ -13,9 +13,9 @@ var loanShema = new mongoose.Schema({
   interest: {type: Number, required: true},            // Interest rate (yearly)
   payment_interval: {type: Number, required: true},    // Payment interval (in days)
   payment_amount: {type: Number, required: true},      // Payment amount - amount payed in each repayment interval
-  compoundInterest: {type: Boolean, "default": false},   // false ~ simple interest; true ~ interest on interest
-  interest_on_debt: {type: Boolean, required: true},   // false ~ interest is computed using the total amount loaned (principal amount), true ~ interest is computed on the current debt
-  status: {type: Number, "default": 0, required: true} // 0 ~ pending; 1 ~ active; 2 ~ resolved
+  compoundInterest: {type: Boolean, "default": false},          // false ~ simple interest; true ~ interest on interest
+  interest_on_debt: {type: Boolean, required: true},            // false ~ interest is computed using the total amount loaned (principal amount), true ~ interest is computed on the current debt
+  status: {type: String, "default": "pending", required: true}  // pending, active, resolved
 });
 
 
@@ -25,6 +25,7 @@ var contactSchema = new mongoose.Schema({
   surname: {type: String, required: true},               // Last name of the contact
   username: {type: String, required: true, unique: true}, // username of the contact (needed for linking with actual user)
   email: {type: String, required: true},                  // contact's email
+  notes: {type: String, required: true}                   // notes associated with contact
 });
 
 
@@ -42,7 +43,6 @@ var userShema = new mongoose.Schema({
   nightmode: {type: Boolean, "default": false},           // false ~ off; true ~ on
   loans: [loanShema],                                     // loans associated with user.
   contacts: [contactSchema]                               // user's contacts
-  // TODO avatar: {type: Buffer, "defa"}
 });
 
 
