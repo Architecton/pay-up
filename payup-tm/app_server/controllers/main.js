@@ -51,7 +51,7 @@ module.exports.contacts = function(req, res) {
         requestParameters,
         // callback function - show website
         function(error, response, content) {
-            showContactsPage(req, res, content);
+            showContactsPage(req, res, {'status' : ''});
         }
     );
 };
