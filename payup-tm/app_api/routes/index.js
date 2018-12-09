@@ -15,10 +15,14 @@ router.get('/users', ctrlUsers.userGetAll);
 
 
 // AUXILIARY FUNCTIONS
-router.post('/fillDB', ctrlUsers.fillDB);
-router.delete('/nukeDB', ctrlUsers.nukeDB);
+
+// TODO CHANGE TO DELETE AND POST
+
+router.get('/fillDB', ctrlUsers.fillDB);
+router.get('/nukeDB', ctrlUsers.nukeDB);
 router.delete('/nukeDBindexes', ctrlUsers.nukeDBindexes);
 router.get('/:email/sendMail', ctrlUsers.sendConfirmationMail);
+
 
 
 // Controlers for working with users
