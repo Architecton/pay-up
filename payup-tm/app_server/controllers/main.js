@@ -181,12 +181,6 @@ var showDashboardPage = function(req, res, content) {
 
 
 
-
-
-
-
-
-
 // LOANS PAGE /////////////////////////////////////////////////////// ***
 
 // loans: 

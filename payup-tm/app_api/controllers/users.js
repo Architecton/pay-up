@@ -163,16 +163,16 @@ module.exports.userCreate = function(request, response) {
   var newUser = {
     name: request.body.name,
     surname: request.body.surname,
-    _id: request.body._id,
+    _id: request.body.username,
     password: request.body.password,
     email: request.body.email,
     gender: request.body.gender,
-    date: request.body.date,
-    status: request.body.status,
-    defaultCurrency: request.body.defaultCurrency,
-    nightmode: request.body.nightmode,
-    loans: request.body.loans,
-    contacts: request.body.contacts
+    dateJoined: new Date().toJSON().slice(0,10).replace(/-/g,'-'),
+    status: 0,
+    defaultCurrency: "EUR",
+    nightmode: false,
+    loans: [],
+    contacts: []
   };
   
   validateUser(newUser).then(function(result) {
