@@ -105,6 +105,7 @@ module.exports.contactAddNotes = function(req, res) {
     };
     
     console.log(dataInBody);
+    console.log(path);
     var requestParameters = {
         url: apiParameters.server + path,
         method: 'PUT',
