@@ -125,8 +125,8 @@ var addLoan = function(request, response, user) {
 // *************************** //
 
 
-// ** loanGetSelected: get all loans of user with given id
-module.exports.loanGetSelected = function(request, response) {
+// ** loanGetUsersLoans: get all loans of user with given id
+module.exports.loanGetUsersLoans = function(request, response) {
     // if request has parameters and the parameters include idUser
     if (request.params && request.params.idUser) {
     User
@@ -151,6 +151,51 @@ module.exports.loanGetSelected = function(request, response) {
   } else {
     getJsonResponse(response, 400, { 
       "message": "identifier idUser is missing."
+    });
+  }
+};
+
+
+// ** loanGetSelected: get loan with specified id of user with specified user id (username)
+module.exports.loanGetSelected = function(request, response) {
+  if (request.params && request.params.idUser && request.params.idLoan) {
+    User
+      .findById(request.params.idUser)
+      .select('_id loans')
+      .exec(
+        function(error, user) {
+          var loan;
+          if (!user) {
+            getJsonResponse(response, 404, {
+              "message": 
+                "Cannot find user with specified id."
+            });
+            return;
+          } else if (error) {
+            getJsonResponse(response, 500, error);
+            return;
+          }
+          if (user.loans && user.loans.length > 0) {
+            loan = user.loans.id(request.params.idLoan);
+            if (!loan) {
+              getJsonResponse(response, 404, {
+                "message": 
+                  "Cannot find loan with specified id."
+              });
+            } else {
+              getJsonResponse(response, 200, loan);
+            }
+          } else {
+            getJsonResponse(response, 404, {
+              "message": "Cannot find any loan."
+            });
+          }
+        }
+      );
+  } else {
+    getJsonResponse(response, 400, {
+      "message": 
+        "Invalid request parameters."
     });
   }
 };

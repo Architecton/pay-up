@@ -245,7 +245,6 @@ module.exports.patchnotes = function(req, res) {
 
 // SIGNUP PAGE //////////////////////////////////////////////////////
 
-
 // index is the function exposed by this module. It displays the index page.
 module.exports.signup = function(req, res) {
     // TODO
@@ -279,9 +278,6 @@ var showSignupPage = function(req, res, content) {
 };
 
 /////////////////////////////////////////////////////////////////////
-
-
-
 
 
 
