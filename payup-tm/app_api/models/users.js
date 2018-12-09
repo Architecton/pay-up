@@ -4,7 +4,6 @@ var mongoose = require("mongoose");
 
 // Schema representing a loan
 var loanShema = new mongoose.Schema({
-  loanID: {type: Number, required: true, unique: true}, // loanID
   loaner: {type: String, required: true},              // Loaner's username (pk)
   recipient: {type: String, required: true},           // Recipient's username (pk)
   dateIssued: {type: Date, "default": Date.now()},     // Date the loan was issued
@@ -14,7 +13,7 @@ var loanShema = new mongoose.Schema({
   interest: {type: Number, required: true},            // Interest rate (yearly)
   payment_interval: {type: Number, required: true},    // Payment interval (in days)
   payment_amount: {type: Number, required: true},      // Payment amount - amount payed in each repayment interval
-  compoundInterest: {type: Boolean, required: true},   // false ~ simple interest; true ~ interest on interest
+  compoundInterest: {type: Boolean, "default": false},   // false ~ simple interest; true ~ interest on interest
   interest_on_debt: {type: Boolean, required: true},   // false ~ interest is computed using the total amount loaned (principal amount), true ~ interest is computed on the current debt
   status: {type: Number, "default": 0, required: true} // 0 ~ pending; 1 ~ active; 2 ~ resolved
 });
@@ -33,7 +32,7 @@ var contactSchema = new mongoose.Schema({
 var userShema = new mongoose.Schema({                      
   name: {type: String, required: true},                   // name
   surname: {type: String, required: true},                // last name
-  username: {type: String, required: true, unique: true}, // username
+  _id: {type: String, required: true, unique: true},      // username
   password: {type: String, required: true},               // password
   email: {type: String, required: true},                  // email
   gender: {type: String, required: true},                 // gender
