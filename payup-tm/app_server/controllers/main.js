@@ -19,8 +19,6 @@ module.exports.index = function(req, res) {
 
 
 
-
-
 // COMING SOON PAGE //////////////////////////////////////////////////////
 
 // index is the function exposed by this module. It displays the index page.
@@ -30,7 +28,6 @@ module.exports.comingSoon = function(req, res) {
 };
 
 /////////////////////////////////////////////////////////////////////////
-
 
 
 

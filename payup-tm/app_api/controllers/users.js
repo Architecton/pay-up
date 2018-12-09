@@ -1,6 +1,21 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var testingData = require('./testingData');
+var nodemailer = require('nodemailer');
+
+// Create mail transporter.
+let transporter = nodemailer.createTransport({
+  service: 'gmail',
+  secure: false,
+  port: 25,
+  auth: {
+    user: 'payup.app.2019',
+    pass: 'tralalahopsasa123321',
+  },
+  tls: {
+    rejectUnauthorized: false
+  }
+});
 
 // REST API database access methods
 
@@ -45,6 +60,48 @@ module.exports.nukeDBindexes = function(request, response) {
     }
   });
 };
+
+
+// MAIL ///////////////////////////////////////////////////////////////
+
+// sendConfirmationMail: send confirmation mail to specified email
+module.exports.sendConfirmationMail = function(request, response) {
+  var emailAddress = request.params.email;
+  sendMail(emailAddress).then(function(result) {
+    if (result) {
+      getJsonResponse(response, 400);
+    } else {
+      getJsonResponse(response, 204, null);
+    }
+  });
+};
+
+// sendMail: auxiliary function that sends mail.
+var sendMail = function(emailAddress) {
+  return new Promise(function(resolve, reject) {
+    // Define helper options.
+    let HelperOptions = {
+      from: 'payup.app.2019@gmail.com',
+      to: emailAddress,
+      subject: 'Confirm e-mail',
+      text: 'Please click the link below to confirm your e-mail account.\n https://sp-projekt2-excogitator.c9users.io'
+    };
+    // Send mail via transporter.
+    transporter.sendMail(HelperOptions, (error, info) => {
+        if (error) {
+          resolve(false);
+        }
+        console.log("The message was sent!");
+        console.log(info);
+        resolve(true);
+    });
+  });
+};
+
+//////////////////////////////////////////////////////////////////////
+
+
+
 
 /*
 var Promise = require('bluebird'); // could also be Q or another A+ library
@@ -157,23 +214,6 @@ var validateUser = function(newUser) {
             resolve(false);
           }
         });
-        
-      /*
-      var notExists = new Promise(function(resolve, reject) {
-        var exists = usernameExists(newUser._id);
-        if(!exists) {
-           resolve(true);
-        } else {
-          reject(false);
-        }
-      });
-      
-      notExists.then(function(result) {
-        resolve(true);
-      }, function(err) {
-        resolve(Boolean(err));
-      });
-    */
     } else {
       resolve(false);
     }

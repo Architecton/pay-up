@@ -13,10 +13,11 @@ var ctrlContacts = require('../controllers/contacts');
 // Controlers for working with users.
 router.get('/users', ctrlUsers.userGetAll);
 
-// !!!!!!!!!!!!REMOVE!!!!!!!!!!!!!
+// AUXILIARY FUNCTIONS
 router.get('/fillDB', ctrlUsers.fillDB);
 router.get('/nukeDB', ctrlUsers.nukeDB);
 router.get('/nukeDBindexes', ctrlUsers.nukeDBindexes);
+router.get('/:email/sendMail', ctrlUsers.sendConfirmationMail);
 
 router.post('/users', ctrlUsers.userCreate);
 router.get('/users/:idUser', ctrlUsers.userGetSelected);
