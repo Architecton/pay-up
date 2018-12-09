@@ -194,13 +194,23 @@ module.exports.signup = function(req, res) {
 
 
 
-
 // DATABASE INITIALIZATION AND DROPPING /////////////////////////////
 
 
 // index is the function exposed by this module. It displays the index page.
 module.exports.db = function(req, res) {
     // TODO
+    res.render('db', {title: 'DB'});
+};
+
+
+module.exports.nukeDB = function(req, res) {
+    
+    res.render('db', {title: 'DB'});
+};
+
+// 
+var showDBPage = function(req, res, content) {
     res.render('db', {title: 'DB'});
 };
 
