@@ -1,3 +1,4 @@
+
 var request = require('request');
 var apiParameters = {
   server: 'https://sp-projekt2-excogitator.c9users.io'
@@ -32,7 +33,7 @@ module.exports.comingSoon = function(req, res) {
 
 
 
-// CONTACTS PAGE //////////////////////////////////////////////////////// ***
+// CONTACTS PAGE ////////////////////////////////////////////////////////
 
 // contacts: contacts page controller.
 module.exports.contacts = function(req, res) {
@@ -150,7 +151,7 @@ var showContactsPage = function(req, res, content) {
 
 
 
-// DASHBOARD PAGE /////////////////////////////////////////////////////// ***
+// DASHBOARD PAGE ///////////////////////////////////////////////////////
 
 // index is the function exposed by this module. It displays the index page.
 module.exports.dashboard = function(req, res) {
@@ -181,7 +182,7 @@ var showDashboardPage = function(req, res, content) {
 
 
 
-// LOANS PAGE /////////////////////////////////////////////////////// ***
+// LOANS PAGE ///////////////////////////////////////////////////////////
 
 // loans: 
 module.exports.loans = function(req, res) {
@@ -306,7 +307,7 @@ var showLoansPage = function(req, res, content) {
 
 
 
-// PATCHNOTES PAGE ////////////////////////////////////////////////// ***
+// PATCHNOTES PAGE //////////////////////////////////////////////////
 
 // index is the function exposed by this module. It displays the index page.
 module.exports.patchnotes = function(req, res) {
@@ -386,7 +387,7 @@ var showSignupPage = function(req, res, content) {
 
 
 
-// DATABASE INITIALIZATION AND DROPPING ///////////////////////////// ***
+// DATABASE INITIALIZATION AND DROPPING /////////////////////////////
 
 // db page
 module.exports.db = function(req, res) {
