@@ -4,13 +4,18 @@ var apiParameters = {
 };
 
 
+
+
+
+
+// COMING SOON PAGE //////////////////////////////////////////////////////
+
 module.exports.index = function(req, res) {
     // DOES NOT NEED PARAMETERS FROM DB.
     res.render('index', {title: 'Home'});
 };
 
-
-
+/////////////////////////////////////////////////////////////////////////
 
 
 
