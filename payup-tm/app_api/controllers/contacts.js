@@ -275,7 +275,8 @@ module.exports.contactUpdateSelected = function(request, response) {
           });
           return;
         } else if (error) {
-          getJsonResponse(response, 500, error);
+            console.log("test");
+            getJsonResponse(response, 500, error);
           return;
         }
         // If user has property contacts and user has at least one contact
@@ -297,9 +298,10 @@ module.exports.contactUpdateSelected = function(request, response) {
               re.test(String(request.body.email).toLowerCase())
               ) {
               currentContact.name = request.body.name;
-              currentContact.surname = request.surname;
+              currentContact.surname = request.body.surname;
               currentContact.email = request.body.email;  
               currentContact.notes = request.body.notes;
+              console.log(currentContact);
             } else {
               getJsonResponse(response, 400, {
                 "message": "Invalid contact parameters."

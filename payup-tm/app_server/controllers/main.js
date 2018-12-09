@@ -51,7 +51,7 @@ module.exports.contacts = function(req, res) {
         requestParameters,
         // callback function - show website
         function(error, response, content) {
-            showContactsPage(req, res, {'status' : ''});
+            showContactsPage(req, res, content);
         }
     );
 };
@@ -104,6 +104,7 @@ module.exports.contactAddNotes = function(req, res) {
       notes: req.body.notes
     };
     
+    console.log(dataInBody);
     var requestParameters = {
         url: apiParameters.server + path,
         method: 'PUT',
@@ -177,7 +178,6 @@ module.exports.dashboard = function(req, res) {
 
 // showDashboardPage: show dashboard page.
 var showDashboardPage = function(req, res, content) {
-    console.log(content);
     res.render('dashboard', content);
 };
 /////////////////////////////////////////////////////////////////////////
@@ -204,6 +204,7 @@ module.exports.loans = function(req, res) {
         requestParameters,
         // callback function - show website
         function(error, response, content) {
+            content = {loans: content};
             showLoansPage(req, res, content);
         }
     );
@@ -301,7 +302,7 @@ module.exports.loansManageUpdate = function(req, res) {
 
 // showLoansPage: show loans page.
 var showLoansPage = function(req, res, content) {
-    res.render('loans', {title: 'Loans'});
+    res.render('loans', content);
 };
 
 /////////////////////////////////////////////////////////////////////
