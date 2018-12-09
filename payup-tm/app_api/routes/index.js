@@ -34,7 +34,7 @@ router.delete('/users/:idUser/loans/:idLoan', ctrlLoans.loanDeleteSelected);
 
 // Controlers for working with contacts.
 router.get('/contacts', ctrlContacts.contactGetAll);
-router.get('/contacts/:idUser', ctrlContacts.contactGetUsersContacts);
+router.get('/users/:idUser/contacts', ctrlContacts.contactGetUsersContacts);
 router.post('/users/:idUser/contacts', ctrlContacts.contactCreate);
 router.get('/users/:idUser/contacts/:idContact', ctrlContacts.contactGetSelected);
 router.put('/users/:idUser/contacts/:idContact', ctrlContacts.contactUpdateSelected);

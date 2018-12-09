@@ -167,7 +167,7 @@ var usernameExists = function(username) {
 
 // *************************** //
 
-// ** loanGetUsersLoans: get all loans of user with given id
+// ** loanGetUsersContacts: get all loans of user with given id
 module.exports.contactGetUsersContacts = function(request, response) {
     // if request has parameters and the parameters include idUser
     if (request.params && request.params.idUser) {
