@@ -373,7 +373,6 @@ module.exports.signupSubmit = function(req, res) {
             showSignupPage(req, res, content);
         }
     );
-    
 };
 
 // showSignupPage: display signup page.

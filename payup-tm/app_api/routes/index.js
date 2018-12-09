@@ -13,17 +13,21 @@ var ctrlContacts = require('../controllers/contacts');
 // Controlers for working with users.
 router.get('/users', ctrlUsers.userGetAll);
 
+
 // AUXILIARY FUNCTIONS
 router.post('/fillDB', ctrlUsers.fillDB);
 router.delete('/nukeDB', ctrlUsers.nukeDB);
 router.delete('/nukeDBindexes', ctrlUsers.nukeDBindexes);
 router.get('/:email/sendMail', ctrlUsers.sendConfirmationMail);
 
+
 // Controlers for working with users
 router.post('/users', ctrlUsers.userCreate);
 router.get('/users/:idUser', ctrlUsers.userGetSelected);
 // router.put('/users/:idUser', ctrlUsers.userUpdateSelected); (TODO: implement if time - not necessary for application)
 router.delete('/users/:idUser', ctrlUsers.userDeleteSelected);
+
+
 
 // Controllers for working with loans.
 router.get('/loans', ctrlLoans.loanGetAll);
@@ -32,6 +36,8 @@ router.get('/users/:idUser/loans', ctrlLoans.loanGetUsersLoans);
 router.get('/users/:idUser/loans/:idLoan', ctrlLoans.loanGetSelected);
 router.put('/users/:idUser/loans/:idLoan', ctrlLoans.loanUpdateSelected);
 router.delete('/users/:idUser/loans/:idLoan', ctrlLoans.loanDeleteSelected);
+
+
 
 // Controlers for working with contacts.
 router.get('/contacts', ctrlContacts.contactGetAll);
