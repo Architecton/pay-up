@@ -101,7 +101,6 @@ var addLoan = function(request, response, user) {
         interest_on_debt: request.body.interest_on_debt,
         status: 'pending'
     };
-    
     validateLoan(newLoan).then(function(result) {
       if (result) {
         user.loans.push(newLoan);
@@ -242,6 +241,7 @@ module.exports.loanUpdateSelected = function(request, response) {
             });
           } else {
             // check if status code is valid
+            console.log(request.body);
             if(request.body.status === 'pending' || request.body.status === 'active' || request.body.status === 'resolved') {
               updatedLoan.status = request.body.status;  
             } else {
@@ -504,7 +504,10 @@ function debtByTime(start_date, end_date, payment_interval, payment_amount, prin
 // validateLoan: check if loan is valid - will be able to be repaid in specified time interval.
 function validateLoan(loan) {
   return new Promise(function(resolve, reject) {
-    if (loan.dateIssued < loan.deadline && loan.payment_interval > 0 && loan.payment_amount > 0 & loan.amount > 0 && loan.interest >= 0 && typeof loan.compoundInterest === "boolean" && typeof loan.interest_on_debt === "boolean") {
+    
+    
+    if (new Date(loan.dateIssued) < new Date(loan.deadline) && loan.payment_interval > 0 && loan.payment_amount > 0 & loan.amount > 0 && loan.interest >= 0 && (loan.compoundInterest == "true" || loan.compoundInterest == "false") && (loan.interest_on_debt == "true" || loan.interest_on_debt == "false")) {
+      console.log("HERE");
       usernameExists(loan.recipient).then(function(result) {
         if (result) {
           // Get debt values per day.

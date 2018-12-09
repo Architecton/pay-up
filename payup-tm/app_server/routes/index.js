@@ -21,14 +21,14 @@ router.put('/contacts/:idUser/:idContact', ctrlMain.contactAddNotes);
 router.get('/dashboard/:idUser', ctrlMain.dashboard);
 
 
-// LOANS
+// LOANS ** 
 router.get('/loans/:idUser', ctrlMain.loans);
 router.post('/loans/:idUser', ctrlMain.loansManageCreate);
 router.delete('/loans/:idUser/:idLoan', ctrlMain.loansManageDelete);
 router.put('/loans/:idUser/:idLoan', ctrlMain.loansManageUpdate);
 
 
-// SIGNUP 
+// SIGNUP  ** TESTED **
 router.get('/signup', ctrlMain.signup);
 router.post('/signup', ctrlMain.signupSubmit);
 
@@ -37,7 +37,7 @@ router.post('/signup', ctrlMain.signupSubmit);
 router.get('/patchnotes', ctrlMain.patchnotes);
 
     
-// DB
+// DB 
 router.get('/db', ctrlMain.db);
 router.delete('/db', ctrlMain.nukeDB);
 router.post('/db', ctrlMain.fillDB);

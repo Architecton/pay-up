@@ -228,10 +228,9 @@ module.exports.loansManageCreate = function(req, res) {
       payment_amount: req.body.payment_amount,
       compoundInterest: req.body.compoundInterest,
       interest_on_debt: req.body.interest_on_debt,
-      status: req.body.interest
     };
     
-    
+    console.log(dataInBody);
     // Set request parameters.
     var requestParameters = {
         url: apiParameters.server + path,
@@ -277,8 +276,9 @@ module.exports.loansManageDelete = function(req, res) {
 module.exports.loansManageUpdate = function(req, res) {
     
     var dataInBody = {
-      status : req.status
+      status : req.body.status
     };
+    console.log(dataInBody);
     
     // get needed parameters from path
     var idUser = req.params.idUser;
