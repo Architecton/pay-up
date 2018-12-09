@@ -6,7 +6,7 @@ var apiParameters = {
 
 
 
-// COMING SOON PAGE //////////////////////////////////////////////////////
+// HOME PAGE ////////////////////////////////////////////////////////////
 
 module.exports.index = function(req, res) {
     // DOES NOT NEED PARAMETERS FROM DB.
@@ -55,12 +55,71 @@ module.exports.contacts = function(req, res) {
     );
 };
 
+// contactsCreate: contacts page controller - create new contact.
+module.exports.contactCreate = function(req, res) {
+    // Get path to API.
+    var idUser = req.params.idUser;
+    var path = '/api/' + idUser + '/contacts';
+    
+    // Get request body
+    var dataInBody = {
+      name: req.body.name,
+      surname: req.body.surname,
+      username: req.body.username,
+      email: req.body.email
+    };
+    
+    // Set request parameters.
+    var requestParameters = {
+        url: apiParameters.server + path,
+        method: 'POST',
+        json: dataInBody,
+    };
+    
+    // Perform request.
+    request(
+        requestParameters,
+        // callback function - show website
+        function(error, response, content) {
+            showContactsPage(req, res, content);
+        }
+    );
+};
+
+// contacts: contacts page controller - edit contact notes.
+module.exports.contactAddNotes = function(req, res) {
+    // Get path to API.
+    var idUser = req.params.idUser;
+    var idContact = req.params.idContact;
+    var path = '/api/' + idUser + '/contacts/' + idContact;
+    // Set request parameters.
+    
+    // Get request body
+    var dataInBody = {
+      notes: req.body.notes,
+    };
+    
+    var requestParameters = {
+        url: apiParameters.server + path,
+        method: 'POST',
+        json: dataInBody,
+    };
+    // Perform request.
+    request(
+        requestParameters,
+        // callback function - show website
+        function(error, response, content) {
+            showContactsPage(req, res, content);
+        }
+    );
+};
+
 // contacts: contacts page controller.
 module.exports.contactById = function(req, res) {
     // Get user id and contact id from path parameters.
     var idUser = req.params.idUser;
     var idContact = req.params.idContact;
-    // Get path for API
+    // Get path for API.
     var path = '/api/users/' + idUser + '/contacts/' + idContact;
     // Set request parameters.
     var requestParameters = {
@@ -91,7 +150,7 @@ var showContactsPage = function(req, res, content) {
 
 // index is the function exposed by this module. It displays the index page.
 module.exports.dashboard = function(req, res) {
-    // Get path to API.
+    // Get needed parameters from path.
     var idUser = req.params.idUser;
     var path = '/api/' + idUser + '/loans';
     // Set request parameters.
@@ -129,6 +188,7 @@ var showDashboardPage = function(req, res, content) {
 // loans: 
 module.exports.loans = function(req, res) {
     
+    // Get needed parameters from path.
     var idUser = req.params.idUser;
     var path = '/api/' + idUser + '/loans';
     
@@ -148,17 +208,34 @@ module.exports.loans = function(req, res) {
     );
 };
 
-// TODO - INSERT JSON
+
 module.exports.loansManageCreate = function(req, res) {
+    
     var idUser = req.params.idUser;
     var idLoan = req.params.idLoan;
     var path = '/api/' + idUser + '/loans/' + idLoan;
+    
+    var dataInBody = {
+      loaner: req.body.loaner,
+      recipient: req.body.recipient,
+      dateIssued: Date.now(),
+      deadline: req.body.deadline,
+      amount: req.body.amount,
+      currency: req.body.currency,
+      interest: req.body.interest,
+      payment_interval: req.body.payment_interval,
+      payment_amount: req.body.payment_amount,
+      compoundInterest: req.body.compoundInterest,
+      interest_on_debt: req.body.interest_on_debt,
+      status: req.body.interest
+    };
+    
     
     // Set request parameters.
     var requestParameters = {
         url: apiParameters.server + path,
         method: 'POST',
-        json: {},
+        json: dataInBody,
     };
     // Perform request.
     request(
@@ -173,6 +250,7 @@ module.exports.loansManageCreate = function(req, res) {
 // loansManageDelete: delete loan with specified ID
 module.exports.loansManageDelete = function(req, res) {
     
+    // get parameters of user from url
     var idUser = req.params.idUser;
     var idLoan = req.params.idLoan;
     var path = '/api/' + idUser + '/loans/' + idLoan;
@@ -194,10 +272,14 @@ module.exports.loansManageDelete = function(req, res) {
 };
 
 
-// TODO - INSERTING JSON
 // loansManageUpdate: update loan with specified ID.
 module.exports.loansManageUpdate = function(req, res) {
     
+    var dataInBody = {
+      status : req.status
+    };
+    
+    // get needed parameters from path
     var idUser = req.params.idUser;
     var idLoan = req.params.idLoan;
     var path = '/api/' + idUser + '/loans/' + idLoan;
@@ -206,7 +288,7 @@ module.exports.loansManageUpdate = function(req, res) {
     var requestParameters = {
         url: apiParameters.server + path,
         method: 'PUT',
-        json: {},
+        json: dataInBody,
     };
     // Perform request.
     request(
@@ -218,7 +300,7 @@ module.exports.loansManageUpdate = function(req, res) {
     );
 };
 
-// showLoansPage: show loans page
+// showLoansPage: show loans page.
 var showLoansPage = function(req, res, content) {
     res.render('loans', {title: 'Loans'});
 };
@@ -248,16 +330,27 @@ module.exports.signup = function(req, res) {
     res.render('signup', {title: 'Signup'});
 };
 
-// TODO INSERT JSON
+
 // signupSubmit: submit signup info.
 module.exports.signupSubmit = function(req, res) {
     // Get path to API.
     var path = '/api/users';
+    
+    // Get data in body of request.
+    var dataInBody = {
+      name: req.body.name,
+      surname: req.body.surname,
+      username: req.body.username,
+      password: req.body.password,
+      email: req.body.email,
+      gender: req.body.gender
+    };
+    
     // Set request parameters.
     var requestParameters = {
         url: apiParameters.server + path,
         method: 'POST',
-        json: {},
+        json: dataInBody,
     };
     // Perform request.
     request(
@@ -289,7 +382,6 @@ module.exports.signupSubmit = function(req, res) {
 
 // showSignupPage: display signup page.
 var showSignupPage = function(req, res, content) {
-    
     res.render('signup', {title: 'Signup'});
 };
 

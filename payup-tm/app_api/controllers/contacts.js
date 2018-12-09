@@ -294,9 +294,9 @@ module.exports.contactUpdateSelected = function(request, response) {
               typeof request.body.surname === 'string' &&
               re.test(String(request.body.email).toLowerCase())
               ) {
-              currentContact.avtor = request.body.naziv;
-              currentContact.ocena = request.body.ocena;
-              currentContact.besediloKomentarja = request.body.komentar;  
+              currentContact.name = request.body.name;
+              currentContact.surname = request.surname;
+              currentContact.email = request.body.email;  
             } else {
               getJsonResponse(response, 400, {
                 "message": "Invalid contact parameters."

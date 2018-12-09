@@ -13,6 +13,9 @@ router.get('/comingSoon', ctrlMain.comingSoon);
 // CONTACTS **
 router.get('/contacts/:idUser', ctrlMain.contacts);
 router.get('/user/:idUser/contacts/:idContact', ctrlMain.contactById);
+router.get('/user/:idUser/contacts/', ctrlMain.contactCreate);
+router.get('/user/:idUser/contacts/', ctrlMain.contact);
+router.get('/user/:idUser/contacts/:idContact', ctrlMain.contactAddNotes);
 
 // DASHBOARD **
 router.get('/dashboard/:idUser', ctrlMain.dashboard);
