@@ -169,6 +169,7 @@ module.exports.dashboard = function(req, res) {
         requestParameters,
         // callback function - show website
         function(error, response, content) {
+            content = {loans: content};
             showDashboardPage(req, res, content);
         }
     );
