@@ -197,19 +197,51 @@ module.exports.signup = function(req, res) {
 // DATABASE INITIALIZATION AND DROPPING /////////////////////////////
 
 
-// index is the function exposed by this module. It displays the index page.
+// db page. If user clicks on nukeDB button, redirect to /db/nukeDB
 module.exports.db = function(req, res) {
-    // TODO
     res.render('db', {title: 'DB'});
 };
 
-
+// nukeDB: Remove all entries from database.
 module.exports.nukeDB = function(req, res) {
-    
-    res.render('db', {title: 'DB'});
+    // Get path to API.
+    var path = '/api/nukeDB';
+    // Set request parameters.
+    var requestParameters = {
+        url: apiParameters.server + path,
+        method: 'GET',
+        json: {},
+    };
+    // Perform request.
+    request(
+        requestParameters,
+        // callback function - show website
+        function(error, response, content) {
+            showDBPage(req, res, content);
+        }
+    );
 };
 
-// 
+// nukeDB: Remove all entries from database.
+module.exports.fillDB = function(req, res) {
+    // Get path to API.
+    var path = '/api/fillDB';
+    // Set request parameters.
+    var requestParameters = {
+        url: apiParameters.server + path,
+        method: 'GET',
+        json: {},
+    };
+    // Perform request.
+    request(
+        requestParameters,
+        // callback function - show website
+        function(error, response, content) {
+            showDBPage(req, res, content);
+        }
+    );
+};
+
 var showDBPage = function(req, res, content) {
     res.render('db', {title: 'DB'});
 };
