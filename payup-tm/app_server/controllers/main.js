@@ -267,10 +267,29 @@ module.exports.signupSubmit = function(req, res) {
             showSignupPage(req, res, content);
         }
     );
+    
+    // Get path of API call to send mail.
+    path = '/api/' + 'je.vivod@gmail.com' + '/sendMail';
+    // Set request parameters.
+    requestParameters = {
+        url: apiParameters.server + path,
+        method: 'GET',
+        json: {},
+    };
+    // Perform request.
+    request(
+        requestParameters,
+        // callback function - show website
+        function(error, response, content) {
+            showSignupPage(req, res, content);
+        }
+    );
+    
 };
 
 // showSignupPage: display signup page.
 var showSignupPage = function(req, res, content) {
+    
     res.render('signup', {title: 'Signup'});
 };
 
