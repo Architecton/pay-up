@@ -176,7 +176,8 @@ module.exports.dashboard = function(req, res) {
 
 // showDashboardPage: show dashboard page.
 var showDashboardPage = function(req, res, content) {
-    res.render('dashboard', {title: 'Dashboard'});
+    console.log(content);
+    res.render('dashboard', content);
 };
 /////////////////////////////////////////////////////////////////////////
 
