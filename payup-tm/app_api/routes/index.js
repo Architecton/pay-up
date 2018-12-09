@@ -14,11 +14,12 @@ var ctrlContacts = require('../controllers/contacts');
 router.get('/users', ctrlUsers.userGetAll);
 
 // AUXILIARY FUNCTIONS
-router.get('/fillDB', ctrlUsers.fillDB);
-router.get('/nukeDB', ctrlUsers.nukeDB);
-router.get('/nukeDBindexes', ctrlUsers.nukeDBindexes);
+router.post('/fillDB', ctrlUsers.fillDB);
+router.delete('/nukeDB', ctrlUsers.nukeDB);
+router.delete('/nukeDBindexes', ctrlUsers.nukeDBindexes);
 router.get('/:email/sendMail', ctrlUsers.sendConfirmationMail);
 
+// Controlers for working with users
 router.post('/users', ctrlUsers.userCreate);
 router.get('/users/:idUser', ctrlUsers.userGetSelected);
 // router.put('/users/:idUser', ctrlUsers.userUpdateSelected); (TODO: implement if time - not necessary for application)

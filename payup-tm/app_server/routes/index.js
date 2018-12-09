@@ -12,24 +12,26 @@ router.get('/comingSoon', ctrlMain.comingSoon);
 
 // CONTACTS **
 router.get('/contacts/:idUser', ctrlMain.contacts);
-router.get('/user/:idUser/contacts/:idContact', ctrlMain.contactById);
-router.get('/user/:idUser/contacts/', ctrlMain.contactCreate);
-router.get('/user/:idUser/contacts/', ctrlMain.contact);
-router.get('/user/:idUser/contacts/:idContact', ctrlMain.contactAddNotes);
+router.get('/contacts/:idUser/:idContact', ctrlMain.contactById);
+router.post('/contacts/:idUser', ctrlMain.contactCreate);
+router.put('/contacts/:idUser/:idContact', ctrlMain.contactAddNotes);
+
 
 // DASHBOARD **
 router.get('/dashboard/:idUser', ctrlMain.dashboard);
 
+
 // LOANS
 router.get('/loans/:idUser', ctrlMain.loans);
-router.get('/loans/:idUser/loans/:idLoan/delete', ctrlMain.loansManageCreate);
-router.get('/loans/:idUser/loans/:idLoan/create', ctrlMain.loansManageDelete);
-router.get('/loans/:idUser/loans/:idLoan/update', ctrlMain.loansManageUpdate);
+router.post('/loans/:idUser', ctrlMain.loansManageCreate);
+router.delete('/loans/:idUser/:idLoan', ctrlMain.loansManageDelete);
+router.put('/loans/:idUser/:idLoan', ctrlMain.loansManageUpdate);
 
 
 // SIGNUP
 router.get('/signup', ctrlMain.signup);
-router.get('/signup/submit', ctrlMain.signupSubmit);
+router.post('/signup', ctrlMain.signupSubmit);
+
 
 // PATCH NOTES
 router.get('/patchnotes', ctrlMain.patchnotes);
@@ -37,8 +39,8 @@ router.get('/patchnotes', ctrlMain.patchnotes);
 
 // DB
 router.get('/db', ctrlMain.db);
-router.get('/db/nukeDB', ctrlMain.nukeDB);
-router.get('/db/fillDB', ctrlMain.fillDB);
+router.delete('/db', ctrlMain.nukeDB);
+router.post('/db', ctrlMain.fillDB);
 
 // expose router as module
 module.exports = router;

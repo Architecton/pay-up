@@ -38,7 +38,7 @@ module.exports.comingSoon = function(req, res) {
 module.exports.contacts = function(req, res) {
     // Get path to API.
     var idUser = req.params.idUser;
-    var path = '/api/' + idUser + '/contacts';
+    var path = '/api/users/' + idUser + '/contacts';
     // Set request parameters.
     var requestParameters = {
         url: apiParameters.server + path,
@@ -59,7 +59,7 @@ module.exports.contacts = function(req, res) {
 module.exports.contactCreate = function(req, res) {
     // Get path to API.
     var idUser = req.params.idUser;
-    var path = '/api/' + idUser + '/contacts';
+    var path = '/api/users/' + idUser + '/contacts';
     
     // Get request body
     var dataInBody = {
@@ -88,20 +88,24 @@ module.exports.contactCreate = function(req, res) {
 
 // contacts: contacts page controller - edit contact notes.
 module.exports.contactAddNotes = function(req, res) {
+    
     // Get path to API.
     var idUser = req.params.idUser;
     var idContact = req.params.idContact;
-    var path = '/api/' + idUser + '/contacts/' + idContact;
+    var path = '/api/users/' + idUser + '/contacts/' + idContact;
     // Set request parameters.
     
     // Get request body
     var dataInBody = {
-      notes: req.body.notes,
+      name: req.body.name,
+      surname: req.body.surname,
+      email: req.body.email,
+      notes: req.body.notes
     };
     
     var requestParameters = {
         url: apiParameters.server + path,
-        method: 'POST',
+        method: 'PUT',
         json: dataInBody,
     };
     // Perform request.
@@ -152,7 +156,7 @@ var showContactsPage = function(req, res, content) {
 module.exports.dashboard = function(req, res) {
     // Get needed parameters from path.
     var idUser = req.params.idUser;
-    var path = '/api/' + idUser + '/loans';
+    var path = '/api/users/' + idUser + '/loans';
     // Set request parameters.
     var requestParameters = {
         url: apiParameters.server + path,
@@ -190,7 +194,7 @@ module.exports.loans = function(req, res) {
     
     // Get needed parameters from path.
     var idUser = req.params.idUser;
-    var path = '/api/' + idUser + '/loans';
+    var path = '/api/users/' + idUser + '/loans';
     
     // Set request parameters.
     var requestParameters = {
@@ -212,13 +216,11 @@ module.exports.loans = function(req, res) {
 module.exports.loansManageCreate = function(req, res) {
     
     var idUser = req.params.idUser;
-    var idLoan = req.params.idLoan;
-    var path = '/api/' + idUser + '/loans/' + idLoan;
+    var path = '/api/users/' + idUser + '/loans';
     
     var dataInBody = {
       loaner: req.body.loaner,
       recipient: req.body.recipient,
-      dateIssued: Date.now(),
       deadline: req.body.deadline,
       amount: req.body.amount,
       currency: req.body.currency,
@@ -253,7 +255,7 @@ module.exports.loansManageDelete = function(req, res) {
     // get parameters of user from url
     var idUser = req.params.idUser;
     var idLoan = req.params.idLoan;
-    var path = '/api/' + idUser + '/loans/' + idLoan;
+    var path = '/api/users/' + idUser + '/loans/' + idLoan;
     
     // Set request parameters.
     var requestParameters = {
@@ -282,7 +284,7 @@ module.exports.loansManageUpdate = function(req, res) {
     // get needed parameters from path
     var idUser = req.params.idUser;
     var idLoan = req.params.idLoan;
-    var path = '/api/' + idUser + '/loans/' + idLoan;
+    var path = '/api/users/' + idUser + '/loans/' + idLoan;
     
     // Set request parameters.
     var requestParameters = {
@@ -326,7 +328,7 @@ module.exports.patchnotes = function(req, res) {
 
 // index is the function exposed by this module. It displays the index page.
 module.exports.signup = function(req, res) {
-    // TODO
+    // Get user parameter from path.
     res.render('signup', {title: 'Signup'});
 };
 
@@ -393,7 +395,7 @@ var showSignupPage = function(req, res, content) {
 
 // DATABASE INITIALIZATION AND DROPPING ///////////////////////////// ***
 
-// db page. If user clicks on nukeDB button, redirect to /db/nukeDB
+// db page
 module.exports.db = function(req, res) {
     res.render('db', {title: 'DB'});
 };
@@ -405,7 +407,7 @@ module.exports.nukeDB = function(req, res) {
     // Set request parameters.
     var requestParameters = {
         url: apiParameters.server + path,
-        method: 'GET',
+        method: 'DELETE',
         json: {},
     };
     // Perform request.
@@ -425,7 +427,7 @@ module.exports.fillDB = function(req, res) {
     // Set request parameters.
     var requestParameters = {
         url: apiParameters.server + path,
-        method: 'GET',
+        method: 'POST',
         json: {},
     };
     // Perform request.
