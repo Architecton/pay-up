@@ -9,6 +9,8 @@ var getJsonResponse = function(response, status, data) {
   response.json(data);
 };
 
+// TODO update status values to string values.
+
 /*
 IMPLEMENTED
 
@@ -97,7 +99,7 @@ var addLoan = function(request, response, user) {
         payment_amount: request.body.payment_amount,
         compoundInterest: request.body.compoundInterest,
         interest_on_debt: request.body.interest_on_debt,
-        status: '0'
+        status: 'pending'
     };
     
     validateLoan(newLoan).then(function(result) {
@@ -240,7 +242,7 @@ module.exports.loanUpdateSelected = function(request, response) {
             });
           } else {
             // check if status code is valid
-            if(request.body.status === '0' || request.body.status === '1' || request.body.status === '2') {
+            if(request.body.status === 'pending' || request.body.status === 'active' || request.body.status === 'resolved') {
               updatedLoan.status = request.body.status;  
             } else {
               getJsonResponse(response, 400, {

@@ -24,7 +24,7 @@ router.get('/users/:idUser', ctrlUsers.userGetSelected);
 // router.put('/users/:idUser', ctrlUsers.userUpdateSelected); (TODO: implement if time - not necessary for application)
 router.delete('/users/:idUser', ctrlUsers.userDeleteSelected);
 
-// Controlers for working with loans.
+// Controllers for working with loans.
 router.get('/loans', ctrlLoans.loanGetAll);
 router.post('/users/:idUser/loans', ctrlLoans.loanCreate);
 router.get('/users/:idUser/loans', ctrlLoans.loanGetUsersLoans);

@@ -13,15 +13,15 @@ var getJsonResponse = function(response, status, data) {
 /*
 IMPLEMENTED
 
-*** router.get('/contacts', ctrlContacts.contactGetAll);                                    // TESTED
-*** router.post('/user/:idUser/contacts', ctrlContacts.contactCreate);                      // TESTED
-*** router.get('/user/:idUser/contacts/:idContact', ctrlContacts.contactGetSelected);       // TESTED
-*** router.put('/user/:idUser/contacts/:idContact', ctrlContacts.contactUpdateSelected);    // TESTED
-*** router.delete('/user/:idUser/contacts/:idContact', ctrlContacts.contactDeleteSelected); // TESTED
+*** router.get('/contacts', ctrlContacts.contactGetAll);                                    // TESTED *******
+*** router.post('/user/:idUser/contacts', ctrlContacts.contactCreate);                      // TESTED *******
+*** router.get('/user/:idUser/contacts/:idContact', ctrlContacts.contactGetSelected);       // TESTED *******
+*** router.put('/user/:idUser/contacts/:idContact', ctrlContacts.contactUpdateSelected);    // TESTED *******
+*** router.delete('/user/:idUser/contacts/:idContact', ctrlContacts.contactDeleteSelected); // TESTED *******
 */
 
 
-// contactGetAll: get all contacts
+// contactGetAll: get all contacts *******
 module.exports.contactGetAll = function(request, response) {
   User
     .find({})
@@ -50,7 +50,7 @@ module.exports.contactGetAll = function(request, response) {
 };
 
 
-// addContact: add contact to user with specified username
+// addContact: add contact to user with specified username 
 module.exports.contactCreate = function(request, response) {
   // get user's id
   var idUser = request.params.idUser;
@@ -90,7 +90,8 @@ var addContactToUser = function(request, response, user) {
       name: request.body.name,
       surname: request.body.surname,
       username: request.body.username,
-      email: request.body.email
+      email: request.body.email,
+      notes: ""
     };
     
     validateContact(newContact).then(function(result) {
@@ -292,11 +293,13 @@ module.exports.contactUpdateSelected = function(request, response) {
             if (
               typeof request.body.name === 'string' &&
               typeof request.body.surname === 'string' &&
+              typeof request.body.notes === 'string' &&
               re.test(String(request.body.email).toLowerCase())
               ) {
               currentContact.name = request.body.name;
               currentContact.surname = request.surname;
               currentContact.email = request.body.email;  
+              currentContact.notes = request.body.notes;
             } else {
               getJsonResponse(response, 400, {
                 "message": "Invalid contact parameters."
