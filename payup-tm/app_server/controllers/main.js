@@ -1,55 +1,202 @@
-// index is the function exposed by this module. It displays the index page.
+var request = require('request');
+var apiParameters = {
+  server: 'https://sp-projekt2-excogitator.c9users.io'
+};
+
+
 module.exports.index = function(req, res) {
-    /* Klic prevajanja PUG v html datoteko.
-    Metoda render prejme kot prvi parameter ime predloge, 
-    ki jo želimo uporabiti in v našem primeru referencira datoteko index.pug,
-    drugi parameter pa je JavaScript objekt, kjer lahko opredelimo parametre
-    pri generiranju HTML datoteke. */
+    // DOES NOT NEED PARAMETERS FROM DB.
     res.render('index', {title: 'Home'});
 };
 
+
+
+
+
+
+
+
+
+
+// COMING SOON PAGE //////////////////////////////////////////////////////
+
 // index is the function exposed by this module. It displays the index page.
 module.exports.comingSoon = function(req, res) {
-    // TODO
+    // DOES NOT NEED PARAMETERS FROM DB.
     res.render('comingSoon', {title: 'Patchnotes'});
 };
 
+/////////////////////////////////////////////////////////////////////////
 
-// index is the function exposed by this module. It displays the index page.
+
+
+
+
+
+
+
+
+// CONTACTS PAGE ////////////////////////////////////////////////////////
+
+// contacts: contacts page controller.
 module.exports.contacts = function(req, res) {
-    // TODO
+    // Get path to API.
+    var path = '/api/contacts';
+    // Set request parameters.
+    var requestParameters = {
+        url: apiParameters.server + path,
+        method: 'GET',
+        json: {},
+    };
+    // Perform request.
+    request(
+        requestParameters,
+        // callback function - show website
+        function(error, response, content) {
+            showContactsPage(req, res, content);
+        }
+    );
+};
+
+// showContactsPage: show contacts page
+var showContactsPage = function(req, res, content) {
     res.render('contacts', {title: 'Contacts'});
 };
 
+/////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// DASHBOARD PAGE ///////////////////////////////////////////////////////
 
 // index is the function exposed by this module. It displays the index page.
 module.exports.dashboard = function(req, res) {
-    // TODO
-    res.render('dashboard', {title: 'Dashboard'});
+    // Get path to API.
+    var path = '/api/loans';
+    // Set request parameters.
+    var requestParameters = {
+        url: apiParameters.server + path,
+        method: 'GET',
+        json: {},
+    };
+    // Perform request.
+    request(
+        requestParameters,
+        // callback function - show website
+        function(error, response, content) {
+            showDashboardPage(req, res, content);
+        }
+    );
 };
 
+// 
+var showDashboardPage = function(req, res, content) {
+    res.render('dashboard', {title: 'Dashboard'});
+};
+/////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+// LOANS PAGE ///////////////////////////////////////////////////////
 
 // index is the function exposed by this module. It displays the index page.
 module.exports.loans = function(req, res) {
-    // TODO
-    res.render('loans', {title: 'Loans'});
+    // Get path to API.
+    var path = '/api/loans';
+    // Set request parameters.
+    var requestParameters = {
+        url: apiParameters.server + path,
+        method: 'GET',
+        json: {},
+    };
+    // Perform request.
+    request(
+        requestParameters,
+        // callback function - show website
+        function(error, response, content) {
+            showLoansPage(req, res, content);
+        }
+    );
 };
 
+
+var showLoansPage = function(req, res, content) {
+    res.render('loans', {title: 'Loans'});
+};
+ 
+/////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+// PATCHNOTES PAGE //////////////////////////////////////////////////
 
 // index is the function exposed by this module. It displays the index page.
 module.exports.patchnotes = function(req, res) {
     res.render('patchnotes', {title: 'Patchnotes'});
 };
 
+/////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+// SIGNUP PAGE //////////////////////////////////////////////////////
 
 // index is the function exposed by this module. It displays the index page.
 module.exports.signup = function(req, res) {
     // TODO
     res.render('signup', {title: 'Signup'});
 };
+/////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+// DATABASE INITIALIZATION AND DROPPING /////////////////////////////
+
 
 // index is the function exposed by this module. It displays the index page.
 module.exports.db = function(req, res) {
     // TODO
     res.render('db', {title: 'DB'});
 };
+
+/////////////////////////////////////////////////////////////////////
