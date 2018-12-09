@@ -1,5 +1,43 @@
+
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  #homeDiv.row.homeDiv.bodyRow
+    .logo-box
+      .logo-oval
+        h1.logo-text PayUp&trade;
+        p.slogan-text or else.
+  #carouselRow.row.bodyRow
+    #newsCarousel.carousel.slide(data-ride='carousel')
+      ol.carousel-indicators
+        li.active(data-target='#newsCarousel' data-slide-to='0')
+        li(data-target='#newsCarousel' data-slide-to='1')
+      .carousel-inner(role='listbox')
+        .item.active
+          a(href='/comingSoon')
+            img.carousel-image(src='/images/comingSoon.jpg' alt='One')
+        .item
+          a(href='/patchnotes')
+            img.carousel-image(src='/images/patchnotes.jpg' alt='Two')
+      a.left.carousel-control(href='#newsCarousel' data-slide='prev')
+        span.glyphicon.glyphicon-chevron-left
+        span.sr-only Previous
+      a.right.carousel-control(href='#newsCarousel' data-slide='next')
+        span.glyphicon.glyphicon-chevron-right
+        span.sr-only Next
+  #aboutRow.row.bodyRow.bottomRow
+    #aboutDiv.aboutBox
+      h1 About PayUp&trade;
+      p
+      h4
+        strong What is PayUp&trade;?
+      |                         PayUp&trade; is a simple and convenient tool for managing and keeping track of your financial loans. Forget long, incomprehensible spreadsheets and ledgers - with PayUp&trade;, your loans are easy to manage
+      |                         and your data is safe and available to you wherever you are, all at the toutch of a button!
+      h4
+        strong Who are we?
+      |                         We are a group of enthusiastic students who are developing this app for our Web Programming course. There are four of us and we are doing our best to bring this practical application to life 
+      |                         for everyone&apos;s convenience.
+      |                         Members of the PayUp&trade; team: Yannick Kuhar, Alja&zcaron; Pavi&scaron;i&ccaron;, Jernej Vivod, Jure Vre&ccaron;ek
+      p
+
+  

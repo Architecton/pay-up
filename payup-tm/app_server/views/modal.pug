@@ -1,0 +1,169 @@
+// ################################## LOGIN BOX ############################
+// login box
+#id01.modal
+  // close login box
+  span.close(onclick="document.getElementById('id01').style.display='none'" title='Close Modal') &times;
+  // Contents of login box
+  // TODO: confirm username and password. If sucessful, display html for logged user (for example ./logged.html)
+  form.modal-content.animate(action='/')
+    // avatar image
+    .imgcontainer
+      h1
+        b Welcome back!
+      img.avatar(src='images/avatar.jpg' alt='Avatar')
+    from(action='/todo' method='get')
+      // forms links and checkboxes
+      .container.loginForms
+        label(for='uname')
+          b Username
+        input(type='text' placeholder='Enter Username' name='uname' required='')
+        label(for='psw')
+          b Password
+        input(type='password' placeholder='Enter Password' name='psw' required='')
+        button.loginbtn(type='submit') Login
+        input.opts(type='checkbox' checked='checked' name='remember')
+        |  Remember me
+  // forgot password section
+  div(style='text-align: center;')
+    span.opts
+      a(href='TODO') Forgot password?
+// ################################## /LOGIN BOX ############################
+// ################################## PROFILE BOX ############################
+// login box
+#id03.modal
+  // close login box
+  span.close(onclick="document.getElementById('id03').style.display='none'" title='Close Modal') &times;
+  // Contents of login box
+  // TODO: action calls script that closes the modal window
+  form.modal-content.animate(action='/dashboard')
+    // avatar image
+    .imgcontainer
+      h1
+        b Your Profile
+    // forms links and checkboxes
+    .container.loginForms
+      img(src='images/avatar2.png' alt='Avatar' align='left')
+      div
+        b Name: 
+        small Janez
+      div
+        b Last name: 
+        small Novak
+      div
+        b Username: 
+        small jn9283
+      div
+        b E-mail: 
+        small(align='left') janez.novak@example.com
+      div(style='margin:10px;')
+        h4 Upload Custom Avatar
+        form(action='/todo.js')
+          input#choosePic(type='file' name='pic' accept='image/*')
+          input.submitAvatar(type='submit')
+      div
+        button.confirmbtn(onclick="document.getElementById('id03').style.display='none'") Confirm
+    // forgot password section
+    div(style='text-align: center;')
+      span.resend
+        a(href='TODO') Resend activation email
+      span.delete(style='color:red')
+        a(href='TODO') Delete account
+// ################################## /PROFILE BOX ############################
+// ########################### SETTINGS BOX ###########################
+// Settings box
+#id02.modal
+  // close login box
+  span.close(onclick="document.getElementById('id02').style.display='none'" title='Close Modal') &times;
+  // Contents of settings box
+  // TODO: save settings
+  form.modal-content.animate(action='/dashboard')
+    // title
+    .ttlcontainer
+      h1
+        b Settings
+    form(action='' method='post')
+      // Settings list
+      .container.settings
+        label(for='currency')
+          b Default Currency
+        .bfh-selectbox.bfh-currencies(data-currency='EUR' data-flags='true')
+        input.opts(type='checkbox' checked='checked' name='mode')
+        |  Night Mode
+      // Save button section
+      div(style='text-align: center;')
+        button.savebtn(type='submit') Save
+        span.opts(onclick="document.getElementById('id02').style.display='none'" title='Cancel' onmouseover='') Cancel
+// ########################### /SETTINGS BOX ###########################
+// ########################### TERMS AND CONDITIONS BOX ###########################
+// Settings box
+#id04.modal
+  // close terms and conditions box
+  span.close(onclick="document.getElementById('id04').style.display='none'" title='Close Modal') &times;
+  // Contents of terms and conditions modal box
+  form.modal-content.animate(action='/dashboard')
+    // title
+    .ttlcontainer
+      h1
+        b Terms of Service
+    // Placeholder for actual terms and conditions
+    div(style='margin:30px')
+      | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec commodo velit ac turpis interdum iaculis.
+      | Nunc porttitor augue non ultricies efficitur. Quisque sed volutpat nibh. Pellentesque feugiat, tellus sed imperdiet lobortis,
+      | nisl est bibendum nisl, egestas gravida elit eros a quam. Nam facilisis fringilla lacus, at vulputate ligula posuere a.
+      | Duis aliquet feugiat orci quis pharetra. Integer eu suscipit ligula, vitae congue ipsum.
+      | Nunc consectetur pellentesque mauris, ac rutrum neque efficitur nec. Morbi sit amet leo eget mauris gravida pretium.
+      | Aliquam id nisl vehicula, semper neque ac, vestibulum lectus. Phasellus lobortis convallis tellus eget mattis.
+      | Vestibulum sed condimentum massa. Integer sit amet nisl rhoncus, mollis erat nec, semper ante. Morbi eu dolor tristique,
+      | interdum augue eu, laoreet quam. Maecenas ipsum dui, hendrerit sed tortor vel, bibendum molestie ipsum. Integer nec facilisis magna.
+      | Mauris scelerisque dolor at augue porttitor efficitur. Ut lacus velit, sagittis et vehicula non, sodales in ante. Integer laoreet,
+      | turpis eu rhoncus venenatis, odio diam scelerisque ipsum, sit amet luctus ligula sem non neque. Aenean sit amet velit aliquet,
+      | feugiat elit id, pulvinar enim. Morbi semper, massa id tincidunt tristique, purus erat suscipit nisi, sit amet malesuada elit ipsum eget eros.
+      | Fusce vel laoreet massa.
+      | Nam egestas bibendum diam sollicitudin molestie. Pellentesque habitant morbi tristique senectus et netus et malesuada
+      | fames ac turpis egestas. Nullam rhoncus velit eget velit vehicula ultrices. Nulla dictum leo nulla, blandit dignissim tortor
+      | pharetra lobortis. Duis nulla turpis, facilisis a semper non, ullamcorper id mi. Sed lobortis ex et enim tincidunt, in cursus lacus porta.
+      | Vivamus non aliquet ipsum.
+      | Fusce varius, enim in blandit ullamcorper, felis leo porttitor nunc, ac elementum mi sem a sem. Maecenas eget dui ornare, viverra augue sit amet,
+      | scelerisque tellus. Mauris pretium lobortis nisl, eget sagittis lectus accumsan in. Nullam id nisi eros. Donec gravida diam ac neque hendrerit,
+      | vel lobortis massa euismod. Ut iaculis et tortor vitae ullamcorper. Sed fringilla massa nibh, quis auctor urna imperdiet a. Donec fermentum lorem in est hendrerit,
+      | ac vestibulum lorem gravida. Morbi nunc nibh, imperdiet sit amet scelerisque vel, mollis eu nulla.
+      | Vestibulum lobortis imperdiet neque. In hac habitasse platea dictumst. Duis convallis odio non justo ultricies, non euismod erat aliquet.
+      | Sed mollis lorem in posuere sodales. Nam fringilla vitae elit et efficitur. Quisque nisl turpis, dapibus ac consequat eget, interdum facilisis mauris.
+      | Pellentesque consectetur a metus non lacinia. Mauris at lectus id sapien scelerisque blandit. Nam urna enim, maximus vitae nisl congue, vulputate tincidunt dolor.
+// ########################### /TERMS AND CONDITIONS BOX ###########################
+// ################################## EDIT CONTACT BOX ############################
+// login box
+#id06.modal
+  // close login box
+  span.close(onclick="document.getElementById('id06').style.display='none'" title='Close Modal') &times;
+  // Contents of login box
+  form.modal-content2.animate(action='/TODO')
+    // avatar image
+    .ttlcontainer
+      h1
+        b Edit Contact
+    // forms links and checkboxes
+    .container.contactsContainer
+      from(action='/todo' method='get')
+        h2.databaseSearchHeading Edit existing contact
+        label(for='name')
+          b First Name
+        input(type='text' placeholder='Enter first name' name='name' required='')
+        label(for='lastname')
+          b Last Name
+        input(type='text' placeholder='Enter last name' name='lastname' required='')
+        label(for='email')
+          b E-mail
+        input(type='text' placeholder='Enter e-mail' name='email' required='')
+        label(for='phone')
+          b Telephone number
+        input(type='text' placeholder='Enter telephone number' name='phone' required='')
+        label(for='region')
+          b City/Region
+        input(type='text' placeholder='Enter city/region' name='region' required='')
+        label(for='notes')
+          b Notes
+        input(type='text' placeholder='Enter Notes' name='notes' required='')
+        button.loginbtn(type='submit') Confirm
+      span.opts(onclick="document.getElementById('id06').style.display='none'" title='Cancel' onmouseover='') Cancel
+// ################################## /EDIT CONTACT BOX ############################
