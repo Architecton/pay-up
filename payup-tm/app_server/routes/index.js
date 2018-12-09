@@ -10,7 +10,7 @@ router.get('/', ctrlMain.index);
 /* similar for other pages */
 router.get('/comingSoon', ctrlMain.comingSoon);
 
-// CONTACTS **
+// CONTACTS ** TESTED **
 router.get('/contacts/:idUser', ctrlMain.contacts);
 router.get('/contacts/:idUser/:idContact', ctrlMain.contactById);
 router.post('/contacts/:idUser', ctrlMain.contactCreate);
@@ -28,7 +28,7 @@ router.delete('/loans/:idUser/:idLoan', ctrlMain.loansManageDelete);
 router.put('/loans/:idUser/:idLoan', ctrlMain.loansManageUpdate);
 
 
-// SIGNUP
+// SIGNUP 
 router.get('/signup', ctrlMain.signup);
 router.post('/signup', ctrlMain.signupSubmit);
 

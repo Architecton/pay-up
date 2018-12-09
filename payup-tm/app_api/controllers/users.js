@@ -185,6 +185,7 @@ module.exports.userCreate = function(request, response) {
         }
       });
     } else {
+      console.log("INVALID");
       getJsonResponse(response, 400, {
           "message": "invalid user parameters"
       }); 
@@ -196,6 +197,7 @@ module.exports.userCreate = function(request, response) {
 
 // validateUser: validate user properties
 var validateUser = function(newUser) {
+  console.log(newUser);
   return new Promise(function(resolve, reject) {
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       if (
