@@ -52,11 +52,11 @@ module.exports.contacts = function(req, res) {
         requestParameters,
         // callback function - show website
         function(error, response, content) {
+            content = {"contacts" : content};
             showContactsPage(req, res, content);
         }
     );
 };
-
 // contactsCreate: contacts page controller - create new contact.
 module.exports.contactCreate = function(req, res) {
     // Get path to API.
@@ -145,7 +145,7 @@ module.exports.contactById = function(req, res) {
 
 // showContactsPage: show contacts page
 var showContactsPage = function(req, res, content) {
-    res.render('contacts', {title: 'Contacts'});
+    res.render('contacts', content);
 };
 
 /////////////////////////////////////////////////////////////////////////

@@ -1,6 +1,5 @@
 /* global jQuery */
 
-
 (function ($) {
     $.fn.serializeFormJSON = function () {
 
@@ -24,17 +23,73 @@ $(document).ready(function($) {
     $('form').submit(function (e) {
         e.preventDefault();
         var data = $(this).serializeFormJSON();
-        console.log(data);
-    
-        /* Object example
-            email: "value"
-            name: "value"
-            password: "value"
-         */
+        
+        // containing recepient means this is from the add new loan form
+        if(data.hasOwnProperty('recepient')){
+            data.currency = "EUR";
+            var pathArray = window.location.pathname.split('/');
+            data.loaner = pathArray[pathArray.length-1];
+            if (data.compoundInterest == "Simple"){
+                data.compoundInterest = false;
+            }
+            else{
+                data.compoundInterest = true;
+            }
+            if (data.interest_on_debt == "no"){
+                data.interest_on_debt = false;
+            }
+            else{
+                data.interest_on_debt = true;
+            }
+            console.log(data);
+            var postURL = "/loans/" + data.loaner;
+            
+            $.post( postURL, data );
+        }
+        
+        // gender means it's a signup form
+        else if(data.hasOwnProperty('gender')){
+            var postURL = "/signup"
+            $.post( postURL, data );
+        }
+        
+        else if(!data.hasOwnProperty('notes')){
+            var pathArray = window.location.pathname.split('/');
+            var idUser = pathArray[pathArray.length-1];
+            var postURL = "/contacts/" + idUser;
+            console.log(data);
+            $.post( postURL, data );
+        }
+        
+        
+        else if(data.hasOwnProperty('notes')){
+            
+            var contactDataArray = $(extraContactInfo).find('li');
+            console.log(contactDataArray);
+            var nameSurname = contactDataArray[0].textContent.split(" ");
+            
+            var pathArray = window.location.pathname.split('/');
+            var idUser = pathArray[pathArray.length-1];
+            var putURL = "/contacts/" + idUser + "/" + contactDataArray[1].textContent;
+            
+            data.name = nameSurname[0];
+            data.surname = nameSurname[1];
+            data.email = contactDataArray[2].textContent;
+            console.log(data);
+            
+            $.ajax({
+              url: putURL,
+              type: 'PUT',
+              data: data,
+              success: function(data) {
+                alert('Load was performed.');
+              }
+            });            
+        }
     });
 });
 
-var currentlySelectedLoadID = "Select a loan from the table to edit."
+var currentlySelectedLoadID = "";
 
 $(document).ready(function($) {
     $(".loanTableRow").click(function() {
