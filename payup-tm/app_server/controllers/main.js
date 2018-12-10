@@ -7,6 +7,12 @@ var apiParameters = {
 
 
 
+// showGenericDone: show generic done
+var showGenericDone = function(req, res, content) {
+    res.render('done', {});
+};
+
+
 // HOME PAGE ////////////////////////////////////////////////////////////
 
 module.exports.index = function(req, res) {
@@ -15,8 +21,6 @@ module.exports.index = function(req, res) {
 };
 
 /////////////////////////////////////////////////////////////////////////
-
-
 
 
 
@@ -82,7 +86,7 @@ module.exports.contactCreate = function(req, res) {
         requestParameters,
         // callback function - show website
         function(error, response, content) {
-            showContactsPage(req, res, content);
+            showGenericDone(req, res, content);
         }
     );
 };
@@ -104,8 +108,6 @@ module.exports.contactAddNotes = function(req, res) {
       notes: req.body.notes
     };
     
-    console.log(dataInBody);
-    console.log(path);
     var requestParameters = {
         url: apiParameters.server + path,
         method: 'PUT',
@@ -116,7 +118,7 @@ module.exports.contactAddNotes = function(req, res) {
         requestParameters,
         // callback function - show website
         function(error, response, content) {
-            showContactsPage(req, res, content);
+            showGenericDone(req, res, content);
         }
     );
 };
@@ -139,7 +141,7 @@ module.exports.contactById = function(req, res) {
         requestParameters,
         // callback function - show website
         function(error, response, content) {
-            showContactsPage(req, res, content);
+            showGenericDone(req, res, content);
         }
     );
 };
@@ -181,6 +183,8 @@ module.exports.dashboard = function(req, res) {
 var showDashboardPage = function(req, res, content) {
     res.render('dashboard', content);
 };
+
+
 /////////////////////////////////////////////////////////////////////////
 
 
@@ -230,7 +234,6 @@ module.exports.loansManageCreate = function(req, res) {
       interest_on_debt: req.body.interest_on_debt,
     };
     
-    console.log(dataInBody);
     // Set request parameters.
     var requestParameters = {
         url: apiParameters.server + path,
@@ -242,7 +245,7 @@ module.exports.loansManageCreate = function(req, res) {
         requestParameters,
         // callback function - show website
         function(error, response, content) {
-            showLoansPage(req, res, content);
+            showGenericDone(req, res, content);
         }
     );
 };
@@ -266,7 +269,7 @@ module.exports.loansManageDelete = function(req, res) {
         requestParameters,
         // callback function - show website
         function(error, response, content) {
-            showLoansPage(req, res, content);
+            showGenericDone(req, res, content);
         }
     );
 };
@@ -278,7 +281,6 @@ module.exports.loansManageUpdate = function(req, res) {
     var dataInBody = {
       status : req.body.status
     };
-    console.log(dataInBody);
     
     // get needed parameters from path
     var idUser = req.params.idUser;
@@ -296,7 +298,7 @@ module.exports.loansManageUpdate = function(req, res) {
         requestParameters,
         // callback function - show website
         function(error, response, content) {
-            showLoansPage(req, res, content);
+            showGenericDone(req, res, content);
         }
     );
 };
@@ -375,7 +377,7 @@ module.exports.signupSubmit = function(req, res) {
         requestParameters,
         // callback function - show website
         function(error, response, content) {
-            showSignupPage(req, res, content);
+            showGenericDone(req, res, content);
         }
     );
 };
