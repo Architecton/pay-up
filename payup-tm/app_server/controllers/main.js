@@ -388,8 +388,6 @@ var showSignupPage = function(req, res, content) {
 
 
 
-
-
 // DATABASE INITIALIZATION AND DROPPING /////////////////////////////
 
 // db page
