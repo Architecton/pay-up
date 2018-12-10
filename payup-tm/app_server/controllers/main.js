@@ -336,14 +336,19 @@ module.exports.signupSubmit = function(req, res) {
     // Get path to API.
     var path = '/api/users';
     
+    //console.log("PASS" + dataInBody.password);
+    
+    // validise gender.
+    req.body.gender = (req.body.gender == "Male" ? "m" : "f");
+
     // Get data in body of request.
     var dataInBody = {
-      name: req.body.name,
-      surname: req.body.surname,
-      username: req.body.username,
-      password: req.body.password,
-      email: req.body.email,
-      gender: req.body.gender
+      "name": req.body.name,
+      "surname": req.body.surname,
+      "username": req.body.username,
+      "password": req.body['password[]'][0],
+      "email": req.body.email,
+      "gender": req.body.gender
     };
     
     // Set request parameters.
@@ -357,7 +362,7 @@ module.exports.signupSubmit = function(req, res) {
         requestParameters,
         // callback function - show website
         function(error, response, content) {
-            showSignupPage(req, res, content);
+            showGenericDone(req, res, content);
         }
     );
     
@@ -374,7 +379,8 @@ module.exports.signupSubmit = function(req, res) {
         requestParameters,
         // callback function - show website
         function(error, response, content) {
-            showGenericDone(req, res, content);
+            console.log("CALLBACK")
+            showGenericDone(req, res, {});
         }
     );
 };

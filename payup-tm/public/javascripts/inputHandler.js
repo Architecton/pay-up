@@ -41,10 +41,10 @@ $(document).ready(function($) {
             else{
                 data.interest_on_debt = true;
             }
-            console.log(data);
+            console.log(data);s
             var postURL = "/loans/" + data.loaner;
             
-            $.post( postURL, data );
+            $.post(postURL, data );
         }
         
         // gender means it's a signup form
@@ -58,7 +58,7 @@ $(document).ready(function($) {
             var idUser = pathArray[pathArray.length-1];
             var postURL = "/contacts/" + idUser;
             console.log(data);
-            $.post( postURL, data );
+            $.post(postURL, data);
         }
         
         
