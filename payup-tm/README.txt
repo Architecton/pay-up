@@ -1,1 +1,0 @@
-Da nebo zmede zaradi imena map payup-tm/payup-tm = <ime-repozitorija>/<ime-applikacije-v-package.json>
