@@ -66,11 +66,11 @@ block content
             b Add Loan
         // forms links and checkboxes
         .container.contactsContainer
-          from(action='/todo' method='get')
+          from
             h2.databaseSearchHeading Add new loan
             label(for='recipient')
               b Recipient username
-            input(type='text' placeholder='Enter recipient username.' name='username' required='')
+            input(type='text' placeholder='Enter recipient username.' name='recepient' required='')
             label(for='deadline')
               b Repayment Deadline
             div
@@ -78,7 +78,7 @@ block content
             label(for='amount')
               b Loan size
             div
-              input#loanCreateAmount(type='number' name='amount' min='1' required='')
+              input#loanCreateAmount(type='number' name='payment_amount' min='1' required='')
             label(for='interest')
               b Interest Rate (yearly percentage)
             div
@@ -96,8 +96,8 @@ block content
             label(for='interestOnDebt')
               b Compute interest on debt?
             div
-              select#loanCreateSelectOnDebt.select(name='interestOnDebt' required='')
+              select#loanCreateSelectOnDebt.select(name='interest_on_debt' required='')
                 option yes
                 option no
-            button.loginbtn(type='submit') Confirm
+            button.loginbtn(type='submit' onclick="document.getElementById('id07').style.display='none'" ) Confirm
           span.opts(onclick="document.getElementById('id07').style.display='none'" title='Cancel' onmouseover='') Cancel

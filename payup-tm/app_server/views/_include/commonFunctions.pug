@@ -13,8 +13,8 @@ mixin addLoansRow(rowData)
         td(style='display:none') #{rowData._id}
         td #{rowData.loaner}
         td #{rowData.recipient}
-        td #{rowData.dateIssued}
-        td #{rowData.deadline}
+        td #{rowData.dateIssued.substring(0, 10)}
+        td #{rowData.deadline.substring(0, 10)}
         td #{rowData.amount}
         td #{rowData.currency}
         td #{rowData.interest}

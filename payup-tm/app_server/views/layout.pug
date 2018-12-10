@@ -22,7 +22,7 @@ head
       .imgcontainer
         h1
           b Welcome back!
-        img.avatar(src='images/avatar.jpg' alt='Avatar')
+        img.avatar(src='/images/avatar.jpg' alt='Avatar')
       // forms links and checkboxes
       .container(style='padding: 5px; width: 50%;')
         label(for='uname')
@@ -47,7 +47,7 @@ head
     span.close(onclick="document.getElementById('id02').style.display='none'" title='Close Modal') &times;
     // Contents of settings box
     // TODO: save settings
-    form.modal-content.animate(action='/dashboard')
+    form.modal-content.animate(action='/dashboard/gozdnijoza97')
       // title
       .ttlcontainer
         h1
@@ -59,7 +59,7 @@ head
             b Default Currency
           .bfh-selectbox.bfh-currencies(data-currency='EUR' data-flags='true')
           input.opts(type='checkbox' checked='checked' name='mode')
-          |  Night Mode
+          |  Night Mode 
         // Save button section
         div(style='text-align: center;')
           button.savebtn(type='submit') Save
@@ -73,14 +73,14 @@ head
     span.close(onclick="document.getElementById('id03').style.display='none'" title='Close Modal') &times;
     // Contents of login box
     // TODO: action calls script that closes the modal window
-    form.modal-content.animate(action='/dashboard')
+    form.modal-content.animate(action='/dashboard/gozdnijoza97')
       // avatar image
       .imgcontainer
         h1
           b Your Profile
       // forms links and checkboxes
       .container.loginForms
-        img(src='images/avatar2.png' alt='Avatar' align='left')
+        img(src='/images/avatar2.png' alt='Avatar' align='left')
         div
           b Name: 
           small Janez
@@ -114,7 +114,7 @@ head
     // close terms and conditions box
     span.close(onclick="document.getElementById('id04').style.display='none'" title='Close Modal') &times;
     // Contents of terms and conditions modal box
-    form.modal-content.animate(action='/dashboard')
+    form.modal-content.animate(action='/dashboard/gozdnijoza97')
       // title
       .ttlcontainer
         h1
@@ -157,7 +157,7 @@ head
         li
           a(href='/#aboutRow') About
         li
-          a(href='/dashboard') Dashboard
+          a(href='/dashboard/gozdnijoza97') Dashboard
         a.navbarRowRight(href='/signup') Sign Up
         // ########### LOGIN BUTTON #############
         button.navbutton(onclick="document.getElementById('id01').style.display='block'") Login
