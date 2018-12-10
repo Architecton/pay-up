@@ -5,8 +5,6 @@ var apiParameters = {
 };
 
 
-
-
 // showGenericDone: show generic done
 var showGenericDone = function(req, res, content) {
     res.render('done', {});
@@ -33,7 +31,6 @@ module.exports.comingSoon = function(req, res) {
 };
 
 /////////////////////////////////////////////////////////////////////////
-
 
 
 
