@@ -3,40 +3,34 @@ var router = express.Router();
 var ctrlMain = require('../controllers/main');
 
 
-// GET REQUEST HANDLER FOR ALL PAGE
-/* GET home page. */
+// HOME
 router.get('/', ctrlMain.index);
 
-/* similar for other pages */
+// COMING SOON
 router.get('/comingSoon', ctrlMain.comingSoon);
 
-// CONTACTS ** TESTED **
+// CONTACTS
 router.get('/contacts/:idUser', ctrlMain.contacts);
 router.get('/contacts/:idUser/:idContact', ctrlMain.contactById);
 router.post('/contacts/:idUser', ctrlMain.contactCreate);
 router.put('/contacts/:idUser/:idContact', ctrlMain.contactAddNotes);
 
-
-// DASHBOARD **
+// DASHBOARD
 router.get('/dashboard/:idUser', ctrlMain.dashboard);
 
-
-// LOANS ** 
+// LOANS
 router.get('/loans/:idUser', ctrlMain.loans);
 router.post('/loans/:idUser', ctrlMain.loansManageCreate);
 router.delete('/loans/:idUser/:idLoan', ctrlMain.loansManageDelete);
 router.put('/loans/:idUser/:idLoan', ctrlMain.loansManageUpdate);
 
-
-// SIGNUP  ** TESTED **
+// SIGNUP
 router.get('/signup', ctrlMain.signup);
 router.post('/signup', ctrlMain.signupSubmit);
-
 
 // PATCH NOTES
 router.get('/patchnotes', ctrlMain.patchnotes);
 
-    
 // DB 
 router.get('/db', ctrlMain.db);
 router.delete('/db', ctrlMain.nukeDB);
