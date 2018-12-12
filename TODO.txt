@@ -16,3 +16,17 @@ contacts.js     // 12.12.2018 (DONE)
 loans.js        // 13.12.2019
 users.js        // 14.12.2019
 ####################################################
+
+# TO IMPLEMENT #####################################
+Get loan stats: Api call that returns loan data with respect to time (day)
+
+
+Example of a response
+
+{
+    day: [1, 2, 3, ...],
+    debt: [1200, 1200.01, 1200.02, ...],
+    interest: [0, 0.01, 0.02, ...]
+}
+
+####################################################
