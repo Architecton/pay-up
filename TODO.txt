@@ -2,9 +2,11 @@
 - Tell aljaž that contact id is the mongo generated id.
 - Test API call that sends confirmation mail.
 
+###################################################
 API files:
 
-contacts.js
-loans.js
-testingData.js
+contacts.js     // FINISHED - TODO TESTING
+loans.js        // FINISHED - TODO TESTING
+testingData.js  // FINISHED - TODO TESTING
 users.js        // FINISHED - TODO TESTING
+####################################################

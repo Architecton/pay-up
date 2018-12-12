@@ -1,0 +1,84 @@
+// URLji, ki so relevantni za stran Contacts
+
+// !!!! POMEMBNO !!!!
+// :idUser je zaenkrat "hard-codan" v url zahtevo.
+
+
+### ZAČETNA STRAN CONTACTS ###############################
+// prikazi vse kontakte uporabnika. Začetna stran, ki se prikaze, ko uporabnik gre na to stran.
+// idUser je zaenkrat hard-codan. 
+
+// zahteva: GET
+
+POŠLJI NA: /contacts/:idUser
+
+V routerju:
+router.get('/contacts/:idUser', ctrlMain.contacts);
+#########################################################
+
+
+
+
+
+
+### PODATKI ZA SPECIFIČNI KONTAKT (IGNORE FOR NOW) #####
+// !!!POMEMBNO!!!! Zaenkrat tega ne rabimo. Uporabljaj kar zgornji URL in pridobi vse kontakte.
+// (Prikaži podrobnosti o kontaktu. Na ta URL se gre, ko uporabnik klikne na enega od kontaktov v tabeli.)
+
+// zahteva: GET
+
+POŠLJI NA: /contacts/:idUser/:idContact
+
+V routerju:
+router.get('/contacts/:idUser/:idContact', ctrlMain.contactById);
+#########################################################
+
+
+
+
+
+#### USTVARJANJE NOVEGA KONTAKTA ########################
+// URL na katerega se posreduje POST zahteva za ustvarjanje novega kontakta.
+
+// zahteva: POST
+
+// VSEBINA JSON-a:
+
+{
+  name: ...,
+  surname: ...,
+  username: ...,
+  email: ...
+ };
+
+POŠLJI NA: /contacts/:idUser
+
+V routerju:
+router.post('/contacts/:idUser/', ctrlMain.contactCreate);
+#########################################################
+
+
+
+
+
+### DODAJANJE ZAPISKOV (NOTES) ###########################
+// URL na katerega se posreduje PUT zahteva za spreminjanje "notes" za nek kontakt.
+
+// zahteva: PUT
+
+// !!!! POMEMBNO !!!! v JSON vključi poleg notes tudi name, surname in email (code reuse...).
+// VSEBINA JSON-a:
+
+{
+	name: ...,
+	surname: ...,
+	email: ...,
+	notes: ...
+}
+
+
+POŠLJI NA: /contacts/:idUser/:idContact
+
+V routerju:
+router.put('/contacts/:idUser/:idContact', ctrlMain.contactAddNotes);
+#########################################################

@@ -1,0 +1,72 @@
+// URLji, ki so relevantni za stran Loans
+
+// !!!! POMEMBNO !!!!
+// :idUser je zaenkrat "hard-codan" v URL zahtevo.
+
+
+
+<>
+### ZAČETNA STRAN Loans ###############################
+// prikazi vsa posojila uporabnika. Začetna stran, ki se prikaze, ko uporabnik gre na to stran.
+// idUser je zaenkrat hard-codan.
+
+// zahteva: GET
+
+POŠLJI NA: /loans/:idUser
+
+V routerju:
+router.get('/loans/:idUser', ctrlMain.loans);
+##########################################################
+
+
+
+
+
+### Ustvarjanje novega posojila ###############################
+// Ustvari novo posojilo.
+// idUser je zaenkrat hard-codan.
+
+// zahteva: POST
+
+VSEBINA JSON-a:
+
+{
+  loaner: ...,
+  recipient: ...,
+  deadline: ...,
+  amount: ...,
+  currency: ...,
+  interest: ...,
+  payment_interval: ...,
+  payment_amount: ...,
+  compoundInterest: ...,
+  interest_on_debt: ...
+};
+
+POŠLJI NA: /loans/:idUser
+
+V routerju:
+router.post('/loans/:idUser', ctrlMain.loansManageCreate);
+##########################################################
+
+
+
+
+
+### Posodabljanje statusa posojila #######################
+// Posodobi status posojila s podatnim id.
+// idUser je zaenkrat hard-codan.
+
+// zahteva: PUT
+
+VSEBINA JSON-a:
+
+{
+	status : req.status
+}
+
+POŠLJI NA: /loans/:idUser/:idLoan
+
+V routerju:
+router.get('/loans/:idUser/:idLoan', ctrlMain.loansManageUpdate);
+##########################################################

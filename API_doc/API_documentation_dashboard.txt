@@ -1,0 +1,16 @@
+// URLji, ki so relevantni za stran Dashboard
+
+// !!!! POMEMBNO !!!!
+// :idUser je zaenkrat "hard-codan" v url zahtevo.
+
+### ZAČETNA STRAN Dashboard ###############################
+// prikazi vsa posojila uporabnika. Začetna stran, ki se prikaze, ko uporabnik gre na to stran.
+// idUser je zaenkrat hard-codan. 
+
+// zahteva: GET
+
+POŠLJI NA: /dashboard/:idUser
+
+V routerju:
+router.get('/dashboard/:idUser', ctrlMain.dashboard);
+##########################################################
