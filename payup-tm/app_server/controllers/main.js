@@ -42,10 +42,10 @@ module.exports.contacts = function(req, res) {
         method: 'GET',
         json: {},
     };
-                                                        // Perform request.
-    request(
+    request(                                            // Perform request.
         requestParameters,
         function(error, response, content) {            // callback function - render website using obtained data.
+            // TODO
             content = {"contacts" : content};
             showContactsPage(req, res, content);
         }
@@ -78,6 +78,7 @@ module.exports.contactCreate = function(req, res) {
         // callback function - render website.
         function(error, response, content) {
             // TODO
+            res.render('index', {});
             // showGenericDone(req, res, content);
         }
     );
@@ -98,9 +99,6 @@ module.exports.contactAddNotes = function(req, res) {
     // Set request parameters.
     
     var dataInBody = {                          // Get request body.
-      name: req.body.name,
-      surname: req.body.surname,
-      email: req.body.email,
       notes: req.body.notes
     };
                                                 // Get request parameters.
@@ -114,6 +112,7 @@ module.exports.contactAddNotes = function(req, res) {
         // callback function - render website
         function(error, response, content) {
             // TODO
+            res.render('index', {});
         }
     );
 };
@@ -121,34 +120,36 @@ module.exports.contactAddNotes = function(req, res) {
 //////////////////////////////////////////////////////////////////////////////
 
 
-// GET CONTACT INFO BY ID ////////////////////////////////////////////////////
+// DELETE CONTACT ////////////////////////////////////////////////////////////
 
-// contacts: contacts page controller.
-module.exports.contactById = function(req, res) {
-    // Get user id and contact id from path parameters.
+// contacts: contacts page controller - delete contact
+module.exports.contactDelete = function(req, res) {
+    
+    // Get path to API.
     var idUser = req.params.idUser;
     var idContact = req.params.idContact;
+    var path = '/api/users/' + idUser + '/contacts/' + idContact;
     
-    var path = '/api/users/' + idUser + '/contacts/' + idContact;       // Get path for API.
-    
-    var requestParameters = {                                           // Set request parameters.
+    var requestParameters = {                   // Set request parameters.
         url: apiParameters.server + path,
-        method: 'GET',
+        method: 'DELETE',
         json: {},
-    };
-    
-    
-    request(                                                            // Perform request.
+    };                                          // Perform request.
+    request(
         requestParameters,
         // callback function - render website
         function(error, response, content) {
             // TODO
+            res.render('index', {});
         }
     );
 };
 
+//////////////////////////////////////////////////////////////////////////////
+
 // showContactsPage: show contacts page with obtained content.
 var showContactsPage = function(req, res, content) {
+    console.log(content);
     res.render('contacts', content);
 };
 

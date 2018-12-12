@@ -41,12 +41,12 @@ router.delete('/users/:idUser/loans/:idLoan', ctrlLoans.loanDeleteSelected);
 
 
 // Controlers for working with contacts.
-router.get('/contacts', ctrlContacts.contactGetAll);
-router.get('/users/:idUser/contacts', ctrlContacts.contactGetUsersContacts);
-router.post('/users/:idUser/contacts', ctrlContacts.contactCreate);
-router.get('/users/:idUser/contacts/:idContact', ctrlContacts.contactGetSelected);
-router.put('/users/:idUser/contacts/:idContact', ctrlContacts.contactUpdateSelected);
-router.delete('/users/:idUser/contacts/:idContact', ctrlContacts.contactDeleteSelected);
+router.get('/contacts', ctrlContacts.contactGetAll);                                        // TESTED (12.12.2018)
+router.get('/users/:idUser/contacts', ctrlContacts.contactGetUsersContacts);                // TESTED (12.12.2018)
+router.post('/users/:idUser/contacts', ctrlContacts.contactCreate);                         // TESTED (12.12.2018)
+router.get('/users/:idUser/contacts/:idContact', ctrlContacts.contactGetSelected);          // TESTED (12.12.2018)
+router.put('/users/:idUser/contacts/:idContact', ctrlContacts.contactUpdateSelected);       // TESTED (12.12.2018)
+router.delete('/users/:idUser/contacts/:idContact', ctrlContacts.contactDeleteSelected);    // TESTED (12.12.2018)
 
 
 // Expose router as module.

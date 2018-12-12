@@ -10,10 +10,10 @@ router.get('/', ctrlMain.index);
 router.get('/comingSoon', ctrlMain.comingSoon);
 
 // CONTACTS
-router.get('/contacts/:idUser', ctrlMain.contacts);
-router.get('/contacts/:idUser/:idContact', ctrlMain.contactById);
-router.post('/contacts/:idUser', ctrlMain.contactCreate);
-router.put('/contacts/:idUser/:idContact', ctrlMain.contactAddNotes);
+router.get('/contacts/:idUser', ctrlMain.contacts);                     // TESTED (12.12.2018)
+router.post('/contacts/:idUser', ctrlMain.contactCreate);               // TESTED (12.12.2018)
+router.put('/contacts/:idUser/:idContact', ctrlMain.contactAddNotes);   // TESTED (12.12.2018)
+router.delete('/contacts/:idUser/:idContact', ctrlMain.contactDelete);  // TESTED (12.12.2018)
 
 // DASHBOARD
 router.get('/dashboard/:idUser', ctrlMain.dashboard);

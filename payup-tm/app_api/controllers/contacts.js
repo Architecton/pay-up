@@ -298,21 +298,12 @@ module.exports.contactUpdateSelected = function(request, response) {
               "message": "Cannot find contact."
             });
           } else {
-            // Regular expression for verifying email adresses
-            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             // VALIDATE REQUESTED UPDATES
             if (  // Validate contact properties types and values.
-              typeof request.body.name === 'string' &&
-              typeof request.body.surname === 'string' &&
-              typeof request.body.notes === 'string' &&
-              re.test(String(request.body.email).toLowerCase())
+              typeof request.body.notes === 'string'
               ) {
               // Update contact
-              currentContact.name = request.body.name;
-              currentContact.surname = request.body.surname;
-              currentContact.email = request.body.email;  
               currentContact.notes = request.body.notes;
-              console.log(currentContact);
             } else {
               // If contact parameters are invalid.
               getJsonResponse(response, 400, {
