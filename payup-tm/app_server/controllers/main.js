@@ -340,6 +340,9 @@ module.exports.signup = function(req, res) {
     res.render('signup', {});
 };
 
+/////////////////////////////////////////////////////////////////////
+
+// SIGNUP FROM SUBMIT ///////////////////////////////////////////////
 
 // signupSubmit: submit signup info.
 module.exports.signupSubmit = function(req, res) {
@@ -371,21 +374,12 @@ module.exports.signupSubmit = function(req, res) {
         }
     );
     
-    path = '/api/' + 'je.vivod@gmail.com' + '/sendMail';        // Get path of API call to send confirmation mail.
-    requestParameters = {                                       // Set request parameters.
-        url: apiParameters.server + path,
-        method: 'GET',
-        json: {},
-    };
-    
-    request(                                                    // Perform request.
-        requestParameters,
-        // callback function - show website
-        function(error, response, content) {
-            // TODO
-        }
-    );
 };
+
+/////////////////////////////////////////////////////////////////////
+
+
+// RENDER SIGNUP PAGE ///////////////////////////////////////////////
 
 // showSignupPage: display signup page.
 var showSignupPage = function(req, res, content) {
