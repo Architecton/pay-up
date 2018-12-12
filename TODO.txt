@@ -10,3 +10,9 @@ loans.js        // FINISHED - TODO TESTING
 testingData.js  // FINISHED - TODO TESTING
 users.js        // FINISHED - TODO TESTING
 ####################################################
+
+# API TESTING ######################################
+contacts.js     // 12.12.2018
+loans.js        // 13.12.2019
+users.js        // 14.12.2019
+####################################################
