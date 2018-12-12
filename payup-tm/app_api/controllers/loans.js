@@ -9,17 +9,17 @@ var getJsonResponse = function(response, status, data) {
   response.json(data);
 };
 
-// TODO update status values to string values.
 
 /*
 IMPLEMENTED
-
-*** router.get('/loans', ctrlLoans.loanGetAll);                                 // TESTED
-*** router.post('/user/:idUser/loans', ctrlLoans.loanCreate);                   // TESTED
-*** router.get('/user/:idUser/loans/:idLoan', ctrlLoans.loanGetSelected);       // TESTED
-*** router.put('/user/:idUser/loans/:idLoan', ctrlLoans.loanUpdateSelected);    // TESTED
-*** router.delete('/user/:idUser/loans/:idLoan', ctrlLoans.loanDeleteSelected); // TESTED
+router.get('/loans', ctrlLoans.loanGetAll);
+router.post('/user/:idUser/loans', ctrlLoans.loanCreate);
+router.get('/user/:idUser/loans/:idLoan', ctrlLoans.loanGetSelected);
+router.put('/user/:idUser/loans/:idLoan', ctrlLoans.loanUpdateSelected);
+router.delete('/user/:idUser/loans/:idLoan', ctrlLoans.loanDeleteSelected);
 */
+
+// GET ALL LOANS OF ALL USERS //////////////////////////////////////////////////
 
 // ** loanGetAll: get all loans
 module.exports.loanGetAll = function(request, response) {
@@ -48,6 +48,10 @@ module.exports.loanGetAll = function(request, response) {
       getJsonResponse(response, 200, loans);
     });
 };
+
+////////////////////////////////////////////////////////////////////////////////
+
+// MANAGING LOANS //////////////////////////////////////////////////////////////
 
 // loanCreate: create new loan for user with specified idUser (username)
 module.exports.loanCreate = function(request, response) {
@@ -87,6 +91,7 @@ var addLoan = function(request, response, user) {
       "message": "Cannot find user."
     });
   } else {
+    // Create new loan from properties in body.
     var newLoan = {
         loaner: request.body.loaner,
         recipient: request.body.recipient,
@@ -101,11 +106,14 @@ var addLoan = function(request, response, user) {
         interest_on_debt: request.body.interest_on_debt,
         status: 'pending'
     };
+    // Validate loan.
     validateLoan(newLoan).then(function(result) {
+      // If loan is valid.
       if (result) {
         user.loans.push(newLoan);
         user.save(function(error, user) {
           var addedLoan;
+          // if encountered error
           if (error) {
             getJsonResponse(response, 400, error);
           } else {
@@ -115,6 +123,7 @@ var addLoan = function(request, response, user) {
           }
         });
       } else {
+        // If loan is invalid
         getJsonResponse(response, 400, {
           "message": "Invalid loan parameters"
         });
@@ -124,82 +133,6 @@ var addLoan = function(request, response, user) {
 };
 
 // *************************** //
-
-
-// ** loanGetUsersLoans: get all loans of user with given id
-module.exports.loanGetUsersLoans = function(request, response) {
-    // if request has parameters and the parameters include idUser
-    if (request.params && request.params.idUser) {
-    User
-      .findById(request.params.idUser)
-      .exec(function(error, user) {
-        if (!user) {  // If user not found
-          getJsonResponse(response, 404, {
-            "message": 
-              "Cannot find user with given identifier idUser."
-          });
-          return;
-        // if error while executing function
-        } else if (error) {
-          getJsonResponse(response, 500, error);
-          return;
-        }
-        // If success, get all loans of user.
-        var loans = user.loans;
-        getJsonResponse(response, 200, loans);
-      });
-  // else if no parameters or if parameters do not include idUser
-  } else {
-    getJsonResponse(response, 400, { 
-      "message": "identifier idUser is missing."
-    });
-  }
-};
-
-
-// ** loanGetSelected: get loan with specified id of user with specified user id (username)
-module.exports.loanGetSelected = function(request, response) {
-  if (request.params && request.params.idUser && request.params.idLoan) {
-    User
-      .findById(request.params.idUser)
-      .select('_id loans')
-      .exec(
-        function(error, user) {
-          var loan;
-          if (!user) {
-            getJsonResponse(response, 404, {
-              "message": 
-                "Cannot find user with specified id."
-            });
-            return;
-          } else if (error) {
-            getJsonResponse(response, 500, error);
-            return;
-          }
-          if (user.loans && user.loans.length > 0) {
-            loan = user.loans.id(request.params.idLoan);
-            if (!loan) {
-              getJsonResponse(response, 404, {
-                "message": 
-                  "Cannot find loan with specified id."
-              });
-            } else {
-              getJsonResponse(response, 200, loan);
-            }
-          } else {
-            getJsonResponse(response, 404, {
-              "message": "Cannot find any loan."
-            });
-          }
-        }
-      );
-  } else {
-    getJsonResponse(response, 400, {
-      "message": 
-        "Invalid request parameters."
-    });
-  }
-};
 
 
 // ** loanUpdateSelected: update loan with specified loanID of user with specified username
@@ -271,7 +204,6 @@ module.exports.loanUpdateSelected = function(request, response) {
     );
 };
 
-
 // ** loanDeleteSelected: delete loan od user with specified username with specified loanID.
 module.exports.loanDeleteSelected = function(request, response) {
   // if idUser or idLoan are missing
@@ -329,32 +261,94 @@ module.exports.loanDeleteSelected = function(request, response) {
     );
 };
 
-/*
-// loanCreate: create new loan
-module.exports.loanCreate = function(request, response) {
-  var idUser = request.params.idUser;
-  if (idUser) {
+////////////////////////////////////////////////////////////////////////////////
+
+
+// ** loanGetUsersLoans: get all loans of user with given id
+module.exports.loanGetUsersLoans = function(request, response) {
+    // if request has parameters and the parameters include idUser
+    if (request.params && request.params.idUser) {
     User
-      .findById(idUser)
-      .select('loans')
+      .findById(request.params.idUser)
+      .exec(function(error, user) {
+        if (!user) {  // If user not found
+          getJsonResponse(response, 404, {
+            "message": 
+              "Cannot find user with given identifier idUser."
+          });
+          return;
+        // if error while executing function
+        } else if (error) {
+          getJsonResponse(response, 500, error);
+          return;
+        }
+        // If success, get all loans of user.
+        var loans = user.loans;
+        getJsonResponse(response, 200, loans);
+      });
+  // else if no parameters or if parameters do not include idUser
+  } else {
+    getJsonResponse(response, 400, { 
+      "message": "identifier idUser is missing."
+    });
+  }
+};
+
+
+// ** loanGetSelected: get loan with specified id of user with specified user id (username)
+module.exports.loanGetSelected = function(request, response) {
+  // If request has parameters and they include user id and loan id
+  if (request.params && request.params.idUser && request.params.idLoan) {
+    // Find user by id.
+    User
+      .findById(request.params.idUser)
+      .select('_id loans')
       .exec(
         function(error, user) {
-          if (error) {
-            getJsonResponse(response, 400, error);
+          var loan;
+          // if user not found
+          if (!user) {
+            getJsonResponse(response, 404, {
+              "message": 
+                "Cannot find user with specified id."
+            });
+            return;
+            // if encountered error
+          } else if (error) {
+            getJsonResponse(response, 500, error);
+            return;
+          }
+          // if user has at least one loan
+          if (user.loans && user.loans.length > 0) {
+            loan = user.loans.id(request.params.idLoan);
+            // if loan with specified id not found
+            if (!loan) {
+              getJsonResponse(response, 404, {
+                "message": 
+                  "Cannot find loan with specified id."
+              });
+            // If loan with specified id is found, return it.
+            } else {
+              getJsonResponse(response, 200, loan);
+            }
           } else {
-            addLoan(request, response, user);
-            getJsonResponse(response, 200, { "status": "success" });
+            // If loans not found.
+            getJsonResponse(response, 404, {
+              "message": "Cannot find any loans."
+            });
           }
         }
       );
   } else {
+    // else if request parameters were invalid
     getJsonResponse(response, 400, {
       "message": 
-        "Cannot find user with specified id."
+        "Invalid request parameters."
     });
   }
 };
-*/
+
+
 
 // debt_by_time: compute debt as a function of time
 
