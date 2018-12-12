@@ -12,16 +12,16 @@ var getJsonResponse = function(response, status, data) {
 
 /*
 IMPLEMENTED
-
-*** router.get('/contacts', ctrlContacts.contactGetAll);                                    // TESTED *******
-*** router.post('/user/:idUser/contacts', ctrlContacts.contactCreate);                      // TESTED *******
-*** router.get('/user/:idUser/contacts/:idContact', ctrlContacts.contactGetSelected);       // TESTED *******
-*** router.put('/user/:idUser/contacts/:idContact', ctrlContacts.contactUpdateSelected);    // TESTED *******
-*** router.delete('/user/:idUser/contacts/:idContact', ctrlContacts.contactDeleteSelected); // TESTED *******
+router.get('/contacts', ctrlContacts.contactGetAll);
+router.post('/user/:idUser/contacts', ctrlContacts.contactCreate);
+router.get('/user/:idUser/contacts/:idContact', ctrlContacts.contactGetSelected);
+router.put('/user/:idUser/contacts/:idContact', ctrlContacts.contactUpdateSelected);
+router.delete('/user/:idUser/contacts/:idContact', ctrlContacts.contactDeleteSelected);
 */
 
+// GET ALL CONTACTS FROM DATABSE //////////////////////////////////////
 
-// contactGetAll: get all contacts *******
+// contactGetAll: get all contacts
 module.exports.contactGetAll = function(request, response) {
   User
     .find({})
@@ -38,7 +38,7 @@ module.exports.contactGetAll = function(request, response) {
         return;
       }
       
-      // get contacts of all users and concatenate in array and return as response.
+      // Get contacts of all users and concatenate in array and return as response.
       var contacts = [];
       users.forEach(function(e) {
         contacts = contacts.concat(e.contacts);
@@ -48,7 +48,10 @@ module.exports.contactGetAll = function(request, response) {
       getJsonResponse(response, 200, contacts);
     });
 };
+//////////////////////////////////////////////////////////////////////////
 
+
+// MANAGING CONTACTS /////////////////////////////////////////////////////
 
 // addContact: add contact to user with specified username 
 module.exports.contactCreate = function(request, response) {
@@ -81,11 +84,13 @@ module.exports.contactCreate = function(request, response) {
 
 // addContactToUser: auxiliary function for addContact (see above)
 var addContactToUser = function(request, response, user) {
+  // If user undefined.
   if (!user) {
     getJsonResponse(response, 404, {
-      "message": "Ne najdem lokacije."
+      "message": "Cannot find user."
     });
   } else {
+    // Create new contact.
     var newContact = {
       name: request.body.name,
       surname: request.body.surname,
@@ -93,9 +98,11 @@ var addContactToUser = function(request, response, user) {
       email: request.body.email,
       notes: ""
     };
-    
+    // Validate created contact.
     validateContact(newContact).then(function(result) {
+      // If all went well.
       if (result) {
+        // Save user.
         user.contacts.push(newContact);
         user.save(function(error, user) {
           var addedContact;
@@ -109,6 +116,7 @@ var addContactToUser = function(request, response, user) {
           }
         });
       } else {
+        // If contact is invalid.
         getJsonResponse(response, 400, {
           "message": "Invalid contact parameters."
         });
@@ -122,12 +130,14 @@ var validateContact = function(contact) {
   return new Promise(function(resolve, reject) {
     // Regular expression for verifying email adresses
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    // Check types and values of new contact properties.
     if (
       typeof contact.name === 'string' &&
       typeof contact.surname === 'string' &&
       typeof contact.username === 'string' &&
       re.test(String(contact.email).toLowerCase())
     ) {
+      // Check if contact username exists.
       usernameExists(contact.username).then(function(result) {
         if (result) {
           resolve(true);
@@ -135,7 +145,7 @@ var validateContact = function(contact) {
           resolve(false);
         }
       });
-    } else {
+    } else {  // If types and values of contact properties are not valid
       return resolve(false);
     }
   });
@@ -149,7 +159,7 @@ var usernameExists = function(username) {
     User
       .findById(username)
       .exec(function(error, user) {
-        if (!user) {  // If user not found
+        if (!user) {   // If user not found
           resolve(false);
         // if error while executing function
         } else if (error) {
@@ -274,8 +284,8 @@ module.exports.contactUpdateSelected = function(request, response) {
             "message": "Cannot find user."
           });
           return;
+        // If encountered error
         } else if (error) {
-            console.log("test");
             getJsonResponse(response, 500, error);
           return;
         }
@@ -291,23 +301,26 @@ module.exports.contactUpdateSelected = function(request, response) {
             // Regular expression for verifying email adresses
             var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             // VALIDATE REQUESTED UPDATES
-            if (
+            if (  // Validate contact properties types and values.
               typeof request.body.name === 'string' &&
               typeof request.body.surname === 'string' &&
               typeof request.body.notes === 'string' &&
               re.test(String(request.body.email).toLowerCase())
               ) {
+              // Update contact
               currentContact.name = request.body.name;
               currentContact.surname = request.body.surname;
               currentContact.email = request.body.email;  
               currentContact.notes = request.body.notes;
               console.log(currentContact);
             } else {
+              // If contact parameters are invalid.
               getJsonResponse(response, 400, {
                 "message": "Invalid contact parameters."
               });
               return;
             }
+            // Save user with modified contact parameter.
             user.save(function(error, user) {
               // if encountered error
               if (error) {
@@ -329,6 +342,7 @@ module.exports.contactUpdateSelected = function(request, response) {
 
 // contactDeleteSelected
 module.exports.contactDeleteSelected = function(request, response) {
+  // If request parameters do not include user id or contact id
   if (!request.params.idUser || !request.params.idContact) {
     getJsonResponse(response, 400, {
       "message": 
@@ -382,3 +396,5 @@ module.exports.contactDeleteSelected = function(request, response) {
       }
     );
 };
+
+//////////////////////////////////////////////////////////////////////////

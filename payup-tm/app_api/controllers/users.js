@@ -22,11 +22,10 @@ let transporter = nodemailer.createTransport({
 /*
 IMPLEMENTED
 
-*** router.get('/users', ctrlUsers.userGetAll);                                         // TESTED
-*** router.post('/users', ctrlUsers.userCreate);                                        // TESTED
-*** router.get('/users/:idUser', ctrlUsers.userGetSelected);                            // TESTED
-(TODO implement if time) router.put('/users/:idUser', ctrlUsers.userUpdateSelected);
-*** router.delete('/users/:idUser', ctrlUsers.userDeleteSelected);                      // TESTED
+router.get('/users', ctrlUsers.userGetAll);
+router.post('/users', ctrlUsers.userCreate);
+router.get('/users/:idUser', ctrlUsers.userGetSelected);
+router.delete('/users/:idUser', ctrlUsers.userDeleteSelected);
 */
 
 

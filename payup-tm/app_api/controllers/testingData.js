@@ -1,3 +1,6 @@
+// Data used for testing purposes.
+
+
 var user1 = {"name": "Jozef", 
 	"surname": "Novak",
 	"_id": "gozdnijoza97",
@@ -58,4 +61,5 @@ var user2 = {"name": "Manca",
 	 "email": "jozef.novak@gmail.com"}]
 };
 
+// exposes data as array of users.
 module.exports.users = [user1, user2];
