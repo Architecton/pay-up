@@ -106,26 +106,37 @@ var addLoan = function(request, response, user) {
         interest_on_debt: request.body.interest_on_debt,
         status: 'pending'
     };
-    // Validate loan.
-    validateLoan(newLoan).then(function(result) {
-      // If loan is valid.
-      if (result) {
-        user.loans.push(newLoan);
-        user.save(function(error, user) {
-          var addedLoan;
-          // if encountered error
-          if (error) {
-            getJsonResponse(response, 400, error);
+    
+    // Check if loan recipient is in contacts.
+    recipientInContacts(newLoan.recipient).then(function(result) {
+      if(result) {
+        // Validate loan.
+        validateLoan(newLoan).then(function(result) {
+          // If loan is valid.
+          if (result) {
+            user.loans.push(newLoan);
+            user.save(function(error, user) {
+              var addedLoan;
+              // if encountered error
+              if (error) {
+                getJsonResponse(response, 400, error);
+              } else {
+                // Get loan that was just added and return it as reponse.
+                addedLoan = user.loans[user.loans.length - 1];
+                getJsonResponse(response, 201, addedLoan);
+              }
+            });
           } else {
-            // Get loan that was just added and return it as reponse.
-            addedLoan = user.loans[user.loans.length - 1];
-            getJsonResponse(response, 201, addedLoan);
+            // If loan is invalid
+            getJsonResponse(response, 400, {
+              "message": "Invalid loan parameters"
+            });
           }
         });
       } else {
         // If loan is invalid
         getJsonResponse(response, 400, {
-          "message": "Invalid loan parameters"
+          "message": "Recipient must be in contacts."
         });
       }
     });
@@ -498,10 +509,7 @@ function debtByTime(start_date, end_date, payment_interval, payment_amount, prin
 // validateLoan: check if loan is valid - will be able to be repaid in specified time interval.
 function validateLoan(loan) {
   return new Promise(function(resolve, reject) {
-    
-    
     if (new Date(loan.dateIssued) < new Date(loan.deadline) && loan.payment_interval > 0 && loan.payment_amount > 0 & loan.amount > 0 && loan.interest >= 0 && (loan.compoundInterest == "true" || loan.compoundInterest == "false") && (loan.interest_on_debt == "true" || loan.interest_on_debt == "false")) {
-      console.log("HERE");
       usernameExists(loan.recipient).then(function(result) {
         if (result) {
           // Get debt values per day.
@@ -528,7 +536,7 @@ function validateLoan(loan) {
 // usernameExists: check if user with given username exists in database
 var usernameExists = function(username) {
   return new Promise(function(resolve, reject) {
-    // if request has parameters and the parameters include idUser
+    // if username is set.
     if (username) {
     User
       .findById(username)
@@ -541,6 +549,53 @@ var usernameExists = function(username) {
         }
         // if success
         resolve(true);
+      });
+    // else if no parameters or if parameters do not include idUser
+    } else {
+      resolve(true);
+    }
+  });
+};
+
+
+// recipient in contacts: check if loan recipient is in user's contacts.
+var recipientInContacts = function(username, contactUsername) {
+  return new Promise(function(resolve, reject) {
+    // if username is set.
+    if (username) {
+      User
+      .findById(username)
+      .exec(function(error, user) {
+        if (!user) {  // If user not found
+          resolve(false);
+        // if error while executing function
+        } else if (error) {
+          resolve(false);
+        }
+        // if success, check if user has contactUsername in contacts.
+        // Check if contact username exists.
+        usernameExists(contactUsername).then(function(result) {
+          // If username exists, find subdocuments by field contacts with given username.
+          if (result) {
+            User.find({
+              "contacts": {
+                  "$elemMatch": { "username": contactUsername }
+              }
+            }).exec(function(err, contacts){
+              if (err) {
+                resolve(false);
+              // If contacts are not empty, resolve true.
+              } else if (contacts) {
+                resolve(true);
+              } else {
+                resolve(false);
+              }
+            });
+          // If contact's username does not exist, resolve as false.
+          } else {
+            resolve(false);
+          }
+        });
       });
     // else if no parameters or if parameters do not include idUser
     } else {
