@@ -1,0 +1,10 @@
+- API controller for signup - check for matching passwords (the passwords field is an array of length 2 containing both passwords).
+- Tell aljaž that contact id is the mongo generated id.
+- Test API call that sends confirmation mail.
+
+API files:
+
+contacts.js
+loans.js
+testingData.js
+users.js        // FINISHED - TODO TESTING

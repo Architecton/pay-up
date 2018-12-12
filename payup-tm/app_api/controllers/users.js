@@ -25,9 +25,10 @@ IMPLEMENTED
 *** router.get('/users', ctrlUsers.userGetAll);                                         // TESTED
 *** router.post('/users', ctrlUsers.userCreate);                                        // TESTED
 *** router.get('/users/:idUser', ctrlUsers.userGetSelected);                            // TESTED
-(TODO implement if time) router.put('/users/:idUser', ctrlUsers.userUpdateSelected);    // TESTED
+(TODO implement if time) router.put('/users/:idUser', ctrlUsers.userUpdateSelected);
 *** router.delete('/users/:idUser', ctrlUsers.userDeleteSelected);                      // TESTED
 */
+
 
 // getJsonResponse: take response, status and JSON data and add status and data to response.
 var getJsonResponse = function(response, status, data) {
@@ -35,6 +36,9 @@ var getJsonResponse = function(response, status, data) {
   response.status(status);
   response.json(data);
 };
+
+
+// DB //////////////////////////////////////////////////////////////////
 
 // nukeDB: remove all contents of database collection Users
 module.exports.nukeDB = function(request, response) {
@@ -49,7 +53,7 @@ module.exports.nukeDB = function(request, response) {
   }); 
 };
 
-// nukeDB: remove all contents of database collection Users
+// nukeDBindexes: remove all stored indexes from database
 module.exports.nukeDBindexes = function(request, response) {
   User.collection.dropIndexes(function (err, results) {
     if (err) {
@@ -61,18 +65,33 @@ module.exports.nukeDBindexes = function(request, response) {
   });
 };
 
+// fillDB: intialize database collection Users with testing data.
+module.exports.fillDB = function(request, response) {
+  var createdPromises = testingData.users.map(function(testUser) {
+    return User.create(testUser);
+  });
+  Promise.all(createdPromises).then(function(result) {
+    getJsonResponse(response, 201, {"status" : "done"});
+  }).then(null, function(err) {
+      getJsonResponse(response, 400, err);
+  });
+};
+
+///////////////////////////////////////////////////////////////////////
+
 
 // MAIL ///////////////////////////////////////////////////////////////
 
 // sendConfirmationMail: send confirmation mail to specified email
-module.exports.sendConfirmationMail = function(request, response) {
-  var emailAddress = request.params.email;
-  sendMail(emailAddress).then(function(result) {
-    if (result) {
-      getJsonResponse(response, 400);
-    } else {
-      getJsonResponse(response, 204, null);
-    }
+var sendConfirmationMail = function(emailAddress) {
+  return new Promise(function(resolve, reject) {
+    sendMail(emailAddress).then(function(result) {
+      if (result) {  // If mail successfuly sent
+        resolve(true);
+      } else {  // Else.
+        resolve(false);
+      }
+    });
   });
 };
 
@@ -88,12 +107,10 @@ var sendMail = function(emailAddress) {
     };
     // Send mail via transporter.
     transporter.sendMail(HelperOptions, (error, info) => {
-        if (error) {
+        if (error) {      // If encoutered error, resolve as false.
           resolve(false);
         }
-        console.log("The message was sent!");
-        console.log(info);
-        resolve(true);
+        resolve(true);  // If successfuly sent mail, resolve as true.
     });
   });
 };
@@ -101,39 +118,7 @@ var sendMail = function(emailAddress) {
 //////////////////////////////////////////////////////////////////////
 
 
-
-
-/*
-var Promise = require('bluebird'); // could also be Q or another A+ library
-
-app.post('/api/data', function(req, res, next) {
-  var issues = req.body.issues;
-
-  // map the issues to an array of promises for created dashData docs
-  var createdPromises = issues.map(function(issue){
-    return dashData.create({key: issue.key, status: issue.fields.status.name, assignee: issue.fields.assignee, summary: issue.fields.summary}); // returns a promise
-  });
-
-  Promise.all(createdPromises).then(function(results){
-    res.json(results); // only sends when all docs have been created
-  }).then(null, next); // error handler - pass to `next`
-
-});
-*/
-
-
-// fillDB: intialize database collection Users with testing data.
-module.exports.fillDB = function(request, response) {
-  var createdPromises = testingData.users.map(function(testUser) {
-    return User.create(testUser);
-  });
-  Promise.all(createdPromises).then(function(result) {
-    getJsonResponse(response, 201, {"status" : "done"});
-  }).then(null, function(err) {
-      getJsonResponse(response, 400, err);
-  });
-};
-
+// MANAGING USERS ////////////////////////////////////////////////////
 
 // userGetAll: get all users in database
 module.exports.userGetAll = function(request, response) {
@@ -160,32 +145,54 @@ module.exports.userGetAll = function(request, response) {
 
 // userCreate: create new user
 module.exports.userCreate = function(request, response) {
-  var newUser = {
-    name: request.body.name,
-    surname: request.body.surname,
-    _id: request.body.username,
-    password: request.body.password,
-    email: request.body.email,
-    gender: request.body.gender,
-    dateJoined: new Date().toJSON().slice(0,10).replace(/-/g,'-'),
-    status: 0,
-    defaultCurrency: "EUR",
-    nightmode: false,
-    loans: [],
-    contacts: []
-  };
-  
+  // Check if passwords match.
+  if(request.body.password.length == 2 && request.body.password[0] === request.body.password[1]){
+    // Create new user.
+    var newUser = {
+      name: request.body.name,
+      surname: request.body.surname,
+      _id: request.body.username,
+      password: request.body.password[0],
+      email: request.body.email,
+      gender: request.body.gender,
+      dateJoined: new Date().toJSON().slice(0,10).replace(/-/g,'-'),
+      status: 0,
+      defaultCurrency: "EUR",
+      nightmode: false,
+      loans: [],
+      contacts: []
+    };
+  // if passwords do not match
+  } else {
+    getJsonResponse(response, 400, {
+          "message": "Passwords must match."
+    });
+    return;
+  }
+  // Validate created user.
   validateUser(newUser).then(function(result) {
+    // If successfuly validated, create new user and send confirmation e-mail.
     if (result) {
+      // Create new user.
       User.create(newUser, function(error, user) {
+        // If there was an error
         if (error) {
           getJsonResponse(response, 400, error);
+        // If all went well, send confirmation e-mail.
         } else {
-          getJsonResponse(response, 201, user);
+          sendConfirmationMail(newUser.email).then(function(result) {
+            // If confirmation mail successfuly sent, return new user as signal value.
+            if(result) {
+              getJsonResponse(response, 201, user);
+            } else {
+              // if trouble sending confirmation e-mail
+              getJsonResponse(response, 500, {'status' : 'Error sending confirmation mail.'});
+            }
+          });
         }
       });
+    // If new user is not valid.
     } else {
-      console.log("INVALID");
       getJsonResponse(response, 400, {
           "message": "invalid user parameters"
       }); 
@@ -197,9 +204,11 @@ module.exports.userCreate = function(request, response) {
 
 // validateUser: validate user properties
 var validateUser = function(newUser) {
-  console.log(newUser);
+  // Validate user.
   return new Promise(function(resolve, reject) {
+        // Create regular expression for email verification.
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      // Check parameter types and values.
       if (
         typeof newUser.name === 'string' &&
         typeof newUser.surname === 'string' &&
@@ -208,14 +217,17 @@ var validateUser = function(newUser) {
         re.test(String(newUser.email).toLowerCase()) &&
         typeof newUser.gender === 'string' && (newUser.gender == 'm' || newUser.gender == 'f')
        ) {
-      
+        // Check if username already exists.
         usernameExists(newUser._id).then(function(result) {
+          // If username is free, resolve with true.
           if (!result) {
             resolve(true);
+          // else resolve with false.
           } else {
             resolve(false);
           }
         });
+    // If types and values not valid, resolve with false.
     } else {
       resolve(false);
     }
@@ -231,7 +243,6 @@ var usernameExists = function(username) {
       .findById(username)
       .exec(function(error, user) {
         if (!user) {  // If user not found
-          console.log("DOES NOT EXIST");
           resolve(false);
         // if error while executing function
         } else if (error) {
@@ -279,63 +290,6 @@ module.exports.userGetSelected = function(request, response) {
   }
 };
 
-
-// TODO implement if time (not necessary for functionality of application)
-/*
-// userUpdateSelected: update user with specified idUser (username)
-module.exports.userUpdateSelected = function(request, response) {
-  if (!request.params.idUser) {
-    getJsonResponse(response, 400, {
-      "message": 
-        "Cannot find user. idUser must be present."
-    });
-    return;
-  }
-  User
-    .findById(request.params.idUser)
-    .select('-loans -contacts')
-    .exec(
-      function(error, user) {
-        if (!user) {
-          getJsonResponse(response, 404, {
-            "message": "Cannot find user."
-          });
-          return;
-        } else if (error) {
-          getJsonResponse(response, 500, error);
-          return;
-        }
-        // TODO validate and update
-        user.naziv = request.body.naziv;
-        user.naslov = request.body.naslov;
-        user.lastnosti = request.body.lastnosti.split(",");
-        user.koordinate = [
-          parseFloat(request.body.lng), 
-          parseFloat(request.body.lat)
-        ],
-        user.delovniCas = [{
-          dnevi: request.body.dnevi1,
-          odprtje: request.body.odprtje1,
-          zaprtje: request.body.zaprtje1,
-          zaprto: request.body.zaprto1
-        }, {
-          dnevi: request.body.dnevi2,
-          odprtje: request.body.odprtje2,
-          zaprtje: request.body.zaprtje2,
-          zaprto: request.body.zaprto2
-        }];
-        user.save(function(error, user) {
-          if (error) {
-            getJsonResponse(response, 400, error);
-          } else {
-            getJsonResponse(response, 200, user);
-          }
-        });
-      }
-    );
-};
-*/
-
 // userDeleteSelected: delete user with specified idUser (username)
 module.exports.userDeleteSelected = function(request, response) {
   // Get idUser.
@@ -343,7 +297,7 @@ module.exports.userDeleteSelected = function(request, response) {
   // if idUser is not null.
   if (idUser) {
     User
-      .findByIdAndRemove(idUser)
+      .findByIdAndRemove(idUser)  // Find user by idUser and remove.
       .exec(
         function(error, user) {
           // if encountered error
@@ -351,11 +305,11 @@ module.exports.userDeleteSelected = function(request, response) {
             getJsonResponse(response, 404, error);
             return;
           }
-          // if success, return status 204 and null object.
+          // if success, return status 204 and null signal object.
           getJsonResponse(response, 204, null);
         }
       );
-      // if idUser not present
+      // if idUser not present.
   } else {
     getJsonResponse(response, 400, {
       "message": 
@@ -364,7 +318,7 @@ module.exports.userDeleteSelected = function(request, response) {
   }
 };
 
-
+//////////////////////////////////////////////////////////////////////
 
 
 

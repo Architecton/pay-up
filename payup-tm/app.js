@@ -50,9 +50,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-// !!!IMPORTANT!!!!
-// single router or mutliple routers here???
-
 // Add router -- Forward requests to indexRouter
 app.use('/', indexRouter);
 
@@ -71,7 +68,7 @@ app.use(function(err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
+  // render the error page (TODO make a better error page)
   res.status(err.status || 500);
   res.render('error');
 });
