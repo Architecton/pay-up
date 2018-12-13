@@ -145,7 +145,9 @@ module.exports.userGetAll = function(request, response) {
 // userCreate: create new user
 module.exports.userCreate = function(request, response) {
   // Check if passwords match.
+  console.log(request.body);
   if(request.body.password.length == 2 && request.body.password[0] === request.body.password[1]){
+    console.log("HERE");
     // Create new user.
     var newUser = {
       name: request.body.name,
@@ -161,6 +163,7 @@ module.exports.userCreate = function(request, response) {
       loans: [],
       contacts: []
     };
+    console.log(newUser);
   // if passwords do not match
   } else {
     getJsonResponse(response, 400, {

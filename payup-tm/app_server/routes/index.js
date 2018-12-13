@@ -25,8 +25,8 @@ router.delete('/loans/:idUser/:idLoan', ctrlMain.loansManageDelete);
 router.put('/loans/:idUser/:idLoan', ctrlMain.loansManageUpdate);
 
 // SIGNUP
-router.get('/signup', ctrlMain.signup);
-router.post('/signup', ctrlMain.signupSubmit);
+router.get('/signup', ctrlMain.signup);                                 // TESTED (13.12.2018)
+router.post('/signup', ctrlMain.signupSubmit);                          // TESTED (13.12.2018)
 
 // PATCH NOTES
 router.get('/patchnotes', ctrlMain.patchnotes);

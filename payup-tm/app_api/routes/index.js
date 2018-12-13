@@ -19,15 +19,15 @@ router.get('/users', ctrlUsers.userGetAll);
 // TODO CHANGE TO DELETE AND POST
 
 
-router.get('/fillDB', ctrlUsers.fillDB);
-router.get('/nukeDB', ctrlUsers.nukeDB);
-router.delete('/nukeDBindexes', ctrlUsers.nukeDBindexes);
+router.post('/fillDB', ctrlUsers.fillDB);                                                   // TESTED (13.12.2018)
+router.delete('/nukeDB', ctrlUsers.nukeDB);                                                 // TESTED (13.12.2018)
+router.delete('/nukeDBindexes', ctrlUsers.nukeDBindexes);                                   // TESTED (13.12.2018)
 
 
 // Controlers for working with users
-router.post('/users', ctrlUsers.userCreate);
-router.get('/users/:idUser', ctrlUsers.userGetSelected);
-router.delete('/users/:idUser', ctrlUsers.userDeleteSelected);
+router.post('/users', ctrlUsers.userCreate);                                                // TESTED (13.12.2018)
+router.get('/users/:idUser', ctrlUsers.userGetSelected);                                    // TESTED (13.12.2018)
+router.delete('/users/:idUser', ctrlUsers.userDeleteSelected);                              // TESTED (13.12.2018)
 
 
 
