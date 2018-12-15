@@ -30,3 +30,8 @@ Example of a response
 }
 
 ####################################################
+
+# TO IMPLEMENT AND TEST ############################
+New functions in users.js
+Fix schema to add messages and avatar
+####################################################

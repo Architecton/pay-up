@@ -324,3 +324,154 @@ module.exports.userDeleteSelected = function(request, response) {
 
 
 
+
+
+
+
+
+
+
+
+// -> TODO <-
+
+// MESSAGES /////////////////////////////////////////////////////////
+
+
+// getMessagesAll: get all messages of all users.
+module.exports.getMessagesAll = function(request, response) {
+  User
+    .find({})
+    .exec(function(error, users) {
+      if (!users) {  // If user not found
+        getJsonResponse(response, 404, {
+          "message": 
+            "Cannot find user with given identifier idUser."
+        });
+        return;
+      // if error while executing function
+      } else if (error) {
+        getJsonResponse(response, 500, error);
+        return;
+      }
+      
+      // get contacts of all users and concatenate in array and return as response.
+      var messages = [];
+      users.forEach(function(e) {
+        messages = messages.concat(e.messages);
+      });
+      
+      // return array of contacts.
+      getJsonResponse(response, 200, messages);
+    });
+};
+
+
+// userGetMessages: get messages of users with speified id.
+module.exports.userGetMessages = function(request, response) {
+  // if request has parameters and the parameters include idUser
+  if (request.params && request.params.idUser) {
+    User
+      .findById(request.params.idUser)
+      .exec(function(error, user) {
+        if (!user) {  // If user not found
+          getJsonResponse(response, 404, {
+            "message": 
+              "Cannot find user with given identifier idUser."
+          });
+          return;
+        // if error while executing function
+        } else if (error) {
+          getJsonResponse(response, 500, error);
+          return;
+        }
+        // If success, get all user's messages.
+        var messages = user.messages;
+        getJsonResponse(response, 200, messages);
+      });
+  // else if no parameters or if parameters do not include idUser
+  } else {
+    getJsonResponse(response, 400, { 
+      "message": "identifier idUser is missing."
+    });
+  }
+};
+
+
+// userDeleteMessage: delete message with specified id of user with specified id.
+module.exports.userDeleteMessage = function(request, response) {
+  
+};
+
+
+// userDeleteAllMessages: delete all messages of user with specified id.
+module.exports.userDeleteAllMessages = function(request, response) {
+  
+};
+
+
+// userSetMessageStatus: set message status as read/unread
+module.exports.userSetMessageStatus = function(request, response) {
+  
+};
+
+
+/////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+// AVATAR ///////////////////////////////////////////////////////////
+
+
+// userGetAvatar: get avatar of user with specified user id
+module.exports.userGetAvatar = function(request, response) {
+  // if request has parameters and the parameters include idUser
+  if (request.params && request.params.idUser) {
+    User
+      .findById(request.params.idUser)
+      .exec(function(error, user) {
+        if (!user) {  // If user not found
+          getJsonResponse(response, 404, {
+            "message": 
+              "Cannot find user with given identifier idUser."
+          });
+          return;
+        // if error while executing function
+        } else if (error) {
+          getJsonResponse(response, 500, error);
+          return;
+        }
+        // If success, get user's avatar.
+        var avatar = user.avatar;
+        getJsonResponse(response, 200, avatar);
+      });
+  // else if no parameters or if parameters do not include idUser
+  } else {
+    getJsonResponse(response, 400, { 
+      "message": "identifier idUser is missing."
+    });
+  }
+};
+
+
+// userSetAvarar: set avatar of user with specified user id.
+module.exports.userSetAvatar = function(request, response) {
+  
+};
+
+
+/////////////////////////////////////////////////////////////////////
+
+// SETTINGS /////////////////////////////////////////////////////////
+
+
+// setSettings: set settings for user with specified user id (night mode and default currency).
+module.exports.setSettings = function(request, response) {
+  
+};
+
+//////////////////////////////////////////////////////////////////////

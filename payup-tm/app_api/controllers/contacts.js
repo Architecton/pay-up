@@ -178,7 +178,7 @@ var usernameExists = function(username) {
 
 // *************************** //
 
-// ** loanGetUsersContacts: get all loans of user with given id
+// ** loanGetUsersContacts: get all contacts of user with given id
 module.exports.contactGetUsersContacts = function(request, response) {
     // if request has parameters and the parameters include idUser
     if (request.params && request.params.idUser) {
@@ -196,7 +196,7 @@ module.exports.contactGetUsersContacts = function(request, response) {
           getJsonResponse(response, 500, error);
           return;
         }
-        // If success, get all loans of user.
+        // If success, get all user's contacts.
         var contacts = user.contacts;
         getJsonResponse(response, 200, contacts);
       });
