@@ -35,3 +35,10 @@ Example of a response
 New functions in users.js
 Fix schema to add messages and avatar
 ####################################################
+
+
+
+
+# TO ADD ###########################################
+Add fixes api documentation.
+####################################################
