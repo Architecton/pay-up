@@ -10,6 +10,9 @@
     "title" : "PayUp"
   },
   "tags" : [ {
+    "name" : "Authentication",
+    "description" : "Log in and sign up"
+  }, {
     "name" : "Users",
     "description" : "User management"
   }, {
@@ -18,6 +21,9 @@
   }, {
     "name" : "Contacts",
     "description" : "Contact management"
+  }, {
+    "name" : "Messages",
+    "description" : "Message management"
   } ],
   "paths" : {
     "/users" : {
@@ -45,12 +51,12 @@
         }
       },
       "post" : {
-        "tags" : [ "Users" ],
+        "tags" : [ "Authentication" ],
         "summary" : "Add a new user to the database",
         "operationId" : "userAddNew",
         "responses" : {
           "400" : {
-            "description" : "Invalid user parameters"
+            "description" : "Bad request parameters"
           },
           "500" : {
             "description" : "Error creating new user or sending confirmation e-mail"
@@ -78,7 +84,7 @@
                   "surname" : {
                     "type" : "string"
                   },
-                  "_id" : {
+                  "username" : {
                     "type" : "string",
                     "description" : "username - primary key"
                   },
@@ -89,6 +95,56 @@
                     "type" : "string"
                   },
                   "gender" : {
+                    "type" : "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/login" : {
+      "post" : {
+        "tags" : [ "Authentication" ],
+        "summary" : "Log in",
+        "operationId" : "logIn",
+        "responses" : {
+          "400" : {
+            "description" : "Bad request parameters"
+          },
+          "500" : {
+            "description" : "Error trying to log in"
+          },
+          "401" : {
+            "description" : "Invalid log in credentials"
+          },
+          "200" : {
+            "description" : "Log in successful",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "token" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "username" : {
+                    "type" : "string"
+                  },
+                  "password" : {
                     "type" : "string"
                   }
                 }
@@ -791,7 +847,6 @@
           },
           "status" : {
             "type" : "integer",
-            "format" : "int64",
             "description" : "User Status 0 ~ activated_no; 1 ~ activated_yes; 2 ~ terminated"
           },
           "defaultCurrency" : {
@@ -807,6 +862,35 @@
           "contacts" : {
             "type" : "object",
             "description" : "list of user's contacts"
+          },
+          "messages" : {
+            "type" : "object",
+            "description" : "list of user's messages"
+          }
+        }
+      },
+      "Message" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string",
+            "description" : "Mongo generated id"
+          },
+          "sender" : {
+            "type" : "string",
+            "description" : "sender's username"
+          },
+          "recipient" : {
+            "type" : "string",
+            "description" : "recipient's username"
+          },
+          "content" : {
+            "type" : "string",
+            "description" : "message content"
+          },
+          "read" : {
+            "type" : "boolean",
+            "description" : "has the message been read"
           }
         }
       },
@@ -814,8 +898,7 @@
         "type" : "object",
         "properties" : {
           "_id" : {
-            "type" : "integer",
-            "format" : "int64",
+            "type" : "string",
             "description" : "Mongo generated id"
           },
           "name" : {
@@ -839,8 +922,7 @@
         "type" : "object",
         "properties" : {
           "_id" : {
-            "type" : "integer",
-            "format" : "int64",
+            "type" : "string",
             "description" : "Mongo generated id"
           },
           "loaner" : {

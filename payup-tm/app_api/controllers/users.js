@@ -23,6 +23,8 @@ var getJsonResponse = function(response, status, data) {
 
 // DB //////////////////////////////////////////////////////////////////
 
+// TODO Only admin
+
 // nukeDB: remove all contents of database collection Users
 module.exports.nukeDB = function(request, response) {
   User.remove({}, function(err, user){
@@ -36,6 +38,8 @@ module.exports.nukeDB = function(request, response) {
   }); 
 };
 
+// TODO Only admin
+
 // nukeDBindexes: remove all stored indexes from database
 module.exports.nukeDBindexes = function(request, response) {
   User.collection.dropIndexes(function (err, results) {
@@ -47,6 +51,8 @@ module.exports.nukeDBindexes = function(request, response) {
     }
   });
 };
+
+// TODO Only admin
 
 // fillDB: intialize database collection Users with testing data.
 module.exports.fillDB = function(request, response) {
@@ -64,6 +70,8 @@ module.exports.fillDB = function(request, response) {
 
 
 // MANAGING USERS ////////////////////////////////////////////////////
+
+// TODO: only admin
 
 // userGetAll: get all users in database
 module.exports.userGetAll = function(request, response) {
@@ -86,6 +94,8 @@ module.exports.userGetAll = function(request, response) {
       getJsonResponse(response, 200, users);
     });
 };
+
+// TODO only possible if you are that user.
 
 // userGetSelected: return user with given idUser (username)
 module.exports.userGetSelected = function(request, response) {
@@ -116,6 +126,7 @@ module.exports.userGetSelected = function(request, response) {
   }
 };
 
+// TODO only possible if you are that user.
 
 // userDeleteSelected: delete user with specified idUser (username)
 module.exports.userDeleteSelected = function(request, response) {
@@ -158,6 +169,7 @@ module.exports.userDeleteSelected = function(request, response) {
 
 // MESSAGES /////////////////////////////////////////////////////////
 
+// TODO: only admin
 
 // getMessagesAll: get all messages of all users.
 module.exports.getMessagesAll = function(request, response) {
@@ -187,6 +199,7 @@ module.exports.getMessagesAll = function(request, response) {
     });
 };
 
+// TODO: only possible if you are that user
 
 // userGetMessages: get messages of users with speified id.
 module.exports.userGetMessages = function(request, response) {
@@ -220,11 +233,14 @@ module.exports.userGetMessages = function(request, response) {
 
 // TODO
 
+// TODO only possible if you are that user
+
 // userDeleteAllMessages: delete all messages of user with specified id.
 module.exports.userDeleteAllMessages = function(request, response) {
   
 };
 
+// TODO only possible if you are that user
 
 // userSetMessageStatus: set message status as read/unread
 module.exports.userSetMessageStatus = function(request, response) {
@@ -237,35 +253,38 @@ module.exports.userSetMessageStatus = function(request, response) {
 
 // AVATAR ///////////////////////////////////////////////////////////
 
+// TODO only possible if you are that user
 
 // userGetAvatar: get avatar of user with specified user id
 module.exports.userGetAvatar = function(request, response) {
-  // if request has parameters and the parameters include idUser
-  if (request.params && request.params.idUser) {
-    User
-      .findById(request.params.idUser)
-      .exec(function(error, user) {
-        if (!user) {  // If user not found
-          getJsonResponse(response, 404, {
-            "message": 
-              "Cannot find user with given identifier idUser."
-          });
-          return;
-        // if error while executing function
-        } else if (error) {
-          getJsonResponse(response, 500, error);
-          return;
-        }
-        // If success, get user's avatar.
-        var avatar = user.avatar;
-        getJsonResponse(response, 200, avatar);
+  getLoggedId(request, response, function(request, response, username) {
+    // if request has parameters and the parameters include idUser and idUser is same as username in token
+    if (request.params && request.params.idUser && request.params.idUser == username) {
+      User
+        .findById(request.params.idUser)
+        .exec(function(error, user) {
+          if (!user) {  // If user not found
+            getJsonResponse(response, 404, {
+              "message": 
+                "Cannot find user with given identifier idUser."
+            });
+            return;
+          // if error while executing function
+          } else if (error) {
+            getJsonResponse(response, 500, error);
+            return;
+          }
+          // If success, get user's avatar.
+          var avatar = user.avatar;
+          getJsonResponse(response, 200, avatar);
+        });
+    // else if no parameters or if parameters do not include idUser
+    } else {
+      getJsonResponse(response, 400, { 
+        "message": "identifier idUser is missing."
       });
-  // else if no parameters or if parameters do not include idUser
-  } else {
-    getJsonResponse(response, 400, { 
-      "message": "identifier idUser is missing."
-    });
-  }
+    }
+  }); 
 };
 
 
@@ -279,6 +298,7 @@ module.exports.userSetAvatar = function(request, response) {
 
 // SETTINGS /////////////////////////////////////////////////////////
 
+// TODO only possible if you are that user
 
 // setSettings: set settings for user with specified user id (night mode and default currency).
 module.exports.userSaveSettings = function(request, response) {
@@ -337,3 +357,36 @@ module.exports.userSaveSettings = function(request, response) {
 };
 
 //////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+// Get user's id (username) from JWT
+var getLoggedId = function(request, response, callback) {
+  // If request contains a payload and the payload contains a username
+  if (request.payload && request.payload.username) {
+    User
+      .findById(
+        request.payload.username
+      )
+      .exec(function(error, user) {
+        if (!user) {     // If user not found
+          getJsonResponse(response, 404, {
+            "message": "User not found"
+          });
+          return;
+        } else if (error) {   // if encountered error
+          getJsonResponse(response, 500, error);
+          return;
+        }
+        callback(request, response, user._id);
+      });
+  } else {    // Else if no payload or if payload does not contain field username
+    getJsonResponse(response, 400, {
+      "message": "Inadequate data in token"
+    });
+    return;
+  }
+};

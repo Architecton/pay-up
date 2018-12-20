@@ -62,7 +62,7 @@ userSchema.methods.setPassword = function(password) {
   this.hashValue = crypto.pbkdf2Sync(password, this.randomValue, 1000, 64, 'sha512').toString('hex');
 };
 
-// checkPassword: Check validity of password
+// checkPasswocrd: Check validity of password
 userSchema.methods.checkPassword = function(password) {
   var hashValue = crypto.pbkdf2Sync(password, this.randomValue, 1000, 64, 'sha512').toString('hex');
   return this.hashValue == hashValue;
@@ -73,9 +73,9 @@ userSchema.methods.generateJwt = function() {
   var expirationDate = new Date();
   expirationDate.setDate(expirationDate.getDate() + 7); // Valid for seven days
   return jwt.sign({
-    _id: this._id,
-    email: this.email,
+    username: this._id,
     name: this.name,
+    email: this.email,
     expirationDate: parseInt(expirationDate.getTime() / 1000, 10)
   }, process.env.JWT_PASSWORD);
 };
