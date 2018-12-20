@@ -498,11 +498,12 @@ module.exports.userSaveSettings = function(request, response) {
         // VALIDATE REQUESTED UPDATES
         if (  // Validate setting values types and values.
           typeof request.body.defaultCurrency === 'string' &&
-          typeof request.body.nightMode === 'boolean'
+          typeof request.body.nightmode === 'string' && 
+          request.body.nightmode == 'true' || request.body.nightmode == 'false'
           ) {
           // Update contact
           user.defaultCurrency = request.body.defaultCurrency;
-          user.nightMode = request.body.nightMode;
+          user.nightmode = Boolean(request.body.nightmode);
         } else {
           // If contact parameters are invalid.
           getJsonResponse(response, 400, {
