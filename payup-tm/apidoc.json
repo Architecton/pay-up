@@ -176,8 +176,24 @@
           }
         } ],
         "responses" : {
+          "400" : {
+            "description" : "Bad request parameters"
+          },
+          "404" : {
+            "description" : "User with specified ID not found"
+          },
+          "500" : {
+            "description" : "Error updating user"
+          },
           "200" : {
-            "description" : "Settings successfully saved"
+            "description" : "Settings successfully saved",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/User"
+                }
+              }
+            }
           }
         },
         "requestBody" : {
