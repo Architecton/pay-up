@@ -95,65 +95,64 @@ module.exports.userGetAll = function(request, response) {
     });
 };
 
-// TODO only possible if you are that user.
-
 // userGetSelected: return user with given idUser (username)
 module.exports.userGetSelected = function(request, response) {
-    // if request has parameters and the parameters include idUser
-    if (request.params && request.params.idUser) {
-    User
-      .findById(request.params.idUser)
-      .exec(function(error, user) {
-        if (!user) {  // If user not found
-          getJsonResponse(response, 404, {
-            "message": 
-              "Cannot find user with given identifier idUser."
-          });
-          return;
-        // if error while executing function
-        } else if (error) {
-          getJsonResponse(response, 500, error);
-          return;
-        }
-        // if success
-        getJsonResponse(response, 200, user);
+    getLoggedId(request, response, function(request, response, username) {
+      // if request has parameters and the parameters include idUser
+      if (request.params && request.params.idUser && request.params.idUser == username) {
+      User
+        .findById(request.params.idUser)
+        .exec(function(error, user) {
+          if (!user) {  // If user not found
+            getJsonResponse(response, 404, {
+              "message": 
+                "Cannot find user with given identifier idUser."
+            });
+            return;
+          // if error while executing function
+          } else if (error) {
+            getJsonResponse(response, 500, error);
+            return;
+          }
+          // if success
+          getJsonResponse(response, 200, user);
+        });
+    // else if no parameters or if parameters do not include idUser
+    } else {
+      getJsonResponse(response, 400, { 
+        "message": "Bad request parameters"
       });
-  // else if no parameters or if parameters do not include idUser
-  } else {
-    getJsonResponse(response, 400, { 
-      "message": "identifier idUser is missing."
-    });
-  }
+    }
+  });
 };
-
-// TODO only possible if you are that user.
 
 // userDeleteSelected: delete user with specified idUser (username)
 module.exports.userDeleteSelected = function(request, response) {
-  // Get idUser.
-  var idUser = request.params.idUser;
-  // if idUser is not null.
-  if (idUser) {
-    User
-      .findByIdAndRemove(idUser)  // Find user by idUser and remove.
-      .exec(
-        function(error, user) {
-          // if encountered error
-          if (error) {
-            getJsonResponse(response, 404, error);
-            return;
+  getLoggedId(request, response, function(request, response, username) {
+    var idUser = request.params.idUser;
+    // if idUser is not null and idUser is the same as the username in the JWT
+    if (idUser && idUser == username) {
+      User
+        .findByIdAndRemove(idUser)  // Find user by idUser and remove.
+        .exec(
+          function(error, user) {
+            // if encountered error
+            if (error) {
+              getJsonResponse(response, 404, error);
+              return;
+            }
+            // if success, return status 204 and null signal object.
+            getJsonResponse(response, 204, null);
           }
-          // if success, return status 204 and null signal object.
-          getJsonResponse(response, 204, null);
-        }
-      );
-      // if idUser not present.
-  } else {
-    getJsonResponse(response, 400, {
-      "message": 
-        "Cannot find user. idUser must be present."
-    });
-  }
+        );
+        // if idUser not present.
+    } else {
+      getJsonResponse(response, 400, {
+        "message": 
+          "Bad request parameters"
+      });
+    }
+  });
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -199,48 +198,46 @@ module.exports.getMessagesAll = function(request, response) {
     });
 };
 
-// TODO: only possible if you are that user
 
 // userGetMessages: get messages of users with speified id.
 module.exports.userGetMessages = function(request, response) {
-  // if request has parameters and the parameters include idUser
-  if (request.params && request.params.idUser) {
-    User
-      .findById(request.params.idUser)
-      .exec(function(error, user) {
-        if (!user) {  // If user not found
-          getJsonResponse(response, 404, {
-            "message": 
-              "Cannot find user with given identifier idUser."
-          });
-          return;
-        // if error while executing function
-        } else if (error) {
-          getJsonResponse(response, 500, error);
-          return;
-        }
-        // If success, get all user's messages.
-        var messages = user.messages;
-        getJsonResponse(response, 200, messages);
+  getLoggedId(request, response, function(request, response, username) {
+    // if request has parameters, the parameters include idUser and the idUser matches the username
+    // in the JWT
+    if (request.params && request.params.idUser && request.params.idUser == username) {
+      User
+        .findById(request.params.idUser)
+        .exec(function(error, user) {
+          if (!user) {  // If user not found
+            getJsonResponse(response, 404, {
+              "message": 
+                "Cannot find user with given identifier idUser."
+            });
+            return;
+          // if error while executing function
+          } else if (error) {
+            getJsonResponse(response, 500, error);
+            return;
+          }
+          // If success, get all user's messages.
+          var messages = user.messages;
+          getJsonResponse(response, 200, messages);
+        });
+    // else if no parameters or if parameters do not include idUser
+    } else {
+      getJsonResponse(response, 400, { 
+        "message": "Bad request parameters"
       });
-  // else if no parameters or if parameters do not include idUser
-  } else {
-    getJsonResponse(response, 400, { 
-      "message": "identifier idUser is missing."
-    });
-  }
+    }
+  });
 };
 
 // TODO
-
-// TODO only possible if you are that user
 
 // userDeleteAllMessages: delete all messages of user with specified id.
 module.exports.userDeleteAllMessages = function(request, response) {
   
 };
-
-// TODO only possible if you are that user
 
 // userSetMessageStatus: set message status as read/unread
 module.exports.userSetMessageStatus = function(request, response) {
@@ -252,8 +249,6 @@ module.exports.userSetMessageStatus = function(request, response) {
 
 
 // AVATAR ///////////////////////////////////////////////////////////
-
-// TODO only possible if you are that user
 
 // userGetAvatar: get avatar of user with specified user id
 module.exports.userGetAvatar = function(request, response) {
@@ -298,8 +293,6 @@ module.exports.userSetAvatar = function(request, response) {
 
 // SETTINGS /////////////////////////////////////////////////////////
 
-// TODO only possible if you are that user
-
 // setSettings: set settings for user with specified user id (night mode and default currency).
 module.exports.userSaveSettings = function(request, response) {
     // If request parameters do not include idUser and idContact
@@ -311,56 +304,60 @@ module.exports.userSaveSettings = function(request, response) {
     });
     return;
   }
-  User
-    .findById(request.params.idUser)
-    .exec(
-      function(error, user) {
-        // if user not found
-        if (!user) {
-          getJsonResponse(response, 404, {
-            "message": "Cannot find user."
-          });
-          return;
-        // If encountered error
-        } else if (error) {
-            getJsonResponse(response, 500, error);
-          return;
-        }
-        // VALIDATE REQUESTED UPDATES
-        if (  // Validate setting values types and values.
-          typeof request.body.defaultCurrency === 'string' &&
-          typeof request.body.nightmode === 'string' && 
-          request.body.nightmode == 'true' || request.body.nightmode == 'false'
-          ) {
-          // Update contact
-          user.defaultCurrency = request.body.defaultCurrency;
-          user.nightmode = Boolean(request.body.nightmode);
-        } else {
-          // If contact parameters are invalid.
-          getJsonResponse(response, 400, {
-            "message": "Invalid settings values."
-          });
-          return;
-        }
-        // Save user with modified settings.
-        user.save(function(error, user) {
-          // if encountered error
-          if (error) {
-            getJsonResponse(response, 500, error);
-          } else {
-            // Return updated user as response.
-            getJsonResponse(response, 200, user);
+  getLoggedId(request, response, function(request, response, username) {
+    if(request.params.idUser == username) {
+      User
+        .findById(request.params.idUser)
+        .exec(
+          function(error, user) {
+            // if user not found
+            if (!user) {
+              getJsonResponse(response, 404, {
+                "message": "Cannot find user."
+              });
+              return;
+            // If encountered error
+            } else if (error) {
+                getJsonResponse(response, 500, error);
+              return;
+            }
+            // VALIDATE REQUESTED UPDATES
+            if (  // Validate setting values types and values.
+              typeof request.body.defaultCurrency === 'string' &&
+              typeof request.body.nightmode === 'string' && 
+              request.body.nightmode == 'true' || request.body.nightmode == 'false'
+              ) {
+              // Update contact
+              user.defaultCurrency = request.body.defaultCurrency;
+              user.nightmode = Boolean(request.body.nightmode);
+            } else {
+              // If contact parameters are invalid.
+              getJsonResponse(response, 400, {
+                "message": "Invalid settings values."
+              });
+              return;
+            }
+            // Save user with modified settings.
+            user.save(function(error, user) {
+              // if encountered error
+              if (error) {
+                getJsonResponse(response, 500, error);
+              } else {
+                // Return updated user as response.
+                getJsonResponse(response, 200, user);
+              }
+            });
           }
-        });
-      }
-    );
+        );
+    } else {
+      getJsonResponse(response, 400, { 
+          "message": "identifier idUser is missing."
+      });
+    }
+  });
 };
 
 //////////////////////////////////////////////////////////////////////
-
-
-
-
 
 
 // Get user's id (username) from JWT
