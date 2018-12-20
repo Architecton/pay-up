@@ -179,7 +179,7 @@ module.exports.userCreate = function(request, response) {
       User.create(newUser, function(error, user) {
         // If there was an error
         if (error) {
-          getJsonResponse(response, 400, error);
+          getJsonResponse(response, 500, error);
         // If all went well, send confirmation e-mail.
         } else {
           sendConfirmationMail(newUser.email).then(function(result) {

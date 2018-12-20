@@ -28,6 +28,8 @@ router.delete('/nukeDBindexes', ctrlUsers.nukeDBindexes);                       
 router.post('/users', ctrlUsers.userCreate);                                                // TESTED (13.12.2018)
 router.get('/users/:idUser', ctrlUsers.userGetSelected);                                    // TESTED (13.12.2018)
 router.delete('/users/:idUser', ctrlUsers.userDeleteSelected);                              // TESTED (13.12.2018)
+// router.put('/users/:idUser/saveSettings', ctrlUsers.userSaveSettings);
+// router.post('/users/:idUser/uploadAvatar', ctrlUsers.userUploadAvatar);
 
 
 

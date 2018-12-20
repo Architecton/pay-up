@@ -11,12 +11,19 @@ var logger = require('morgan');
 var indexRouter = require('./app_server/routes/index');
 var indexApi = require('./app_api/routes/index');
 
+// Set up Swagger user interface
+var swaggerUi = require('swagger-ui-express');
+var swaggerDocument = require('./apidoc.json');
+
 // app - the application
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'app_server', 'views'));
 app.set('view engine', 'pug');
+
+// Set up path for API documentation
+app.use('/apidoc', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // setup logger
 app.use(logger('dev'));

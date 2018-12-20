@@ -29,7 +29,7 @@ module.exports.contactGetAll = function(request, response) {
       if (!users) {  // If user not found
         getJsonResponse(response, 404, {
           "message": 
-            "Cannot find user with given identifier idUser."
+            "Cannot find any users in the database."
         });
         return;
       // if error while executing function
@@ -108,7 +108,7 @@ var addContactToUser = function(request, response, user) {
           var addedContact;
           // if encountered error
           if (error) {
-            getJsonResponse(response, 400, error);
+            getJsonResponse(response, 500, error);
           } else {
             // Get contact that was added and return as response.
             addedContact = user.contacts[user.contacts.length - 1];
