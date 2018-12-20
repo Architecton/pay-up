@@ -28,16 +28,16 @@ router.delete('/nukeDBindexes', ctrlUsers.nukeDBindexes);                       
 router.post('/users', ctrlUsers.userCreate);                                                // TESTED (13.12.2018)
 router.get('/users/:idUser', ctrlUsers.userGetSelected);                                    // TESTED (13.12.2018)
 router.delete('/users/:idUser', ctrlUsers.userDeleteSelected);                              // TESTED (13.12.2018)
-router.put('/users/:idUser/saveSettings', ctrlUsers.userSaveSettings);
+router.put('/users/:idUser/saveSettings', ctrlUsers.userSaveSettings);                      // TESTED (20.12.2018)
 // TODO
 // router.post('/users/:idUser/uploadAvatar', ctrlUsers.userUploadAvatar);
 
 
 // Controllers for working with loans.
-router.get('/loans', ctrlLoans.loanGetAll);                                                 // TESTED (20.12.2018)*
-router.post('/users/:idUser/loans', ctrlLoans.loanCreate);                                  // TESTED (20.12.2018)*
-router.get('/users/:idUser/loans', ctrlLoans.loanGetUsersLoans);                            // TESTED (20.12.2018)*
-router.get('/users/:idUser/loans/:idLoan', ctrlLoans.loanGetSelected);                      // TESTED (20.12.2018)*
+router.get('/loans', ctrlLoans.loanGetAll);                                                 // TESTED (20.12.2018)
+router.post('/users/:idUser/loans', ctrlLoans.loanCreate);                                  // TESTED (20.12.2018)
+router.get('/users/:idUser/loans', ctrlLoans.loanGetUsersLoans);                            // TESTED (20.12.2018)
+router.get('/users/:idUser/loans/:idLoan', ctrlLoans.loanGetSelected);                      // TESTED (20.12.2018)
 router.put('/users/:idUser/loans/:idLoan', ctrlLoans.loanUpdateSelected);                   // TESTED (20.12.2018)
 router.delete('/users/:idUser/loans/:idLoan', ctrlLoans.loanDeleteSelected);                // TESTED (20.12.2018)
 
