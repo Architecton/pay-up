@@ -9,6 +9,7 @@ var router = express.Router();
 var ctrlUsers = require('../controllers/users');
 var ctrlLoans = require('../controllers/loans');
 var ctrlContacts = require('../controllers/contacts');
+var ctrlAuthentication = require('../controllers/authentication');
 
 // Controlers for working with users.
 router.get('/users', ctrlUsers.userGetAll);
@@ -49,6 +50,11 @@ router.post('/users/:idUser/contacts', ctrlContacts.contactCreate);             
 router.get('/users/:idUser/contacts/:idContact', ctrlContacts.contactGetSelected);          // TESTED (12.12.2018)
 router.put('/users/:idUser/contacts/:idContact', ctrlContacts.contactUpdateSelected);       // TESTED (12.12.2018)
 router.delete('/users/:idUser/contacts/:idContact', ctrlContacts.contactDeleteSelected);    // TESTED (12.12.2018)
+
+
+// Controllers for authentication
+router.post('/registracija', ctrlAuthentication.authSignUp);
+router.post('/prijava', ctrlAuthentication.authLogIn);
 
 
 // Expose router as module.

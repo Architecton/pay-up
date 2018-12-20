@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 var crypto = require('crypto');
+var jwt = require('jsonwebtoken');
 
 // Schema representing a loan
 var loanShema = new mongoose.Schema({
@@ -57,6 +58,17 @@ userShema.methods.checkPassword = function(password) {
   return this.hashValue == hashValue;
 };
 
+// generateJwt: generate Json Web Token
+userShema.methods.generateJwt = function() {
+  var expirationDate = new Date();
+  expirationDate.setDate(expirationDate.getDate() + 7); // Valid for seven days
+  return jwt.sign({
+    _id: this._id,
+    email: this.email,
+    name: this.name,
+    expirationDate: parseInt(expirationDate.getTime() / 1000, 10)
+  }, process.env.JWT_PASSWORD);
+};
 
 
 // Compile the schema into a model.

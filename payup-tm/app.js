@@ -1,6 +1,9 @@
 // All request to the Express server are initialy processed here.
 
+var passport = require('passport');
 require('./app_api/models/db');
+require('./app_api/configuration/passport');
+require('dotenv').load();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -56,6 +59,8 @@ app.use(cookieParser());
 // To serve static files such as images, CSS files, and JavaScript files, use the express.static built-in middleware function in Express.
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Use passport
+app.use(passport.initialize());
 
 // Add router -- Forward requests to indexRouter
 app.use('/', indexRouter);
