@@ -42,9 +42,9 @@ var getJsonResponse = function(response, status, data) {
 // nukeDB: remove all contents of database collection Users
 module.exports.nukeDB = function(request, response) {
   User.remove({}, function(err, user){
-    if(err) {
+    if (err) {
       // if encountered error
-      getJsonResponse(response, 400, err);   
+      getJsonResponse(response, 500, err);   
     }
     else {
       getJsonResponse(response, 204, null);
@@ -57,7 +57,7 @@ module.exports.nukeDBindexes = function(request, response) {
   User.collection.dropIndexes(function (err, results) {
     if (err) {
       // if encountered error
-      getJsonResponse(response, 400, err);
+      getJsonResponse(response, 500, err);
     } else {
       getJsonResponse(response, 204, null);
     }
@@ -470,8 +470,58 @@ module.exports.userSetAvatar = function(request, response) {
 
 
 // setSettings: set settings for user with specified user id (night mode and default currency).
-module.exports.setSettings = function(request, response) {
-  
+module.exports.userSaveSettings = function(request, response) {
+    // If request parameters do not include idUser and idContact
+  if (!request.params.idUser) {
+    getJsonResponse(response, 400, {
+      "message": 
+        "Cannot find user, " + 
+        "idUser must be present."
+    });
+    return;
+  }
+  User
+    .findById(request.params.idUser)
+    .exec(
+      function(error, user) {
+        // if user not found
+        if (!user) {
+          getJsonResponse(response, 404, {
+            "message": "Cannot find user."
+          });
+          return;
+        // If encountered error
+        } else if (error) {
+            getJsonResponse(response, 500, error);
+          return;
+        }
+        // VALIDATE REQUESTED UPDATES
+        if (  // Validate setting values types and values.
+          typeof request.body.defaultCurrency === 'string' &&
+          typeof request.body.nightMode === 'boolean'
+          ) {
+          // Update contact
+          user.defaultCurrency = request.body.defaultCurrency;
+          user.nightMode = request.body.nightMode;
+        } else {
+          // If contact parameters are invalid.
+          getJsonResponse(response, 400, {
+            "message": "Invalid settings values."
+          });
+          return;
+        }
+        // Save user with modified settings.
+        user.save(function(error, user) {
+          // if encountered error
+          if (error) {
+            getJsonResponse(response, 500, error);
+          } else {
+            // Return updated user as response.
+            getJsonResponse(response, 200, user);
+          }
+        });
+      }
+    );
 };
 
 //////////////////////////////////////////////////////////////////////
