@@ -32,14 +32,13 @@ router.delete('/users/:idUser', ctrlUsers.userDeleteSelected);                  
 // router.post('/users/:idUser/uploadAvatar', ctrlUsers.userUploadAvatar);
 
 
-
 // Controllers for working with loans.
-router.get('/loans', ctrlLoans.loanGetAll);
-router.post('/users/:idUser/loans', ctrlLoans.loanCreate);
-router.get('/users/:idUser/loans', ctrlLoans.loanGetUsersLoans);
-router.get('/users/:idUser/loans/:idLoan', ctrlLoans.loanGetSelected);
-router.put('/users/:idUser/loans/:idLoan', ctrlLoans.loanUpdateSelected);
-router.delete('/users/:idUser/loans/:idLoan', ctrlLoans.loanDeleteSelected);
+router.get('/loans', ctrlLoans.loanGetAll);                                                 // TESTED (20.12.2018)
+router.post('/users/:idUser/loans', ctrlLoans.loanCreate);                                  // TESTED (20.12.2018)
+router.get('/users/:idUser/loans', ctrlLoans.loanGetUsersLoans);                            // TESTED (20.12.2018)
+router.get('/users/:idUser/loans/:idLoan', ctrlLoans.loanGetSelected);                      // TESTED (20.12.2018)
+router.put('/users/:idUser/loans/:idLoan', ctrlLoans.loanUpdateSelected);                   // TESTED (20.12.2018)
+router.delete('/users/:idUser/loans/:idLoan', ctrlLoans.loanDeleteSelected);                // TESTED (20.12.2018)
 
 
 // Controlers for working with contacts.

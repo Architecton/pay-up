@@ -66,7 +66,7 @@ module.exports.loanCreate = function(request, response) {
         function(error, user) {
           // if encountered error
           if (error) {
-            getJsonResponse(response, 400, error);
+            getJsonResponse(response, 500, error);
           } else {
             // add loan to user (see auxiliary function below)
             addLoan(request, response, user);

@@ -23,7 +23,7 @@ app.set('views', path.join(__dirname, 'app_server', 'views'));
 app.set('view engine', 'pug');
 
 // Set up path for API documentation
-app.use('/apidoc', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api/doc', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // setup logger
 app.use(logger('dev'));
