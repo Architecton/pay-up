@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
-
-// function debtByTime(start_date, end_date, payment_interval, payment_amount, principal_amount, interest_rate, type_interest, interest_on_debt)
+var crypto = require('crypto');
+var jwt = require('jsonwebtoken');
 
 // Schema representing a loan
 var loanShema = new mongoose.Schema({
@@ -28,13 +28,20 @@ var contactSchema = new mongoose.Schema({
   notes: {type: String}                                  // notes associated with contact
 });
 
+// Schema representing a message
+var messageSchema = new mongoose.Schema({
+  sender: {type: String, required: true},                 // message sender
+  recipient: {type: String, required: true},              // message recipient
+  content: {type: String, required: true},                // message contents
+  read: {type: Boolean, required: true}                   // has the message been read
+});
+
 
 // Schema representing a user
-var userShema = new mongoose.Schema({                      
+var userSchema = new mongoose.Schema({                      
   name: {type: String, required: true},                   // name
   surname: {type: String, required: true},                // last name
   _id: {type: String, required: true, unique: true},      // username
-  password: {type: String, required: true},               // password
   email: {type: String, required: true},                  // email
   gender: {type: String, required: true},                 // gender
   dateJoined: {type: Date, "default": Date.now()},        // date the user joined the app
@@ -42,10 +49,38 @@ var userShema = new mongoose.Schema({
   defaultCurrency: {type: String, "default": "EUR"},      // user's default currency
   nightmode: {type: Boolean, "default": false},           // false ~ off; true ~ on
   loans: [loanShema],                                     // loans associated with user.
-  contacts: [contactSchema]                               // user's contacts
+  contacts: [contactSchema],                              // user's contacts
+  messages: [messageSchema],                              // user's messages
+  avatar: Buffer,                                         // user's avatar
+  hashValue: String,                                      // password hash value
+  randomValue: String                                     // random value used in hashing
 });
+
+// setPassword: Set user's passowrd
+userSchema.methods.setPassword = function(password) {
+  this.randomValue = crypto.randomBytes(16).toString('hex');
+  this.hashValue = crypto.pbkdf2Sync(password, this.randomValue, 1000, 64, 'sha512').toString('hex');
+};
+
+// checkPassword: Check validity of password
+userSchema.methods.checkPassword = function(password) {
+  var hashValue = crypto.pbkdf2Sync(password, this.randomValue, 1000, 64, 'sha512').toString('hex');
+  return this.hashValue == hashValue;
+};
+
+// generateJwt: generate Json Web Token
+userSchema.methods.generateJwt = function() {
+  var expirationDate = new Date();
+  expirationDate.setDate(expirationDate.getDate() + 7); // Valid for seven days
+  return jwt.sign({
+    _id: this._id,
+    email: this.email,
+    name: this.name,
+    expirationDate: parseInt(expirationDate.getTime() / 1000, 10)
+  }, process.env.JWT_PASSWORD);
+};
 
 
 // Compile the schema into a model.
 // Name of model, schema to be used, optional name of the mongoDB collection
-mongoose.model('User', userShema, 'Users');
+mongoose.model('User', userSchema, 'Users');

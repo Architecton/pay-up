@@ -84,7 +84,6 @@ module.exports.authLogIn = function(request, response) {
 // authSignUp: create new user and store in DB
 module.exports.authSignUp = function(request, response) {
   // Check if passwords match.
-  console.log(request.body);
   if(request.body.password.length == 2 && request.body.password[0] === request.body.password[1]){
 	// Create new user.
     var newUser = new User();
@@ -100,6 +99,7 @@ module.exports.authSignUp = function(request, response) {
     newUser.nightmode = false;
     newUser.loans = [];
     newUser.contacts = [];
+    newUser.messages = [];
   // if passwords do not match
   } else {
     getJsonResponse(response, 400, {
@@ -145,12 +145,11 @@ var validateUser = function(newUser) {
   return new Promise(function(resolve, reject) {
         // Create regular expression for email verification.
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      // Check parameter types and values.
+    	// Check parameter types and values.
       if (
         typeof newUser.name === 'string' &&
         typeof newUser.surname === 'string' &&
         typeof newUser._id === 'string' &&
-        typeof newUser.password === 'string' &&
         re.test(String(newUser.email).toLowerCase()) &&
         typeof newUser.gender === 'string' && (newUser.gender == 'm' || newUser.gender == 'f')
        ) {

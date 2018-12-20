@@ -5,8 +5,8 @@ var User = mongoose.model('User');
 
 // Set local strategy
 passport.use(new LocalStrategy({
-        usernameField: '_id',  // set username field
-        passwordField: 'password'   // set password field
+        usernameField: 'username',  // set username property name
+        passwordField: 'password'   // set password property name
     },
     function(username, password, done) {
         User.findById(username).exec(   // Find user by his username
@@ -19,7 +19,7 @@ passport.use(new LocalStrategy({
                         message: 'Wrong username or password'
                     });
                 }
-                if (!user.validatePassword(password)) {     // If password incorrect...
+                if (!user.checkPassword(password)) {     // If password incorrect...
                     return done(null, false, {
                         message: 'Wrong username or password'
                     });

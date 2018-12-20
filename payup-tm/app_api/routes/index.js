@@ -26,10 +26,12 @@ router.delete('/nukeDBindexes', ctrlUsers.nukeDBindexes);                       
 
 
 // Controlers for working with users
-router.post('/users', ctrlUsers.userCreate);                                                // TESTED (13.12.2018)
 router.get('/users/:idUser', ctrlUsers.userGetSelected);                                    // TESTED (13.12.2018)
 router.delete('/users/:idUser', ctrlUsers.userDeleteSelected);                              // TESTED (13.12.2018)
 router.put('/users/:idUser/saveSettings', ctrlUsers.userSaveSettings);                      // TESTED (20.12.2018)
+// router.get('/users/:idUser/messages', ctrlUsers.userGetMessages);
+// router.put('/users/:idUser/messages/:idMessage', ctrlUsers.userSetMessageStatus);
+// router.delete('/users/:idUser/messages', ctrlUsers.userDeleteAllMessages());
 // TODO
 // router.post('/users/:idUser/uploadAvatar', ctrlUsers.userUploadAvatar);
 
@@ -53,8 +55,8 @@ router.delete('/users/:idUser/contacts/:idContact', ctrlContacts.contactDeleteSe
 
 
 // Controllers for authentication
-router.post('/registracija', ctrlAuthentication.authSignUp);
-router.post('/prijava', ctrlAuthentication.authLogIn);
+router.post('/users', ctrlAuthentication.authSignUp);
+router.post('/users/login', ctrlAuthentication.authLogIn);
 
 
 // Expose router as module.
