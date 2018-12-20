@@ -10,7 +10,7 @@ let transporter = nodemailer.createTransport({
   port: 25,
   auth: {
     user: 'payup.app.2019',
-    pass: 'tralalahopsasa123321',
+    pass: 'tralalahopsasa123321', // TODO: save in environment variable
   },
   tls: {
     rejectUnauthorized: false
@@ -329,9 +329,6 @@ module.exports.userDeleteSelected = function(request, response) {
 
 
 
-
-
-
 // -> TODO <-
 
 // MESSAGES /////////////////////////////////////////////////////////
@@ -416,12 +413,6 @@ module.exports.userSetMessageStatus = function(request, response) {
 
 
 /////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
 
 
 // AVATAR ///////////////////////////////////////////////////////////
