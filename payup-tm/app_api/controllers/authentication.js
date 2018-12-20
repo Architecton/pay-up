@@ -25,35 +25,6 @@ var getJsonResponse = function(response, status, data) {
   response.json(data);
 };
 
-/*
-// authSignUp: sign up new user
-// Validate user and add to database.
-module.exports.authSignUp = function(request, response) {
-	// Check if any required user parameters are missing
-	if (!request.body.name || !request.body.email || !request.body.password) {
-		getJsonResponse(response, 400, {
-		"message": "Missing data"
-		});
-	}
-	
-	// Create new user.
-	var user = new User();
-	user.name = request.body.name;
-	user.email = request.body.email;
-	user.setPassword(request.body.password);
-	// Save new user.
-	user.save(function(error) {
-		if (error) {
-			getJsonResponse(response, 500, error);
-		} else {
-			// If successfull, generate JWT for created user and return it.
-			getJsonResponse(response, 200, {
-				"token": user.generateJwt()
-			});
-		}
-	});
-};
-*/
 
 // authLogIn: log in a user by verifying the username and password
 // Return JWT if log in successfull
