@@ -56,17 +56,20 @@ var userSchema = new mongoose.Schema({
   randomValue: String                                     // random value used in hashing
 });
 
+
 // setPassword: Set user's passowrd
 userSchema.methods.setPassword = function(password) {
   this.randomValue = crypto.randomBytes(16).toString('hex');
   this.hashValue = crypto.pbkdf2Sync(password, this.randomValue, 1000, 64, 'sha512').toString('hex');
 };
 
+
 // checkPasswocrd: Check validity of password
 userSchema.methods.checkPassword = function(password) {
   var hashValue = crypto.pbkdf2Sync(password, this.randomValue, 1000, 64, 'sha512').toString('hex');
   return this.hashValue == hashValue;
 };
+
 
 // generateJwt: generate Json Web Token
 userSchema.methods.generateJwt = function() {
