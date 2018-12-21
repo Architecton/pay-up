@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en-us">    
+    <head>
+        <meta charset="utf-8">
+        <title>PayUp - Home</title>
+        <link rel="icon" href="./images/avatar.jpg">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <link href="./form-helpers/dist/css/bootstrap-formhelpers.min.css" rel="stylesheet" media="screen">
+        <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="css/styles_modal.css">
+        <script src="./js/includeHTML.js"></script>
+        <script type="text/javascript" src="./js/confirmations.js"></script>
+        <script type="text/javascript" src="./sweetalert2/dist/sweetalert2.all.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+    </head>
+    
+    
+    <body>
+        <div class="container">
+            
+            
+            <!-- Include external html for navigation bar -->
+            <div include-external2="navbar.html"></div>
+            
+            <script>
+                includeHTML2();
+            </script>
+            
+            <!-- logo -->
+            <div class="row navBottomNeighbor homeDiv bodyRow" id="homeDiv">
+                <div class="logo-box">
+                    <div class="logo-oval">
+                        <h1 class="logo-text">PayUp™</h1>
+                        <p class="slogan-text">or else.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Carousel for the "What's new" section -->
+            <div class="row bodyRow" id="carouselRow">
+                <div id="newsCarousel" class="carousel slide" data-ride="carousel">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        <li data-target="#newsCarousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#newsCarousel" data-slide-to="1"></li>
+                    </ol>
+                    
+                        <!-- Wrapper for slides -->
+                    <div class="carousel-inner" role="listbox">
+                        <div class="item active">
+                            <a href="./comingSoon.html">
+                                <img class="carousel-image" src="./images/comingSoon.jpg" alt="One">
+                            </a>
+                        </div>
+                    
+                        <div class="item">
+                            <a href="./patchnotes.html">
+                                <img class="carousel-image" src="./images/patchnotes.jpg" alt="Two">
+                            </a>
+                        </div>
+                    </div>
+                
+                    <!-- Left and right controls -->
+                    <a class="left carousel-control" href="#newsCarousel" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" href="#newsCarousel" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- About section with info on the app and developers -->
+            <div class="row bodyRow bottomRow" id="aboutRow">
+                <div class="aboutBox" id="aboutDiv">
+                    <h1>About PayUp™</h1>
+                    <p>
+                        <h4><strong>What is PayUp™?</strong></h4>
+                        PayUp™ is a simple and convenient tool for managing and keeping track of your financial loans. Forget long, incomprehensible spreadsheets and ledgers - with PayUp™, your loans are easy to manage
+                        and your data is safe and available to you wherever you are, all at the toutch of a button!
+                        
+                        <h4><strong>Who are we?</strong></h4>
+                        We are a group of enthusiastic students who are developing this app for our Web Programming course. There are four of us and we are doing our best to bring this practical application to life 
+                        for everyone's convenience.
+                        Members of the PayUp™ team: Yannick Kuhar, Aljaž Pavišič, Jernej Vivod, Jure Vreček
+                    </p>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div include-external="modal.html"></div> 
+
+        <script>
+            document.addEventListener("load", function(){
+                includeHTML();
+            });
+        </script>
+       
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	    <script src="./form-helpers/dist/js/bootstrap-formhelpers.min.js"></script>
+	    
+	    <script type="text/javascript" id="cookieinfo"
+	        src="//cookieinfoscript.com/js/cookieinfo.min.js">
+        </script>
+
+    </body>
+</html>

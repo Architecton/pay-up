@@ -1,0 +1,38 @@
+<!-- class="active" naj bo pri strani, ki je trenutno izbrana -->
+<div class="row">
+    <nav class="navbar navbar-inverse navbarExpansion">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbarText navbar-brand" href="./index.html">Home</a>
+        </div>
+    
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li><a href="./patchnotes.html" class="navbarText">What's New?<span class="sr-only">(current)</span></a></li>
+            <li><a href="./index.html#aboutDiv" class="navbarText">About</a></li>
+            <li><a href="./dashboard.html" class="navbarText">Dashboard</a></li>
+          </ul>
+          
+          <ul class="expandRight nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a href="#" class="loggedInText dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Logged in as Jn1923<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a onclick="document.getElementById('id03').style.display='block'" class="navbarTextDropDown">Profile</a></li>
+                <li><a onclick="document.getElementById('id02').style.display='block'" class="navbarTextDropDown">Settings</a></li>
+                <li><a href="TODO" class="navbarTextDropDown">Messages</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="TODO" class="navbarTextDropDown">Log out</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+</div>

@@ -1,0 +1,65 @@
+<div class="container">
+    <!-- Dashboard main buttons -->
+    <div class="row navBottomNeighbor bodyRow" id="dashboardMain">
+        <div class="col-xs-12 col-sm-6 dashboard-left">
+            <div class="v-align">
+                <a href="./loans.html">Manage Loans</a>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 dashboard-right">
+            <div class="v-align">
+                <a href="./contacts.html">Contacts</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Selected Loans table -->
+    <div class="row bodyRow bottomRow" id="dashboardTopLoans">
+        <div class="center">
+            <div class="v-align dashTableDiv">
+                <h2 class="selectedLoansHeader">Selected Loans:</h2>
+                <div class="form-group">
+                    <label class="sortLabel" for="dashboardLoansFilter">Sort by:</label>
+                    <select class="form-control" id="dashboardLoansFilter">
+                        <option>Issued/newest</option>
+                        <option>Issued/oldest</option>
+                        <option>Deadline/nearest</option>
+                        <option>Deadline/furthest</option>
+                        <option>Amount/highest</option>
+                        <option>Amount/lowest</option>
+                    </select>
+                </div>
+                <table class="table table-bordered table-striped table-dark loanTable">
+                    <thead class="thread-light">
+                        <tr>
+                            <th>Loan ID</th>
+                            <th>Source ID</th>
+                            <th>Recepient ID</th>
+                            <th>Issued</th>
+                            <th>Deadline</th>
+                            <th>Amount</th>
+                            <th>Currency</th>
+                            <th>Interest</th>
+                            <th>Interest Type</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>01</td>
+                            <td>1337</td>
+                            <td>1666</td>
+                            <td>1.1.2000</td>
+                            <td>1.1.2019</td>
+                            <td>1000</td>
+                            <td>$</td>
+                            <td>1%</td>
+                            <td>Simple</td>
+                            <td>Active</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
