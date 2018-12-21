@@ -1,10 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var ctrlMain = require('../controllers/main');
+var ctrlApp = require('../controllers/appctrl');
 
 
 // HOME
-router.get('/', ctrlMain.index);
+// router.get('/', ctrlMain.index);
 
 // COMING SOON
 router.get('/comingSoon', ctrlMain.comingSoon);
@@ -35,6 +36,12 @@ router.get('/patchnotes', ctrlMain.patchnotes);
 router.get('/db', ctrlMain.db);
 router.delete('/db', ctrlMain.nukeDB);
 router.post('/db', ctrlMain.fillDB);
+
+
+
+/* Lokacijske strani */
+router.get('/', ctrlApp.angularApp);
+
 
 // expose router as module
 module.exports = router;

@@ -58,6 +58,7 @@ app.use(cookieParser());
 
 // To serve static files such as images, CSS files, and JavaScript files, use the express.static built-in middleware function in Express.
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'app_client')));
 
 // Use passport
 app.use(passport.initialize());
