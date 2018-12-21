@@ -21,6 +21,8 @@ router.delete('/user/:idUser/loans/:idLoan', ctrlLoans.loanDeleteSelected);
 
 // GET ALL LOANS OF ALL USERS //////////////////////////////////////////////////
 
+// TODO only admin
+
 // ** loanGetAll: get all loans
 module.exports.loanGetAll = function(request, response) {
   User
@@ -55,31 +57,33 @@ module.exports.loanGetAll = function(request, response) {
 
 // loanCreate: create new loan for user with specified idUser (username)
 module.exports.loanCreate = function(request, response) {
-  // get idUser from request parameters.
-  var idUser = request.params.idUser;
-  // if idUser not null
-  if (idUser) {
-    User
-      .findById(idUser)
-      .select('loans')
-      .exec(
-        function(error, user) {
-          // if encountered error
-          if (error) {
-            getJsonResponse(response, 500, error);
-          } else {
-            // add loan to user (see auxiliary function below)
-            addLoan(request, response, user);
+  getLoggedId(request, response, function(request, response, username) {
+    // get idUser from request parameters.
+    var idUser = request.params.idUser;
+    // if idUser not null and idUser is same as the username in the JWT
+    if (idUser && idUser == username) {
+      User
+        .findById(idUser)
+        .select('loans')
+        .exec(
+          function(error, user) {
+            // if encountered error
+            if (error) {
+              getJsonResponse(response, 500, error);
+            } else {
+              // add loan to user (see auxiliary function below)
+              addLoan(request, response, user);
+            }
           }
-        }
-      );
-      // if user not found
-  } else {
-    getJsonResponse(response, 400, {
-      "message": 
-        "Cannot find user."
-    });
-  }
+        );
+        // if user not found
+    } else {
+      getJsonResponse(response, 400, {
+        "message": 
+          "Cannot find user."
+      });
+    }
+  });
 };
 
 // *** AUXILIARY FUNCTIONS *** //
@@ -148,128 +152,128 @@ var addLoan = function(request, response, user) {
 
 // ** loanUpdateSelected: update loan with specified loanID of user with specified username
 module.exports.loanUpdateSelected = function(request, response) {
-  // if request does not contain user's id or loan's id
-  if (!request.params.idUser || !request.params.idLoan) {
-    getJsonResponse(response, 400, {
-      "message": 
-        "Cannot find user/loan, " + 
-        "idUser and idLoan must not be missing."
-    });
-    return;
-  }
-  User
-    .findById(request.params.idUser)
-    .select('loans')
-    .exec(
-      function(error, user) {
-        // If user with specified username does not exist.
-        if (!user) {
-          getJsonResponse(response, 404, {
-            "message": "Cannot find user"
-          });
-          return;
-        // If encountered error
-        } else if (error) {
-          getJsonResponse(response, 500, error);
-          return;
-        }
-        // If user has property loans and there is at least one loan
-        if (user.loans && user.loans.length > 0) {
-          // Get loan to be updated.
-          var updatedLoan = 
-            user.loans.id(request.params.idLoan);
-          // if loan with given id not found
-          if (!updatedLoan) {
+  getLoggedId(request, response, function(request, response, username) {
+    // if request does not contain user's id or loan's id or if the idUser is not same as the username in the JWT
+    if (!request.params.idUser || !request.params.idLoan || request.params.idUser != username) {
+      getJsonResponse(response, 400, {
+        "message":"Bad request parameters"
+      });
+      return;
+    }
+    User
+      .findById(request.params.idUser)
+      .select('loans')
+      .exec(
+        function(error, user) {
+          // If user with specified username does not exist.
+          if (!user) {
             getJsonResponse(response, 404, {
-              "message": "Cannot find loan with given loanID."
+              "message": "Cannot find user"
             });
-          } else {
-            // check if status code is valid
-            console.log(request.body);
-            if(request.body.status === 'pending' || request.body.status === 'active' || request.body.status === 'resolved') {
-              updatedLoan.status = request.body.status;  
-            } else {
-              getJsonResponse(response, 400, {
-                "message": "Invalid loan status code."
+            return;
+          // If encountered error
+          } else if (error) {
+            getJsonResponse(response, 500, error);
+            return;
+          }
+          // If user has property loans and there is at least one loan
+          if (user.loans && user.loans.length > 0) {
+            // Get loan to be updated.
+            var updatedLoan = 
+              user.loans.id(request.params.idLoan);
+            // if loan with given id not found
+            if (!updatedLoan) {
+              getJsonResponse(response, 404, {
+                "message": "Cannot find loan with given loanID."
               });
-              return;
-            }
-            // Save modified user.
-            user.save(function(error, user) {
-              // if encountered error
-              if (error) {
-                getJsonResponse(response, 400, error);
-              // If success, return updated loan.
+            } else {
+              // check if status code is valid
+              console.log(request.body);
+              if(request.body.status === 'pending' || request.body.status === 'active' || request.body.status === 'resolved') {
+                updatedLoan.status = request.body.status;  
               } else {
-                getJsonResponse(response, 200, updatedLoan);
+                getJsonResponse(response, 400, {
+                  "message": "Invalid loan status code."
+                });
+                return;
               }
+              // Save modified user.
+              user.save(function(error, user) {
+                // if encountered error
+                if (error) {
+                  getJsonResponse(response, 400, error);
+                // If success, return updated loan.
+                } else {
+                  getJsonResponse(response, 200, updatedLoan);
+                }
+              });
+            }
+          // if user does not have property loans or user has no loans
+          } else {
+            getJsonResponse(response, 404, {
+              "message": "Cannot find loans to update."
             });
           }
-        // if user does not have property loans or user has no loans
-        } else {
-          getJsonResponse(response, 404, {
-            "message": "Cannot find loans to update."
-          });
         }
-      }
-    );
+      );
+  });
 };
 
 // ** loanDeleteSelected: delete loan od user with specified username with specified loanID.
 module.exports.loanDeleteSelected = function(request, response) {
-  // if idUser or idLoan are missing
-  if (!request.params.idUser || !request.params.idLoan) {
-    getJsonResponse(response, 400, {
-      "message": 
-        "cannot find user/loan" + 
-        "idUser and idLoan must both be present."
-    });
-    return;
-  }
-  User
-    .findById(request.params.idUser)
-    .exec(
-      function(error, user) {
-        // If user not found
-        if (!user) {
-          getJsonResponse(response, 404, {
-            "message": "Cannot find user"
-          });
-          return;
-        // If encountered error
-        } else if (error) {
-          getJsonResponse(response, 500, error);
-          return;
-        }
-        // If user has property loans and there is at least one loan.
-        if (user.loans && user.loans.length > 0) {
-          // If no loan with specified loanID
-          if (!user.loans.id(request.params.idLoan)) {
+  getLoggedId(request, response, function(request, response, username) {
+    // if idUser or idLoan are missing or if idUser is not same as the username in the JWT
+    if (!request.params.idUser || !request.params.idLoan || request.params.idUser != username) {
+      getJsonResponse(response, 400, {
+        "message":"Bad request parameters"
+      });
+      return;
+    }
+    User
+      .findById(request.params.idUser)
+      .exec(
+        function(error, user) {
+          // If user not found
+          if (!user) {
             getJsonResponse(response, 404, {
-              "message": "Cannot find loan."
+              "message": "Cannot find user"
             });
+            return;
+          // If encountered error
+          } else if (error) {
+            getJsonResponse(response, 500, error);
+            return;
+          }
+          // If user has property loans and there is at least one loan.
+          if (user.loans && user.loans.length > 0) {
+            // If no loan with specified loanID
+            if (!user.loans.id(request.params.idLoan)) {
+              getJsonResponse(response, 404, {
+                "message": "Cannot find loan."
+              });
+            } else {
+              // Remove loan with specified loanID.
+              user.loans.id(request.params.idLoan).remove();
+              // Save user.
+              user.save(function(error) {
+                // if encountered error
+                if (error) {
+                  getJsonResponse(response, 500, error);
+                } else {
+                  // gone
+                  getJsonResponse(response, 204, null);
+                }
+              });
+            }
           } else {
-            // Remove loan with specified loanID.
-            user.loans.id(request.params.idLoan).remove();
-            // Save user.
-            user.save(function(error) {
-              // if encountered error
-              if (error) {
-                getJsonResponse(response, 500, error);
-              } else {
-                // gone
-                getJsonResponse(response, 204, null);
-              }
+            // If loan with specified loanID not found, return error message.
+            getJsonResponse(response, 404, {
+              "message": "No loan to delete"
             });
           }
-        } else {
-          // If loan with specified loanID not found, return error message.
-          getJsonResponse(response, 404, {
-            "message": "No loan to delete"
-          });
         }
-      }
-    );
+      );
+  });
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -277,86 +281,91 @@ module.exports.loanDeleteSelected = function(request, response) {
 
 // ** loanGetUsersLoans: get all loans of user with given id
 module.exports.loanGetUsersLoans = function(request, response) {
-    // if request has parameters and the parameters include idUser
-    if (request.params && request.params.idUser) {
-    User
-      .findById(request.params.idUser)
-      .exec(function(error, user) {
-        if (!user) {  // If user not found
-          getJsonResponse(response, 404, {
-            "message": 
-              "Cannot find user with given identifier idUser."
-          });
-          return;
-        // if error while executing function
-        } else if (error) {
-          getJsonResponse(response, 500, error);
-          return;
-        }
-        // If success, get all loans of user.
-        var loans = user.loans;
-        getJsonResponse(response, 200, loans);
+  getLoggedId(request, response, function(request, response, username) {
+    // if request has parameters, the parameters include idUser and idUser is the same as the username in JWT
+    if (request.params && request.params.idUser && request.params.idUser == username) {
+      User
+        .findById(request.params.idUser)
+        .exec(function(error, user) {
+          if (!user) {  // If user not found
+            getJsonResponse(response, 404, {
+              "message": 
+                "Cannot find user with given identifier idUser."
+            });
+            return;
+          // if error while executing function
+          } else if (error) {
+            getJsonResponse(response, 500, error);
+            return;
+          }
+          // If success, get all loans of user.
+          var loans = user.loans;
+          getJsonResponse(response, 200, loans);
+        });
+    // else if no parameters or if parameters do not include idUser
+    } else {
+      getJsonResponse(response, 400, { 
+        "message": "identifier idUser is missing."
       });
-  // else if no parameters or if parameters do not include idUser
-  } else {
-    getJsonResponse(response, 400, { 
-      "message": "identifier idUser is missing."
-    });
-  }
+    }
+  });
 };
 
 
 // ** loanGetSelected: get loan with specified id of user with specified user id (username)
 module.exports.loanGetSelected = function(request, response) {
-  // If request has parameters and they include user id and loan id
-  if (request.params && request.params.idUser && request.params.idLoan) {
-    // Find user by id.
-    User
-      .findById(request.params.idUser)
-      .select('_id loans')
-      .exec(
-        function(error, user) {
-          var loan;
-          // if user not found
-          if (!user) {
-            getJsonResponse(response, 404, {
-              "message": 
-                "Cannot find user with specified id."
-            });
-            return;
-            // if encountered error
-          } else if (error) {
-            getJsonResponse(response, 500, error);
-            return;
-          }
-          // if user has at least one loan
-          if (user.loans && user.loans.length > 0) {
-            loan = user.loans.id(request.params.idLoan);
-            // if loan with specified id not found
-            if (!loan) {
+  getLoggedId(request, response, function(request, response, username) {
+    // If request has parameters and they include user id and loan id and idUser 
+    // is the same as the username in the JWT
+    if (request.params && request.params.idUser && request.params.idLoan && request.params.idUser == username) {
+      // Find user by id.
+      User
+        .findById(request.params.idUser)
+        .select('_id loans')
+        .exec(
+          function(error, user) {
+            var loan;
+            // if user not found
+            if (!user) {
               getJsonResponse(response, 404, {
                 "message": 
-                  "Cannot find loan with specified id."
+                  "Cannot find user with specified id."
               });
-            // If loan with specified id is found, return it.
-            } else {
-              getJsonResponse(response, 200, loan);
+              return;
+              // if encountered error
+            } else if (error) {
+              getJsonResponse(response, 500, error);
+              return;
             }
-          } else {
-            // If loans not found.
-            getJsonResponse(response, 404, {
-              "message": "Cannot find any loans."
-            });
+            // if user has at least one loan
+            if (user.loans && user.loans.length > 0) {
+              loan = user.loans.id(request.params.idLoan);
+              // if loan with specified id not found
+              if (!loan) {
+                getJsonResponse(response, 404, {
+                  "message": 
+                    "Cannot find loan with specified id."
+                });
+              // If loan with specified id is found, return it.
+              } else {
+                getJsonResponse(response, 200, loan);
+              }
+            } else {
+              // If loans not found.
+              getJsonResponse(response, 404, {
+                "message": "Cannot find any loans."
+              });
+            }
           }
-        }
-      );
-  } else {
-    // else if request parameters were invalid
-    getJsonResponse(response, 400, {
-      "message": 
-        "Invalid request parameters."
-    });
-  }
+        );
+    } else {
+      // else if request parameters were invalid
+      getJsonResponse(response, 400, {
+        "message": 
+          "Invalid request parameters."
+      });
+    }
+  });
 };
 
 
@@ -602,4 +611,33 @@ var recipientInContacts = function(username, contactUsername) {
       resolve(true);
     }
   });
+};
+
+
+// Get user's id (username) from JWT
+var getLoggedId = function(request, response, callback) {
+  // If request contains a payload and the payload contains a username
+  if (request.payload && request.payload.username) {
+    User
+      .findById(
+        request.payload.username
+      )
+      .exec(function(error, user) {
+        if (!user) {     // If user not found
+          getJsonResponse(response, 404, {
+            "message": "User not found"
+          });
+          return;
+        } else if (error) {   // if encountered error
+          getJsonResponse(response, 500, error);
+          return;
+        }
+        callback(request, response, user._id);
+      });
+  } else {    // Else if no payload or if payload does not contain field username
+    getJsonResponse(response, 400, {
+      "message": "Inadequate data in token"
+    });
+    return;
+  }
 };

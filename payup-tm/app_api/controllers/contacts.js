@@ -21,6 +21,8 @@ router.delete('/user/:idUser/contacts/:idContact', ctrlContacts.contactDeleteSel
 
 // GET ALL CONTACTS FROM DATABSE //////////////////////////////////////
 
+// TODO only admin
+
 // contactGetAll: get all contacts
 module.exports.contactGetAll = function(request, response) {
   User
@@ -55,29 +57,31 @@ module.exports.contactGetAll = function(request, response) {
 
 // addContact: add contact to user with specified username 
 module.exports.contactCreate = function(request, response) {
-  // get user's id
-  var idUser = request.params.idUser;
-  // if idUser is not null
-  if (idUser) {
-    // find user by its id (username)
-    User
-      .findById(idUser)
-      .select('contacts')
-      .exec(
-        function(error, user) {
-          if (error) {
-            getJsonResponse(response, 400, error);
-          } else {
-            addContactToUser(request, response, user);
+  getLoggedId(request, response, function(request, response, username) {
+    // get user's id
+    var idUser = request.params.idUser;
+    // if idUser is not null and is equal to the username in JWT
+    if (idUser && idUser == username) {
+      // find user by its id (username)
+      User
+        .findById(idUser)
+        .select('contacts')
+        .exec(
+          function(error, user) {
+            if (error) {
+              getJsonResponse(response, 400, error);
+            } else {
+              addContactToUser(request, response, user);
+            }
           }
-        }
-      );
-  } else {
-    getJsonResponse(response, 400, {
-      "message": 
-        "Cannot find user with given username."
-    });
-  }
+        );
+    } else {
+      getJsonResponse(response, 400, {
+        "message": 
+          "Bad request parameters"
+      });
+    }
+  });
 };
 
 // *** AUXILIARY FUNCTIONS *** //
@@ -180,50 +184,179 @@ var usernameExists = function(username) {
 
 // ** loanGetUsersContacts: get all contacts of user with given id
 module.exports.contactGetUsersContacts = function(request, response) {
-    // if request has parameters and the parameters include idUser
-    if (request.params && request.params.idUser) {
-    User
-      .findById(request.params.idUser)
-      .exec(function(error, user) {
-        if (!user) {  // If user not found
-          getJsonResponse(response, 404, {
-            "message": 
-              "Cannot find user with given identifier idUser."
-          });
-          return;
-        // if error while executing function
-        } else if (error) {
-          getJsonResponse(response, 500, error);
-          return;
-        }
-        // If success, get all user's contacts.
-        var contacts = user.contacts;
-        getJsonResponse(response, 200, contacts);
+  getLoggedId(request, response, function(request, response, username) {
+    // if request has parameters, the parameters include idUser and idUser is same as username in JWT
+    if (request.params && request.params.idUser && request.params.idUser == username) {
+      User
+        .findById(request.params.idUser)
+        .exec(function(error, user) {
+          if (!user) {  // If user not found
+            getJsonResponse(response, 404, {
+              "message": 
+                "Cannot find user with given identifier idUser."
+            });
+            return;
+          // if error while executing function
+          } else if (error) {
+            getJsonResponse(response, 500, error);
+            return;
+          }
+          // If success, get all user's contacts.
+          var contacts = user.contacts;
+          getJsonResponse(response, 200, contacts);
+        });
+    // else if no parameters or if parameters do not include idUser
+    } else {
+      getJsonResponse(response, 400, { 
+        "message": "identifier idUser is missing."
       });
-  // else if no parameters or if parameters do not include idUser
-  } else {
-    getJsonResponse(response, 400, { 
-      "message": "identifier idUser is missing."
-    });
-  }
+    }
+  });
 };
 
 
 // contactGetSelected: return contact with given idContact (username) of user with given idUser (username)
 module.exports.contactGetSelected = function(request, response) {
-  // if request has parameters and they include idUser and idContact
-  if (request.params && request.params.idUser && request.params.idContact) {
+  getLoggedId(request, response, function(request, response, username) {
+    // if request has parameters and they include idUser and idContact and idUser is the same as the username in the JWT
+    if (request.params && request.params.idUser && request.params.idContact && request.params.idUser == username) {
+      User
+        .findById(request.params.idUser)
+        .select('username contacts')
+        .exec(
+          function(error, user) {
+            var contact;
+            // if user not found
+            if (!user) {
+              getJsonResponse(response, 404, {
+                "message": 
+                  "Cannot find user."
+              });
+              return;
+              // if encountered error
+            } else if (error) {
+              getJsonResponse(response, 500, error);
+              return;
+            }
+            // if user has property contacts and user has at least one contact
+            if (user.contacts && user.contacts.length > 0) {
+              // Get contact.
+              contact = user.contacts.id(request.params.idContact);
+              // if contact not found
+              if (!contact) {
+                getJsonResponse(response, 404, {
+                  "message": 
+                    "Cannot find contact."
+                });
+              } else {
+                // Return signal object.
+                getJsonResponse(response, 200, contact);
+              }
+            // if no contacts found
+            } else {
+              getJsonResponse(response, 404, {
+                "message": "Cannot find any contact."
+              });
+            }
+          }
+        );
+    } else {
+      getJsonResponse(response, 400, {
+        "message": 
+          "Invalid request parameters."
+      });
+    }
+  });
+};
+
+
+// contactUpdateSelected: update contact with specifiedcontactID of user with specified userID
+module.exports.contactUpdateSelected = function(request, response) {
+  getLoggedId(request, response, function(request, response, username) {
+    // If request parameters do not include idUser or idContact or if idUser does not match username in JWT
+    if (!request.params.idUser || !request.params.idContact || request.params.idUser != username) {
+      getJsonResponse(response, 400, {
+        "message":"Bad request parameters"
+      });
+      return;
+    }
     User
       .findById(request.params.idUser)
-      .select('username contacts')
+      .select('contacts')
       .exec(
         function(error, user) {
-          var contact;
           // if user not found
           if (!user) {
             getJsonResponse(response, 404, {
-              "message": 
-                "Cannot find user."
+              "message": "Cannot find user."
+            });
+            return;
+          // If encountered error
+          } else if (error) {
+              getJsonResponse(response, 500, error);
+            return;
+          }
+          // If user has property contacts and user has at least one contact
+          if (user.contacts && user.contacts.length > 0) {
+            var currentContact = 
+              user.contacts.id(request.params.idContact);
+            if (!currentContact) {
+              getJsonResponse(response, 404, {
+                "message": "Cannot find contact."
+              });
+            } else {
+              // VALIDATE REQUESTED UPDATES
+              if (  // Validate contact properties types and values.
+                typeof request.body.notes === 'string'
+                ) {
+                // Update contact
+                currentContact.notes = request.body.notes;
+              } else {
+                // If contact parameters are invalid.
+                getJsonResponse(response, 400, {
+                  "message": "Invalid contact parameters."
+                });
+                return;
+              }
+              // Save user with modified contact parameter.
+              user.save(function(error, user) {
+                // if encountered error
+                if (error) {
+                  getJsonResponse(response, 400, error);
+                } else {
+                  // Return updated contact as response.
+                  getJsonResponse(response, 200, currentContact);
+                }
+              });
+            }
+          } else {
+            getJsonResponse(response, 404, {
+              "message": "No contact to update."
+            });
+          }
+        }
+      );
+  });
+};
+
+// contactDeleteSelected
+module.exports.contactDeleteSelected = function(request, response) {
+  getLoggedId(request, response, function(request, response, username) {
+    // If request parameters do not include user id or contact id or if idUser does not match username in JWT
+    if (!request.params.idUser || !request.params.idContact || request.params.idUser != username) {
+      getJsonResponse(response, 400, {
+        "message":"Bad request parameters"
+      });
+      return;
+    }
+    User
+      .findById(request.params.idUser)
+      .exec(
+        function(error, user) {
+          // if user not found
+          if (!user) {
+            getJsonResponse(response, 404, {
+              "message": "Cannot find user."
             });
             return;
             // if encountered error
@@ -233,159 +366,62 @@ module.exports.contactGetSelected = function(request, response) {
           }
           // if user has property contacts and user has at least one contact
           if (user.contacts && user.contacts.length > 0) {
-            // Get contact.
-            contact = user.contacts.id(request.params.idContact);
-            // if contact not found
-            if (!contact) {
+            // if contact with given idContact not found
+            if (!user.contacts.id(request.params.idContact)) {
               getJsonResponse(response, 404, {
-                "message": 
-                  "Cannot find contact."
+                "message": "Cannot find contact."
               });
             } else {
-              // Return signal object.
-              getJsonResponse(response, 200, contact);
+              // Remove contact with given idContact.
+              user.contacts.id(request.params.idContact).remove();
+              // Save user state.
+              user.save(function(error) {
+                // if encountered error
+                if (error) {
+                  getJsonResponse(response, 500, error);
+                } else {
+                  // GONE
+                  getJsonResponse(response, 204, null);
+                }
+              });
             }
-          // if no contacts found
+          // if contact not found
           } else {
             getJsonResponse(response, 404, {
-              "message": "Cannot find any contact."
+              "message": "No contacts to delete."
             });
           }
         }
       );
-  } else {
-    getJsonResponse(response, 400, {
-      "message": 
-        "Invalid request parameters."
-    });
-  }
-};
-
-
-// contactUpdateSelected: update contact with specifiedcontactID of user with specified userID
-module.exports.contactUpdateSelected = function(request, response) {
-  // If request parameters do not include idUser and idContact
-  if (!request.params.idUser || !request.params.idContact) {
-    getJsonResponse(response, 400, {
-      "message": 
-        "Cannot find user/contact, " + 
-        "idUser and idContact must both be present."
-    });
-    return;
-  }
-  User
-    .findById(request.params.idUser)
-    .select('contacts')
-    .exec(
-      function(error, user) {
-        // if user not found
-        if (!user) {
-          getJsonResponse(response, 404, {
-            "message": "Cannot find user."
-          });
-          return;
-        // If encountered error
-        } else if (error) {
-            getJsonResponse(response, 500, error);
-          return;
-        }
-        // If user has property contacts and user has at least one contact
-        if (user.contacts && user.contacts.length > 0) {
-          var currentContact = 
-            user.contacts.id(request.params.idContact);
-          if (!currentContact) {
-            getJsonResponse(response, 404, {
-              "message": "Cannot find contact."
-            });
-          } else {
-            // VALIDATE REQUESTED UPDATES
-            if (  // Validate contact properties types and values.
-              typeof request.body.notes === 'string'
-              ) {
-              // Update contact
-              currentContact.notes = request.body.notes;
-            } else {
-              // If contact parameters are invalid.
-              getJsonResponse(response, 400, {
-                "message": "Invalid contact parameters."
-              });
-              return;
-            }
-            // Save user with modified contact parameter.
-            user.save(function(error, user) {
-              // if encountered error
-              if (error) {
-                getJsonResponse(response, 400, error);
-              } else {
-                // Return updated contact as response.
-                getJsonResponse(response, 200, currentContact);
-              }
-            });
-          }
-        } else {
-          getJsonResponse(response, 404, {
-            "message": "No contact to update."
-          });
-        }
-      }
-    );
-};
-
-// contactDeleteSelected
-module.exports.contactDeleteSelected = function(request, response) {
-  // If request parameters do not include user id or contact id
-  if (!request.params.idUser || !request.params.idContact) {
-    getJsonResponse(response, 400, {
-      "message": 
-        "Cannot find user/contact, " + 
-        "idUser and idContact must both be present."
-    });
-    return;
-  }
-  User
-    .findById(request.params.idUser)
-    .exec(
-      function(error, user) {
-        // if user not found
-        if (!user) {
-          getJsonResponse(response, 404, {
-            "message": "Cannot find user."
-          });
-          return;
-          // if encountered error
-        } else if (error) {
-          getJsonResponse(response, 500, error);
-          return;
-        }
-        // if user has property contacts and user has at least one contact
-        if (user.contacts && user.contacts.length > 0) {
-          // if contact with given idContact not found
-          if (!user.contacts.id(request.params.idContact)) {
-            getJsonResponse(response, 404, {
-              "message": "Cannot find contact."
-            });
-          } else {
-            // Remove contact with given idContact.
-            user.contacts.id(request.params.idContact).remove();
-            // Save user state.
-            user.save(function(error) {
-              // if encountered error
-              if (error) {
-                getJsonResponse(response, 500, error);
-              } else {
-                // GONE
-                getJsonResponse(response, 204, null);
-              }
-            });
-          }
-        // if contact not found
-        } else {
-          getJsonResponse(response, 404, {
-            "message": "No contacts to delete."
-          });
-        }
-      }
-    );
+  });
 };
 
 //////////////////////////////////////////////////////////////////////////
+
+// Get user's id (username) from JWT
+var getLoggedId = function(request, response, callback) {
+  // If request contains a payload and the payload contains a username
+  if (request.payload && request.payload.username) {
+    User
+      .findById(
+        request.payload.username
+      )
+      .exec(function(error, user) {
+        if (!user) {     // If user not found
+          getJsonResponse(response, 404, {
+            "message": "User not found"
+          });
+          return;
+        } else if (error) {   // if encountered error
+          getJsonResponse(response, 500, error);
+          return;
+        }
+        callback(request, response, user._id);
+      });
+  } else {    // Else if no payload or if payload does not contain field username
+    getJsonResponse(response, 400, {
+      "message": "Inadequate data in token"
+    });
+    return;
+  }
+};
