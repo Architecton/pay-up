@@ -10,8 +10,27 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+var uglifyJs = require('uglify-js');
+var fs = require('fs');
+
+var combined = uglifyJs.minify({
+  'app.js': fs.readFileSync('app_client/app.js', 'utf-8'),
+  'seznam.krmilnik.js': fs.readFileSync('app_client/seznam/seznam.krmilnik.js', 'utf-8'),
+  'edugeocachePodatki.storitev.js': fs.readFileSync('app_client/skupno/storitve/edugeocachePodatki.storitev.js', 'utf-8'),
+  'geolokacija.storitev.js': fs.readFileSync('app_client/skupno/storitve/geolokacija.storitev.js', 'utf-8'),
+  'formatirajRazdaljo.filter.js': fs.readFileSync('app_client/skupno/filtri/formatirajRazdaljo.filter.js', 'utf-8'),
+  'prikaziOceno.direktiva.js': fs.readFileSync('app_client/skupno/direktive/prikaziOceno/prikaziOceno.direktiva.js', 'utf-8')
+});
+
+fs.writeFile('public/angular/payup.min.js', combined.code, function(error) {
+  if (error)
+    console.log(error);
+  else
+    console.log('The script is generated and saved in "payup.min.js".');
+});
+
 // routers located in app_server directory
-var indexRouter = require('./app_server/routes/index');
+// var indexRouter = require('./app_server/routes/index');
 var indexApi = require('./app_api/routes/index');
 
 // Set up Swagger user interface
@@ -64,10 +83,15 @@ app.use(express.static(path.join(__dirname, 'app_client')));
 app.use(passport.initialize());
 
 // Add router -- Forward requests to indexRouter
-app.use('/', indexRouter);
+// app.use('/', indexRouter);
 
 // forward all request beginning with /api to indexAPI router
 app.use('/api', indexApi);
+
+// Send index.html (starting page)
+app.use(function(req, res) {
+  res.sendFile(path.join(__dirname, 'app_client', 'index.html'));
+});
 
 
 // catch 404 and forward to error handler.

@@ -1,12 +1,17 @@
-var loansData = function($http) {
-  var loans = function(idUser) {
-    return $http.get('/api/users/' + idUser + '/loans');
+(function() {
+  var loansData = function($http) {
+    var loans = function(idUser) {
+      return $http.get('/api/users/' + idUser + '/loans');
+    };
+    return {
+      loans: loans
+    };
   };
-  return {
-    loans: loans
-  };
-};
-
-/* global payupApp */
-payupApp
-  .service('loansData', loansData);
+  
+  loansData.$inject = ['$http'];
+  
+  /* global angular */
+  angular
+    .module('payupApp')
+    .service('loansData', loansData);
+})();
