@@ -1,5 +1,5 @@
 doctype html
-html(ng-app='payup')
+html(ng-app='payupApp')
 head
   meta(charset='utf-8')
   title PayUp - Home
@@ -12,6 +12,8 @@ head
   script(src='/lib/angular-route.min.js')
   script(src='/app.js')
   script(src='/dashboard/dashboard.controller.js')
+  script(src='/common/services/loansData.service.js')
+  script(src='/common/services/loansList.service.js')
 //  script(src='./js/modal.js')
 .container
   div(ng-view)

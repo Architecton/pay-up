@@ -1,25 +1,16 @@
 // dashboardCtrl: dashboard page controller
-function dashboardCtrl($scope, loansData, loansList) {
+function loansCtrl($scope, loansData, loansList) {
   // Pogled-model se generira ob kreiranju novega primerka krmilnika, zato lahko do njega preprosto dostopamo z this
   var vm = this;
-  
-  vm.test = {
-    a:'This is a test!',
-    b:'This is also a test!'
-  };
-  
-  console.log(vm);
-  
   // getData; get selected loans of user with ID idUser
   vm.getData = function(idUser) {
     // Make GET request to retrieve loans data.
     loansData.loans(idUser).then(
       function success(response) {  // If response successfuly retrieved...
-        vm.message = response.data.length > 0 ? "" : "No active loans found.";  // If at least one loan found, set empty message.
+        vm.message = response.data.length > 0 ? "" : "No loans found.";         // If at least one loan found, set empty message.
         // Data to be exposed
         vm.data = {                                                             // selectedLoans are the loans in the HTTP response to the GET request.
-          // Return active loans sorted by the loan amount.
-          selectedLoans: response.data.filter(loan => loan.status == 'active').sort((a,b) => (a.amount > b.amount) ? 1 : ((b.amount > a.amount) ? -1 : 0))
+          selectedLoans: response.data
         };
       }, function error(response) {  // else if error...
         vm.message = "Error";
@@ -44,8 +35,7 @@ function dashboardCtrl($scope, loansData, loansList) {
 // Add controller to the app
 /* global payupApp */
 payupApp
-  .controller('dashboardCtrl', dashboardCtrl);
-  
+  .controller('loansCtrl', loansCtrl);
   
 /*
 Control Flow:
