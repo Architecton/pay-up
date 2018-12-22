@@ -15,18 +15,17 @@ var fs = require('fs');
 
 var combined = uglifyJs.minify({
   'app.js': fs.readFileSync('app_client/app.js', 'utf-8'),
-  'seznam.krmilnik.js': fs.readFileSync('app_client/seznam/seznam.krmilnik.js', 'utf-8'),
-  'edugeocachePodatki.storitev.js': fs.readFileSync('app_client/skupno/storitve/edugeocachePodatki.storitev.js', 'utf-8'),
-  'geolokacija.storitev.js': fs.readFileSync('app_client/skupno/storitve/geolokacija.storitev.js', 'utf-8'),
-  'formatirajRazdaljo.filter.js': fs.readFileSync('app_client/skupno/filtri/formatirajRazdaljo.filter.js', 'utf-8'),
-  'prikaziOceno.direktiva.js': fs.readFileSync('app_client/skupno/direktive/prikaziOceno/prikaziOceno.direktiva.js', 'utf-8')
+  'dashboard.controller.js': fs.readFileSync('app_client/dashboard/dashboard.controller.js', 'utf-8'),
+  'loansData.service.js': fs.readFileSync('app_client/common/services/loansData.service.js', 'utf-8'),
+  'loansList.service.js': fs.readFileSync('app_client/common/services/loansList.service.js', 'utf-8'),
 });
 
 fs.writeFile('public/angular/payup.min.js', combined.code, function(error) {
-  if (error)
+  if (error) {
     console.log(error);
-  else
+  } else {
     console.log('The script is generated and saved in "payup.min.js".');
+  }
 });
 
 // routers located in app_server directory
