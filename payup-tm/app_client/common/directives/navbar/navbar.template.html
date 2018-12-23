@@ -17,24 +17,31 @@
           <ul class="nav navbar-nav">
             <li><a href="./patchnotes.html" class="navbarText">What's New?<span class="sr-only">(current)</span></a></li>
             <li><a href="./index.html#aboutDiv" class="navbarText">About</a></li>
-            <li><a href="./dashboard.html" class="navbarText">Dashboard</a></li>
+            <li ng-show="navvm.isLoggedIn" ><a href="./dashboard.html" class="navbarText">Dashboard</a></li>
           </ul>
           
-          <ul class="expandRight nav navbar-nav navbar-right">
+          <ul ng-show="navvm.isLoggedIn" class="expandRight nav navbar-nav navbar-right">
             <li class="dropdown">
-              <a href="#" class="loggedInText dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Logged in as Jn1923<span class="caret"></span></a>
+              <a href="#" class="loggedInText dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Logged in as {{ navvm.currentUser.username }}<span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a onclick="document.getElementById('id03').style.display='block'" class="navbarTextDropDown">Profile</a></li>
                 <li><a onclick="document.getElementById('id02').style.display='block'" class="navbarTextDropDown">Settings</a></li>
-                <li><a href="TODO" class="navbarTextDropDown">Messages</a></li>
+                <li><a href="" class="navbarTextDropDown">Messages</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="TODO" class="navbarTextDropDown">Log out</a></li>
+                <li><a href="" class="navbarTextDropDown" ng-click="navvm.logOut()">>Log out</a></li>
               </ul>
+            </li>
+          </ul>
+          
+          <ul ng-hide="navvm.isLoggedIn" class="expandRight nav navbar-nav navbar-right">
+            <li>
+              <a class="navbarTextLoginSignup navbar-brand" onclick="document.getElementById('id01').style.display='block'">Log In</a>
+            </li>
+            <li>
+              <a class="navbarTextLoginSignup navbar-brand" href="./signup.html">Sign Up</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
 </div>
-<link rel="stylesheet" href="style/css/styles.css">
-<link rel="stylesheet" href="style/css/styles_modal.css">
