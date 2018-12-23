@@ -28,7 +28,9 @@ var user1 = {"name": "Jozef",
 	 "contacts": [ {"name": "Manca",
 	 "surname": "Oblak",
 	 "username": "manca123",
-	 "email": "manca.oblak@gmail.com"}]
+	 "email": "manca.oblak@gmail.com"}],
+	 "messages": []
+	 
 };
 
 var user2 = {"name": "Manca", 
@@ -58,7 +60,8 @@ var user2 = {"name": "Manca",
 	 "contacts": [ {"name": "Jozef",
 	 "surname": "Novak",
 	 "username": "gozdnijoza97",
-	 "email": "jozef.novak@gmail.com"}]
+	 "email": "jozef.novak@gmail.com"}],
+	 "messages":[]
 };
 
 // exposes data as array of users.

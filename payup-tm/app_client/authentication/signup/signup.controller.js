@@ -46,4 +46,3 @@
     .module('payupApp')
     .controller('signupCtrl', signupCtrl);
 })();
-

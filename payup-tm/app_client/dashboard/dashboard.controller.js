@@ -4,13 +4,6 @@
     // Pogled-model se generira ob kreiranju novega primerka krmilnika, zato lahko do njega preprosto dostopamo z this
     var vm = this;
     
-    vm.test = {
-      a:'This is a test!',
-      b:'This is also a test!'
-    };
-    
-    console.log(vm);
-    
     // getData; get selected loans of user with ID idUser
     vm.getData = function(idUser) {
       // Make GET request to retrieve loans data.

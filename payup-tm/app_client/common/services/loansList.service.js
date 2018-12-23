@@ -16,7 +16,7 @@
   // TODO function gets currently logged in user
   var getUser = function(cbSuccess, cbError) {
       // Somehow get logged user ID (sername)...
-      var idUser = 'gozdnijoza97';
+      var idUser = 'jerry12345';
       if (idUser) {
         cbSuccess(idUser);
       } else {

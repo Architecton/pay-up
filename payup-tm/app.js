@@ -18,6 +18,7 @@ var combined = uglifyJs.minify({
   'dashboard.controller.js': fs.readFileSync('app_client/dashboard/dashboard.controller.js', 'utf-8'),
   'loansData.service.js': fs.readFileSync('app_client/common/services/loansData.service.js', 'utf-8'),
   'loansList.service.js': fs.readFileSync('app_client/common/services/loansList.service.js', 'utf-8'),
+  'navbar.directive.js': fs.readFileSync('app_client/common/directives/navbar/navbar.directive.js', 'utf-8')
 });
 
 fs.writeFile('public/angular/payup.min.js', combined.code, function(error) {
