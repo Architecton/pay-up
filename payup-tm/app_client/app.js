@@ -3,15 +3,16 @@
   // Add path specification as a setting of the application.
   function setting($routeProvider, $locationProvider) {
     $routeProvider
-      .when('/dashboard', {  
+      .when('/', {  
         templateUrl: 'dashboard/dashboard.view.html',       // Template to add onto layout.pug
         controller: 'dashboardCtrl',
         controllerAs: 'vm'
-      }).when('/tralala', {                                 // Another path
-        templateUrl: 'dashboard/dashboard.view.html',
-        controller: 'dashboardCtrl'
       })
-      .otherwise({redirectTo: '/'});                        // If none of the paths match - (TODO render general 404 page)
+      .when('/signup', {                                 // Another path
+        templateUrl: 'common/views/signupForm.view.html',
+        controller: 'signupCtrl',
+        controllerAs: 'vm'
+      });
     $locationProvider.html5Mode(true);
   }
   
