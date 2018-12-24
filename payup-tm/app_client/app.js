@@ -31,6 +31,9 @@
       })
       .when('/patchnotes', {
         templateUrl: 'patchnotes/patchnotes.view.html'
+      })
+      .when('/db', {
+        templateUrl: 'db/db.view.html'
       });
     $locationProvider.html5Mode(true);
   }

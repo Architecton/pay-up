@@ -633,3 +633,33 @@ html, body {
 .debtChart {
     padding:30px;
 }
+
+/* DB PAGE */
+
+.nukeButton {
+    margin-top:10px;
+    margin-bottom:30px;
+    height: 300px;
+    width: 300px;
+    border-radius: 150px;
+    border: 4px ridge silver; 
+    text-align: center;
+    background-image:url('/images/NUKE.jpg');
+    background-size: 300px 300px;
+    background-position: center; 
+    overflow:hidden
+}
+
+.seedButton {
+    margin-top:10px;
+    margin-bottom:30px;
+    height: 300px;
+    width: 300px;
+    border-radius: 150px;
+    border: 4px ridge silver; 
+    text-align: center;
+    background-image:url('/images/SEED.jpg'); 
+    background-size: 300px 300px;
+    background-position: center; 
+    overflow:hidden
+}
