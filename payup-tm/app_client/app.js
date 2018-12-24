@@ -33,7 +33,9 @@
         templateUrl: 'patchnotes/patchnotes.view.html'
       })
       .when('/db', {
-        templateUrl: 'db/db.view.html'
+        templateUrl: 'db/db.view.html',
+        controller: "dbCtrl",
+        controllerAs: 'vm'
       });
     $locationProvider.html5Mode(true);
   }

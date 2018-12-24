@@ -647,7 +647,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/User"
+                  "$ref" : "#/components/schemas/Contact"
                 }
               }
             }
@@ -665,10 +665,16 @@
                   "surname" : {
                     "type" : "string"
                   },
-                  "username" : {
+                  "email" : {
                     "type" : "string"
                   },
-                  "email" : {
+                  "phone" : {
+                    "type" : "string"
+                  },
+                  "region" : {
+                    "type" : "string"
+                  },
+                  "username" : {
                     "type" : "string"
                   }
                 }
@@ -907,10 +913,16 @@
           "surname" : {
             "type" : "string"
           },
-          "username" : {
+          "email" : {
             "type" : "string"
           },
-          "email" : {
+          "phone" : {
+            "type" : "string"
+          },
+          "region" : {
+            "type" : "string"
+          },
+          "username" : {
             "type" : "string"
           },
           "notes" : {
