@@ -17,22 +17,28 @@
             console.log(response.data);
           });
       } else {
-        return new Promise(function(resolve) {
-          resolve(false);          
+        return new Promise(function(resolve, reject) {
+          reject("Not Logged in!");
         });
       }
     };
     
     // fill: fill database with testing data
-    var fill = function(idUser, contactData) {
-      // Make a post request with empty body.
-      return $http.post('/api/fillDB', {
+    var fill = function() {
+      if (authentication.isLoggedIn()) {
+        // Make a post request with empty body.
+        return $http.get('/api/fillDB', {
           headers: {
-              Authorization: 'Bearer ' + authentication.getToken()
+            Authorization: 'Bearer ' + authentication.getToken()
           }
-      }).then(function success(response) {
-         console.log(response.data); 
-      });
+        }).then(function success(response) {
+           console.log(response.data); 
+        });
+      } else {
+        return new Promise(function(resolve, reject) {
+          reject("Not logged in!");
+        });
+      }
     };
     
     // Return object containing the functions offered by this service.

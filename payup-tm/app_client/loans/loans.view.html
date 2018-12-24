@@ -126,7 +126,7 @@
     <span onclick="document.getElementById('id07').style.display='none'" class="close" title="Close Modal">&times;</span>
     
     <!-- Contents of login box -->
-    <form class="modal-content animate">
+    <form ng-submit="vm.sendNewLoanData()" autocomplete="off" class="modal-content animate">
         
         <!-- title -->
         <div class="imgcontainer">
@@ -141,7 +141,7 @@
                 <label for="loanerSel">Select loaner from your contacts:</label>
                 
                 <div>
-                    <select class="form-control loanerSel" id="loanerSel">
+                    <select class="form-control loanerSel" id="loanerSel" ng-model="vm.loanData.recipient">
                         <option>TODO list contacts</option>
                     </select>
                 </div>
@@ -152,24 +152,24 @@
                 <legend class="newLoanLegend">Loan Information:</legend>
                 <label>Amount to loan:</label>
                 <div class="loanPropSel">
-                    <input type="number" name="loanAmount" value="1" min=1><br>
+                    <input type="number" name="loanAmount" value="1" min=1 ng-model="vm.loanData.amount"><br>
                 </div>
                 <label>Currency:</label>
-                <div class="bfh-selectbox bfh-currencies loanPropSelCurrency" data-currency="EUR" data-flags="true"></div>
+                <div class="bfh-selectbox bfh-currencies loanPropSelCurrency" data-currency="EUR" id="currencySel" data-flags="true" ng-model="vm.loanData.currency"></div>
                 <label>Interest:</label>
                 <div class="loanPropSel">
-                    <input type="number" name="loanAmount" value="1" min=1><br>
+                    <input type="number" name="loanAmount" value="1" min=1 ng-model="vm.loanData.interest"><br>
                 </div>
                 <label>Compound Interest:</label>
                 <div class="loanPropSel">
-                    <select>
+                    <select ng-model="vm.loanData.compoundInterest">
                       <option value="Yes">Yes</option>
                       <option value="No">No</option>
                     </select>
                 </div>
                 <label>Interest on Debt:</label>
                 <div class="loanPropSel">
-                    <select>
+                    <select ng-model="vm.loanData.interest_on_debt">
                       <option value="Yes">Yes</option>
                       <option value="No">No</option>
                     </select>
@@ -180,11 +180,15 @@
                 <legend class="newLoanLegend">Deadlines and Payment Intervals</legend>
                 <label>Payment Interval (in days):</label>
                 <div class="loanPropSel">
-                    <input type="number" name="loanAmount" value="1" min=1><br>
+                    <input type="number" name="loanAmount" value="1" min=1 ng-model="vm.loanData.payment_interval"><br>
                 </div>
                 <label>Payment Amount:</label>
                 <div class="loanPropSel">
-                    <input type="number" name="loanAmount" value="1" min=1><br>
+                    <input type="number" name="loanAmount" value="1" min=1 ng-model="vm.loanData.payment_amount"><br>
+                </div>
+                <label>Repayment Deadline:</label>
+                <div class="loanPropSel">
+                    <input type="date" name="paymentDeadline" ng-model="vm.loanData.deadline"><br>
                 </div>
             </fieldset>
             
@@ -192,7 +196,7 @@
         
         
         <div style="text-align:center">
-                <button type="button" onclick="comfirmLoan();" class="loanConfirmButton btn btn-primary">Create Loan</button>
+                <button type="submit" class="loanConfirmButton btn btn-primary">Create Loan</button>
                 <span onclick="document.getElementById('id07').style.display='none'" class="opts cancelLink" title="Cancel" onmouseover="">Cancel</span>
         </div>
         

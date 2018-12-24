@@ -2,6 +2,7 @@ var passport = require('passport');
 var mongoose = require('mongoose');
 var nodemailer = require('nodemailer');
 var User = mongoose.model('User');
+var testingData = require('./testingData');
 
 // Create mail transporter.
 let transporter = nodemailer.createTransport({
@@ -23,6 +24,19 @@ var getJsonResponse = function(response, status, data) {
   // Add status and JSON to response.
   response.status(status);
   response.json(data);
+};
+
+
+// fillDB: intialize database collection Users with testing data.
+module.exports.fillDB = function(request, response) {
+  var createdPromises = testingData.users.map(function(testUser) {
+    return User.create(testUser);
+  });
+  Promise.all(createdPromises).then(function(result) {
+    getJsonResponse(response, 201, {"status" : "done"});
+  }).then(null, function(err) {
+      getJsonResponse(response, 400, err);
+  });
 };
 
 
@@ -200,4 +214,34 @@ var sendMail = function(emailAddress) {
         resolve(true);  // If successfuly sent mail, resolve as true.
     });
   });
+};
+
+///////////////////////////////////////////////////////////////////////////////////
+
+// Get user's id (username) from JWT
+var getLoggedId = function(request, response, callback) {
+  // If request contains a payload and the payload contains a username
+  if (request.payload && request.payload.username) {
+    User
+      .findById(
+        request.payload.username
+      )
+      .exec(function(error, user) {
+        if (!user) {     // If user not found
+          getJsonResponse(response, 404, {
+            "message": "User not found"
+          });
+          return;
+        } else if (error) {   // if encountered error
+          getJsonResponse(response, 500, error);
+          return;
+        }
+        callback(request, response, user._id);
+      });
+  } else {    // Else if no payload or if payload does not contain field username
+    getJsonResponse(response, 400, {
+      "message": "Inadequate data in token"
+    });
+    return;
+  }
 };

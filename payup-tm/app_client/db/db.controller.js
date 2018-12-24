@@ -38,16 +38,6 @@
                 // Make call to service and log user out.
                 testHelper.nuke().then(
                   function success(response) {  // If successful
-                    if (response == false){
-                      Swal({
-                        type: 'error',
-                        title: 'WHAT???',
-                        text: 'You are not authorized to press this button! Who exactly do you think you are?!'
-                      }).then(ok => {
-                        $location.path('/');
-                        $route.reload();
-                      });  
-                    }
                     authentication.logOut();
                     $location.path('/');
                     $route.reload();
@@ -73,15 +63,32 @@
       // Make call to service.
       testHelper.fill().then(
         function success(response) {  // If response successfuly retrieved...
-          // todo Swal
+          Swal({
+            title: 'Success!',
+            text: 'You have successfuly populated the database with testing data!',
+            imageUrl: 'style/images/plant.jpeg',
+            imageWidth: 400,
+            imageHeight: 200,
+            imageAlt: 'Custom image',
+            animation: false
+          }).then(ok => {
+            $location.path('/');
+            $route.reload();
+          });
         }, function error(response) {  // else if error...
-          
+          console.log(response.status);
+          Swal({
+            type: 'error',
+            title: 'WHAT???',
+            text: response.status == 400 ? 'You\'ve already done this, haven\'t you??' : 'You are not authorized to press this button! Who exactly do you think you are?!'
+          }).then(ok => {
+            $location.path('/');
+            $route.reload();
+          }); 
         }
       );
     };
   }
-
-  
   // Add controller to the app
   /* global angular */
   angular

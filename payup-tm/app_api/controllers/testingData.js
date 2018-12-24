@@ -25,11 +25,15 @@ var user1 = {"name": "Jozef",
 			 "interest_on_debt": false, 
 			 "status": 1}],
 
-	 "contacts": [ {"name": "Manca",
-	 "surname": "Oblak",
-	 "username": "manca123",
-	 "email": "manca.oblak@gmail.com"}],
-	 "messages": []
+	 "contacts": [ 
+		{"name": "Manca",
+		 "surname": "Oblak",
+		 "username": "manca123",
+		 "email": "manca.oblak@gmail.com",
+		 "phone": "070123456",
+		 "region": "Celje",
+		 "notes": "Blabla"}],
+		 "messages": []
 	 
 };
 
@@ -56,11 +60,14 @@ var user2 = {"name": "Manca",
 			 "compoundInterest": true, 
 			 "interest_on_debt": false, 
 			 "status": 1}],
-
 	 "contacts": [ {"name": "Jozef",
 	 "surname": "Novak",
 	 "username": "gozdnijoza97",
-	 "email": "jozef.novak@gmail.com"}],
+	 "email": "jozef.novak@gmail.com",
+	 "region": "Celje",
+	 "notes" : "Blablabla",
+	 "phone": "070123321"
+	 }],
 	 "messages":[]
 };
 

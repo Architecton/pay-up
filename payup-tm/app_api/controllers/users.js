@@ -54,7 +54,6 @@ module.exports.nukeDBindexes = function(request, response) {
   });
 };
 
-// TODO Only admin
 
 // fillDB: intialize database collection Users with testing data.
 module.exports.fillDB = function(request, response) {
@@ -67,6 +66,7 @@ module.exports.fillDB = function(request, response) {
       getJsonResponse(response, 400, err);
   });
 };
+
 
 ///////////////////////////////////////////////////////////////////////
 

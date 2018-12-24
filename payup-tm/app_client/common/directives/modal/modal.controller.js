@@ -34,8 +34,8 @@
               title: 'Welcome back!',
               text: 'We missed you! See what\'s new by navigating to your dashboard!',
               imageUrl: '/style/images/avatar2.png',
-              imageWidth: 400,
-              imageHeight: 200,
+              imageWidth: 180,
+              imageHeight: 230,
               imageAlt: 'Custom image',
               animation: true
             }).then(ok => {
@@ -101,8 +101,6 @@
       });
     };
     ///////////////////////////////////////////////
-    
-    
   }
   
   modalCtrl.$inject = ['$location', 'authentication', '$route'];

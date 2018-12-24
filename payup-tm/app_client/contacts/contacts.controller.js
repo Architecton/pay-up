@@ -244,13 +244,6 @@
     };
 
     /////////////////////////////////////////
-
-    // Show error message
-    vm.showError = function(error) {
-      $scope(function() {
-        vm.message = error.message;
-      });
-    };
   
     // Call to service function that retrieves the loans to be displayed on the dashboard.
     contactsList.getContacts(             // Pass getData and showError functions
