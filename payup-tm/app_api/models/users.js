@@ -2,6 +2,7 @@ var mongoose = require("mongoose");
 var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
 
+
 // Schema representing a loan
 var loanShema = new mongoose.Schema({
   loaner: {type: String, required: true},              // Loaner's username (pk)
@@ -23,10 +24,13 @@ var loanShema = new mongoose.Schema({
 var contactSchema = new mongoose.Schema({
   name: {type: String, required: true},                   // Name of the contact
   surname: {type: String, required: true},                // Last name of the contact
+  email: {type: String, required: true},                  // Contact's email
+  phone: {type: String, required: true},                  // Contact's telephone number
+  region: {type: String, required: true},                 // Contact's region
   username: {type: String, required: true, unique: true}, // username of the contact (needed for linking with actual user)
-  email: {type: String, required: true},                  // contact's email
   notes: {type: String}                                   // notes associated with contact
 });
+
 
 // Schema representing a message
 var messageSchema = new mongoose.Schema({
@@ -63,13 +67,11 @@ userSchema.methods.setPassword = function(password) {
   this.hashValue = crypto.pbkdf2Sync(password, this.randomValue, 1000, 64, 'sha512').toString('hex');
 };
 
-
 // checkPasswocrd: Check validity of password
 userSchema.methods.checkPassword = function(password) {
   var hashValue = crypto.pbkdf2Sync(password, this.randomValue, 1000, 64, 'sha512').toString('hex');
   return this.hashValue == hashValue;
 };
-
 
 // generateJwt: generate Json Web Token
 userSchema.methods.generateJwt = function() {

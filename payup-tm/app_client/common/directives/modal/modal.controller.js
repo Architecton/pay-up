@@ -33,7 +33,7 @@
             Swal({
               title: 'Welcome back!',
               text: 'We missed you! See what\'s new by navigating to your dashboard!',
-              imageUrl: 'https://unsplash.it/400/200',
+              imageUrl: '/style/images/avatar2.png',
               imageWidth: 400,
               imageHeight: 200,
               imageAlt: 'Custom image',

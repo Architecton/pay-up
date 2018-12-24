@@ -3,6 +3,7 @@
     function signupCtrl($location, $route, authentication) {
       var vm = this;
     
+      // Data needed for signup
       vm.signupData = {
         name: "",
         surname: "",
@@ -19,7 +20,7 @@
       
       // sendData: send sign up data to API
       vm.sendData = function() {
-        console.log(vm.signupData);
+        // Validate data.
         vm.formError = "";
         if (!vm.signupData.name || !vm.signupData.surname || !vm.signupData.username || !vm.signupData.password1 || !vm.signupData.password2 || !vm.signupData.email) {
           vm.formError = "Please fill out all the forms.";
@@ -54,6 +55,7 @@
           });
           return false;
         } else {
+          // Format data to form accepted by the API.
           vm.signupData = {
             name: vm.signupData.name.trim(),
             surname: vm.signupData.surname.trim(),
@@ -70,7 +72,7 @@
       vm.performSignup = function() {
         console.log(vm.signupData);
         vm.formError = "";
-        authentication    // Send POST request with sign up data.
+        authentication    // Call to service that provides signUp function that makes API call.
           .signUp(vm.signupData)
           .then(          // When finished
             function(success) {
@@ -97,14 +99,15 @@
       };
     }
     
+    // showSignupConfirmation: show successful signup confirmation.
     var showSignupConfirmation = function() {
       return new Promise(function(resolve) {
         Swal({
                 title: 'Thank you for signing up for our service!',
                 text: 'Please check your inbox for the confirmation e-mail and follow the instructions there!',
-                imageUrl: 'https://unsplash.it/400/200',
-                imageWidth: 400,
-                imageHeight: 200,
+                imageUrl: '/style/images/avatar2.png',
+                imageWidth: 180,
+                imageHeight: 230,
                 imageAlt: 'Custom image',
                 animation: true
         }).then(ok => {

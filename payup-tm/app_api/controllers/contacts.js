@@ -98,8 +98,10 @@ var addContactToUser = function(request, response, user) {
     var newContact = {
       name: request.body.name,
       surname: request.body.surname,
-      username: request.body.username,
       email: request.body.email,
+      phone: request.body.phone,
+      region: request.body.region,
+      username: request.body.username,
       notes: ""
     };
     // Validate created contact.
@@ -139,6 +141,8 @@ var validateContact = function(contact) {
       typeof contact.name === 'string' &&
       typeof contact.surname === 'string' &&
       typeof contact.username === 'string' &&
+      typeof contact.phone === 'string' &&
+      typeof contact.region === 'string' &&
       re.test(String(contact.email).toLowerCase())
     ) {
       // Check if contact username exists.
