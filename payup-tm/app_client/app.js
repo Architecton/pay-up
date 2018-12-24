@@ -21,7 +21,7 @@
         controller: 'loansCtrl',
         controllerAs: 'vm'
       })
-      .when('/comingSoon', {
+      .when('/comingsoon', {
         templateUrl: 'comingsoon/comingsoon.view.html'
       })
       .when('/contacts', {

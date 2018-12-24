@@ -27,15 +27,17 @@ var getJsonResponse = function(response, status, data) {
 
 // nukeDB: remove all contents of database collection Users
 module.exports.nukeDB = function(request, response) {
-  User.remove({}, function(err, user){
-    if (err) {
-      // if encountered error
-      getJsonResponse(response, 500, err);   
-    }
-    else {
-      getJsonResponse(response, 204, null);
-    }
-  }); 
+  getLoggedId(request, response, function(request, response, username) {
+    User.remove({}, function(err, user){
+      if (err) {
+        // if encountered error
+        getJsonResponse(response, 500, err);   
+      }
+      else {
+        getJsonResponse(response, 204, null);
+      }
+    }); 
+  });
 };
 
 // TODO Only admin
@@ -381,6 +383,7 @@ var getLoggedId = function(request, response, callback) {
         callback(request, response, user._id);
       });
   } else {    // Else if no payload or if payload does not contain field username
+  console.log("FAIL");
     getJsonResponse(response, 400, {
       "message": "Inadequate data in token"
     });
