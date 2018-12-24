@@ -13,15 +13,24 @@
       })
       .when('/signup', {
         templateUrl: 'authentication/signup/signup.view.html',
+        controller: 'signupCtrl',
+        controllerAs: 'vm'
       })
       .when('/loans', {
-        templateUrl: 'loans/loans.view.html'
+        templateUrl: 'loans/loans.view.html',
+        controller: 'loansCtrl',
+        controllerAs: 'vm'
       })
       .when('/comingSoon', {
         templateUrl: 'comingsoon/comingsoon.view.html'
       })
       .when('/contacts', {
-        templateUrl: 'contacts/contacts.view.html'
+        templateUrl: 'contacts/contacts.view.html',
+        controller: 'contactsCtrl',
+        controllerAs: 'vm'
+      })
+      .when('/patchnotes', {
+        templateUrl: 'patchnotes/patchnotes.view.html'
       });
     $locationProvider.html5Mode(true);
   }

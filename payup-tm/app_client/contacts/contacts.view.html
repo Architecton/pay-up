@@ -66,7 +66,7 @@
                         
                         <div class="ContactsModButtonContainer">
                             <input type="button" onclick="document.getElementById('id11').style.display='block'" class="button_contactMod leftContactsButton" id="button_editContactNotes" value="Edit Notes">
-                            <input type="button" onclick="confirmDeleteContact();" class="button_contactMod centerContactsButton" id="button_deleteContact" value="Delete Contact">
+                            <input type="button" class="button_contactMod centerContactsButton" id="button_deleteContact" value="Delete Contact">
                         </div>
                         
                     </div>
@@ -84,7 +84,7 @@
         <span onclick="document.getElementById('id04').style.display='none'" class="close" title="Close Modal">&times;</span>
         
         <!-- Contents of login box -->
-        <form class="modal-content2 animate">
+        <form ng-submit="vm.sendNewContactData()" autocomplete="off" class="modal-content2 animate" id="newContactForm">
             
             <!-- avatar image -->
             <div class="ttlcontainer">
@@ -94,25 +94,26 @@
             <!-- forms links and checkboxes -->
             <div class="container contactsContainer" >
                 <h2 class="databaseSearchHeading">Search Database for Users</h2>
-                <input type="text" placeholder="Search for User" name="uname" required>
-                <button type="submit" onclick="Swal('Done!', 'Contact successfully added!', 'success');" class="contactAddedAlert btn btn-primary">Add Contact</button>
+                <input type="text" placeholder="Search for Users by name" name="search">
+                <button type="submit" onclick="Swal('Done!', 'Contact successfully added!', 'success');" class="contactAddedAlert btn btn-primary">Select</button>
                 <span onclick="document.getElementById('id04').style.display='none'" class="opts" title="Cancel" onmouseover="">Cancel</span>
                 
                 <h2 class="databaseSearchHeading">Manually Add New Contact</h2>
                 
                 <label for="psw"><b>First Name</b></label>
-                <input type="text" placeholder="Enter first name" name="name" required>
+                <input type="text" placeholder="Enter first name" name="name" required ng-model="vm.contactData.name">
                 <label for="psw"><b>Last Name</b></label>
-                <input type="text" placeholder="Enter last name" name="lastname" required>
+                <input type="text" placeholder="Enter last name" name="lastname" required ng-model="vm.contactData.surname">
                 <label for="psw"><b>E-mail</b></label>
-                <input type="text" placeholder="Enter e-mail" name="email" required>
+                <input type="text" placeholder="Enter e-mail" name="email" required ng-model="vm.contactData.email">
                 <label for="psw"><b>Telephone number</b></label>
-                <input type="text" placeholder="Enter telephone number" name="phone" required>
+                <input type="text" placeholder="Enter telephone number" name="phone" required ng-model="vm.contactData.phone">
                 <label for="psw"><b>City/Region</b></label>
-                <input type="text" placeholder="Enter city/region" name="region" required>
+                <input type="text" placeholder="Enter city/region" name="region" required ng-model="vm.contactData.region">
+                <label for="psw"><b>Username</b></label>
+                <input type="text" placeholder="Enter username" name="username" required ng-model="vm.contactData.username">
                 
-                
-                <button type="submit" onclick="Swal('Done!', 'Contact successfully added!', 'success');" class="contactAddedAlert btn btn-primary">Add Contact</button>
+                <button type="submit" class="contactAddedAlert btn btn-primary">Add Contact</button>
                 
                 <span onclick="document.getElementById('id04').style.display='none'" class="opts" title="Cancel" onmouseover="">Cancel</span>
             </div>
@@ -130,7 +131,7 @@
         <span onclick="document.getElementById('id11').style.display='none'" class="close" title="Close Modal">&times;</span>
         
         <!-- Contents of login box -->
-        <form class="modal-content2 animate" action="/TODO">
+        <form ng-submit="vm.sendNotesData()" autocomplete="off" class="modal-content2 animate" id="editNotesForm">
             
             <!-- avatar image -->
             <div class="ttlcontainer">
@@ -142,7 +143,7 @@
                     <input type="text" maxlength="80" name="notes" placeholder="Type your notes here.">
                 </div>
                 <div style="text-align:center">
-                    <button type="button" onclick="Swal('Done!', 'Contact notes successfully edited!', 'success');" class="contactAddedAlert btn btn-primary">Add Contact</button>
+                    <button type="submit" form="editNotesForm" class="contactAddedAlert btn btn-primary">Add Contact</button>
                     <span onclick="document.getElementById('id11').style.display='none'" class="opts cancelLink" title="Cancel" onmouseover="">Cancel</span>
                 </div>
             </div>

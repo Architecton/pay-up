@@ -18,20 +18,20 @@
   
     // getToken: get JWT token from local storage.
     var getToken = function() {
-      $window.localStorage['payup-token'];
+      return $window.localStorage['payup-token'];
     };
   
     // signup: make a post request to sign up
     var signUp = function(user) {
-      return $http.post('/api/signUp', user).then(  // WARNING!!! API DOES NOT return the JWT token on sign up. Have to log in after signing up
+      return $http.post('/api/users', user).then(  // WARNING!!! API DOES NOT return the JWT token on sign up. Have to log in after signing up
         function success(response) {
-          saveToken(response.data.token);
+          console.log(response.data.token);
         });
     };
   
     // logIn: make a request to log in. If successful, save token in local storage
     var logIn = function(user) {
-      return $http.post('/api/logIn', user).then(
+      return $http.post('/api/users/login', user).then(
         function success(response) {
           saveToken(response.data.token);
         });
@@ -65,6 +65,18 @@
         };
       }
     };
+    
+    // deletAccount: delete account from database.
+    var deleteAccount = function(idUser) {
+      return $http.delete('/api/users/' + idUser, {
+        headers: {
+          Authorization: 'Bearer ' + getToken()
+        }
+      }).then(function success(response) {
+        // Remove stored JWT token.
+        logOut();
+      });
+    };
   
     // Return object containing the functions offered by this service.
     return {
@@ -74,7 +86,8 @@
       logIn: logIn,
       logOut: logOut,
       isLoggedIn: isLoggedIn,
-      currentUser: currentUser
+      currentUser: currentUser,
+      deleteAccount: deleteAccount
     };
   }
   

@@ -46,7 +46,7 @@ module.exports.authLogIn = function(request, response) {
 				"token" : user.generateJwt()
 			});
 		} else {		// If authorization unsuccessfull...
-			getJsonResponse(response, 401, data);
+			getJsonResponse(response, 400, data);
 		}
 	})(request, response);
 };
@@ -102,6 +102,7 @@ module.exports.authSignUp = function(request, response) {
       });
     // If new user is not valid.
     } else {
+    	console.log("WHOOPS!!!");
       getJsonResponse(response, 400, {
           "message": "invalid user parameters"
       }); 
@@ -112,6 +113,7 @@ module.exports.authSignUp = function(request, response) {
 
 // validateUser: validate user properties
 var validateUser = function(newUser) {
+	console.log(newUser);
   // Validate user.
   return new Promise(function(resolve, reject) {
         // Create regular expression for email verification.

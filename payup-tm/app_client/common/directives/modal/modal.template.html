@@ -6,7 +6,7 @@
     <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
     
     <!-- Contents of login box -->
-    <form class="modal-content animate">
+    <form ng-submit="modvm.sendData()" class="modal-content animate" id="loginForms">
         
         <!-- avatar image -->
         <div class="imgcontainer">
@@ -17,11 +17,11 @@
         <!-- forms links and checkboxes -->
         <div class="container loginForms">
             <label for="uname"><b>Username</b></label>
-            <input type="text" placeholder="Enter Username" name="uname" required>
+            <input type="text" placeholder="Enter Username" name="uname" required ng-model="modvm.loginData.username">
             <label for="psw"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="psw" required>
+            <input type="password" placeholder="Enter Password" name="psw" required ng-model="modvm.loginData.password">
             <div style="text-align:center">
-                <button type="button" onclick="welcomeBack();" class="loginButton btn btn-primary">Log In</button>
+                <button type="submit" form="loginForms" class="loginButton btn btn-primary">Log In</button>
                 <input class="opts rememberMe" type="checkbox" checked="checked" name="remember"> Remember me
             </div>
         </div>
@@ -76,7 +76,7 @@
             </div>
             <div style="margin:10px;">
                 <button type="button" onclick="document.getElementById('id03').style.display='none'" class="btn btn-primary" style="width:25%; margin:10px; display:inline-block;">Confirm</button>
-                <button type="button" onclick="confirmDeleteAccount();" class="btn btn-danger" style="width:25%; margin:10px; display:inline-block;">Delete Account</button>
+                <button type="button" ng-click="modvm.deleteAccount()" class="btn btn-danger" style="width:25%; margin:10px; display:inline-block;">Delete Account</button>
             </div>
         </div>
     </form>

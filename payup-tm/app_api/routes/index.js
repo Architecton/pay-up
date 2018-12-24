@@ -20,7 +20,7 @@ router.delete('/nukeDBindexes', authentication, ctrlUsers.nukeDBindexes);       
 
 
 // Controlers for working with users
-router.get('/users', authentication, ctrlUsers.userGetAll);
+router.get('/users', ctrlUsers.userGetAll);
 router.get('/users/:idUser', authentication, ctrlUsers.userGetSelected);                                    // TESTED (13.12.2018)
 router.delete('/users/:idUser', authentication, ctrlUsers.userDeleteSelected);                              // TESTED (13.12.2018)
 router.put('/users/:idUser/saveSettings', authentication, ctrlUsers.userSaveSettings);                      // TESTED (20.12.2018)

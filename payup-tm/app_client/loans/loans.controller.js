@@ -41,5 +41,5 @@
   /* global angular */
   angular
     .module('payupApp')
-    .controller('dashboardCtrl', loansCtrl);
+    .controller('loansCtrl', loansCtrl);
 })();

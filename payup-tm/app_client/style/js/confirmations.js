@@ -1,36 +1,4 @@
-function confirmDeleteContact() {
-  Swal({
-    title: 'Delete this contact?',
-    text: "Are you sure you want to delete this contact? You won't be able to revert this!",
-    type: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, delete the contact!'
-  }).then((result) => {
-    if (result.value) {
-      Swal(
-        'Deleted!',
-        'Your contact has been deleted.',
-        'success'
-      )
-    }
-  })
-}
-
-function welcomeBack() {
-  Swal({
-    title: 'Welcome back!',
-    text: 'We missed you! See what\'s new by navigating to your dashboard!',
-    imageUrl: 'https://unsplash.it/400/200',
-    imageWidth: 400,
-    imageHeight: 200,
-    imageAlt: 'Custom image',
-    animation: true
-  })
-}
-
-
+/* global Swal  */
 function comfirmLoan() {
   Swal({
     title: 'Create New Loan?',
@@ -46,32 +14,10 @@ function comfirmLoan() {
         'Done!',
         'The loan contract request has been sent. You will be notified when the recipient accepts the loan contract.',
         'success'
-      )
+      );
     }
-  })
+  });
 }
-
-
-function confirmDeleteAccount() {
-  Swal({
-    title: 'Are you sure?',
-    text: "Are you sure you want to delete your account? You won't be able to revert this!",
-    type: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, delete my account!'
-  }).then((result) => {
-    if (result.value) {
-      Swal(
-        'Account deleted!',
-        'Your account has been deleted.',
-        'success'
-      )
-    }
-  })
-}
-
 
 function confirmLoanMessage() {
   Swal({
@@ -88,9 +34,9 @@ function confirmLoanMessage() {
         'Loan confirmed!',
         'The loan contract is now valid.',
         'success'
-      )
+      );
     }
-  })
+  });
 }
 
 function resolveLoanMessage() {
@@ -108,9 +54,9 @@ function resolveLoanMessage() {
         'Loan resolved!',
         'The loan has been sucessfully resolved!',
         'success'
-      )
+      );
     }
-  })
+  });
 }
 
 function deleteLoanMessage() {
@@ -128,7 +74,19 @@ function deleteLoanMessage() {
         'Loan contract deleted!',
         'The loan contract has been deleted.',
         'success'
-      )
+      );
     }
-  })
+  });
+}
+
+function welcomeSignup() {
+  Swal({
+    title: 'Thank you for signing up for our service!',
+    text: 'Please check your inbox for the confirmation e-mail and follow the instructions there!',
+    imageUrl: 'https://unsplash.it/400/200',
+    imageWidth: 400,
+    imageHeight: 200,
+    imageAlt: 'Custom image',
+    animation: true
+  });
 }

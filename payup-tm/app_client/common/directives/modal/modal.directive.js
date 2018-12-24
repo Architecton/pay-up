@@ -2,7 +2,9 @@
   var modal = function() {
     return {
       restrict: 'EA',
-      templateUrl: '/common/directives/modal/modal.template.html'
+      templateUrl: '/common/directives/modal/modal.template.html',
+      controller: 'modalCtrl',
+      controllerAs: 'modvm'
     };
   };
   
