@@ -35,7 +35,6 @@
                 <table class="table table-bordered table-responsive loanTable">
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Source</th>
                             <th>Recepient</th>
                             <th>Issued</th>
@@ -47,42 +46,17 @@
                             <th>Status</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody ng-repeat="x in vm.data.loans" ng-click="vm.selectLoan(x)">
                         <tr>
-                            <td>01</td>
-                            <td>Doge</td>
-                            <td>Pepe</td>
-                            <td>1.1.2000</td>
-                            <td>1.1.2019</td>
-                            <td>1000</td>
-                            <td>$</td>
-                            <td>1%</td>
-                            <td>Simple</td>
-                            <td>Active</td>
-                        </tr>
-                        <tr>
-                            <td>02</td>
-                            <td>Doge</td>
-                            <td>Dolan</td>
-                            <td>2.2.2000</td>
-                            <td>2.2.2019</td>
-                            <td>2000</td>
-                            <td>€</td>
-                            <td>2%</td>
-                            <td>Compount</td>
-                            <td>Pending</td>
-                        </tr>
-                        <tr>
-                            <td>03</td>
-                            <td>Harambe</td>
-                            <td>Doge</td>
-                            <td>3.3.2000</td>
-                            <td>3.3.2019</td>
-                            <td>3000</td>
-                            <td>$</td>
-                            <td>3%</td>
-                            <td>Simple</td>
-                            <td>Resolved</td>
+                            <td>{{ x.loaner }}</td>
+                            <td>{{ x.recipient }}</td>
+                            <td>{{ x.dateIssued | date : 'M-d-yyyy' }}</td>
+                            <td>{{ x.deadline  | date : 'M-d-yyyy' }}</td>
+                            <td>{{ x.amount }}</td>
+                            <td>{{ x.currency }}</td>
+                            <td>{{ x.interest }}%</td>
+                            <td>{{ x.compoundInterest }}</td>
+                            <td>{{ x.status }}</td>
                         </tr>
                     </tbody>
                 </table>

@@ -143,6 +143,13 @@
     };
     
     // Loan confirmation ///////////////////////////////////////////////////////////////
+    vm.selectedLoan = {
+      id: ""
+    };
+    
+    vm.selectLoan = function(loan) {
+      vm.selectedLoan = loan._id;
+    };
     
     
     // Data required for loan confirmation
@@ -153,7 +160,8 @@
   
     // confirmLoan: check data and make call to service that confirms loan
     vm.confirmLoan = function() {
-      if (vm.idUser && vm.idLoan) {
+      vm.confirmLoanData.idLoan = vm.selectedLoan;
+      if (vm.confirmLoanData.idUser && vm.confirmLoanData.idLoan) {
         Swal({
           title: 'Confirm this loan?',
           text: "Are you sure you want to confirm this loan?",
@@ -206,7 +214,8 @@
     
     // deleteLoan: check data and make call to service that deletes loan
     vm.deleteLoan = function() {
-      if (vm.idUser && vm.idLoan) {
+      vm.deleteLoanData.idLoan = vm.selectedLoan;
+      if (vm.deleteLoanData.idUser && vm.deleteLoanData.idLoan) {
         // Ask user to confirm
         Swal({
           title: 'Delete this loan?',
@@ -257,7 +266,8 @@
     
     // resolveLoan: check data and make call to service that resolves loan
     vm.resolveLoan = function() {
-      if (vm.idUser && vm.idLoan) {
+      vm.resolveLoanData.idLoan = vm.selectedLoan;
+      if (vm.resolveLoanData.idUser && vm.resolveLoanData.idLoan) {
         // Ask user to confirm
         Swal({
           title: 'Resolve this loan?',
