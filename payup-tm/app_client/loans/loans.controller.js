@@ -113,6 +113,8 @@
         }).then((result) => {
           if (result.value) {
             loanManagement.addLoan(currentUser.username, vm.loanDataProcessed).then(function success(response) {
+              // Update list of loans
+              getListLoans();
               Swal(
                 'Loan confirmed!',
                 'The loan contract is now valid.',
@@ -151,7 +153,6 @@
       vm.selectedLoan = loan._id;
     };
     
-    
     // Data required for loan confirmation
     vm.confirmLoanData = {
       idUser: authentication.currentUser().username,
@@ -173,6 +174,8 @@
         }).then((result) => {
           if (result.value) {
             loanManagement.confirmLoan(vm.confirmLoanData.idUser, vm.confirmLoanData.idLoan).then(function success(response) {
+                // Update list of loans
+                getListLoans();
                 // Swal success
                 Swal(
                   'Loan confirmed!',
@@ -228,7 +231,8 @@
         }).then((result) => {
           if (result.value) {
               loanManagement.deleteLoan(vm.deleteLoanData.idUser, vm.deleteLoanData.idLoan).then(function success(response) {
-                // Swal success
+                // Update loan list
+                getListLoans();
                 Swal(
                   'Loan contract deleted!',
                   'The loan contract has been deleted.',
@@ -280,6 +284,8 @@
         }).then((result) => {
           if (result.value) {
               loanManagement.resolveLoan(vm.resolveLoanData.idUser, vm.resolveLoanData.idLoan).then(function success(response) {
+                // Update list of loans
+                getListLoans();
                 Swal(
                   'Loan resolved!',
                   'The loan has been sucessfully resolved!',
@@ -304,10 +310,12 @@
       }
     };
     //////////////////////////////////////////////////////////////////////////////////////
-    
-    loansList.getLoans(             // Pass getData and showError functions
-      vm.getData, 
-      vm.showError);
+    function getListLoans() {
+      loansList.getLoans(             // Pass getData and showError functions
+        vm.getData, 
+        vm.showError);
+    }
+    getListLoans();
   }
   
   // Add controller to the app

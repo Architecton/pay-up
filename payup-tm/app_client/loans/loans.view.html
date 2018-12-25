@@ -44,8 +44,19 @@
                             <th>Status</th>
                         </tr>
                     </thead>
+                    
+                    <script>
+                        // Script for coloring unselected loans
+                        function deselect() {
+                            var unselected = document.getElementsByClassName("selectableRow");
+                            for(var i = 0; i < unselected.length; i++) {
+                                unselected[i].style.color = '#333';
+                            }
+                        }
+                    </script>
+                    
                     <tbody ng-repeat="x in vm.data.loans" ng-click="vm.selectLoan(x)">
-                        <tr>
+                        <tr class="selectableRow" onclick="deselect(); this.style.color='blue';">
                             <td>{{ x.loaner }}</td>
                             <td>{{ x.recipient }}</td>
                             <td>{{ x.dateIssued | date : 'M-d-yyyy' }}</td>

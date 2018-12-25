@@ -33,7 +33,18 @@
                                     <th>Name</th>
                                     <th>Surname</th>
                                 </thead>
-                                <tbody ng-repeat="x in vm.data.contacts" ng-click="vm.showContactDetails(x)">
+                                
+                                <script>
+                                    // Script for coloring unselected loans
+                                    function deselect() {
+                                        var unselected = document.getElementsByClassName("selectableRow");
+                                        for(var i = 0; i < unselected.length; i++) {
+                                            unselected[i].style.color = '#333';
+                                        }
+                                    }
+                                </script>
+                                
+                                <tbody class="selectableRow" ng-repeat="x in vm.data.contacts" ng-click="vm.showContactDetails(x)" onclick="deselect(); this.style.color='blue';">
                                     <td> {{ x.username }} </td>
                                     <td> {{ x.name }} </td>
                                     <td> {{ x.surname }} </td>
