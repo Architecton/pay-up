@@ -1,6 +1,6 @@
 // dashboardCtrl: dashboard page controller
 (function() {
-  function dashboardCtrl($scope, loansData, loansList) {
+  function dashboardCtrl($scope, loansData, loansList, authentication) {
     // Pogled-model se generira ob kreiranju novega primerka krmilnika, zato lahko do njega preprosto dostopamo z this
     var vm = this;
     
@@ -32,10 +32,11 @@
     // Call to service function that retrieves the loans to be displayed on the dashboard.
     loansList.getLoans(             // Pass getData and showError functions
       vm.getData, 
-      vm.showError);
+      vm.showError,
+      authentication.currentUser().username);
   }
   
-  dashboardCtrl.$inject = ['$scope', 'loansData', 'loansList'];
+  dashboardCtrl.$inject = ['$scope', 'loansData', 'loansList', 'authentication'];
 
   
   // Add controller to the app

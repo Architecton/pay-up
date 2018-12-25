@@ -294,7 +294,8 @@
     function getListContacts() {
       contactsList.getContacts(             // Pass getData and showError functions
         vm.getData, 
-        vm.showError);
+        vm.showError,
+        authentication.currentUser().username);
     }
     getListContacts();
   }

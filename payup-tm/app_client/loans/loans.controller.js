@@ -313,7 +313,8 @@
     function getListLoans() {
       loansList.getLoans(             // Pass getData and showError functions
         vm.getData, 
-        vm.showError);
+        vm.showError,
+        authentication.currentUser().username);
     }
     getListLoans();
   }

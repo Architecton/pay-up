@@ -2,8 +2,8 @@
 (function() {
   var loansList = function() {
     // function that gets the loans to be displayed on the dashboard page.
-    var getLoans = function(cbSuccess, cbError) {
-      getUser(cbSuccess, cbError);
+    var getLoans = function(cbSuccess, cbError, idUser) {
+      getUser(cbSuccess, cbError, idUser);
     };
     // Return function that gets the loans to be displayed on the dashboard page.
     return {
@@ -14,9 +14,7 @@
     
     
   // TODO function gets currently logged in user
-  var getUser = function(cbSuccess, cbError) {
-      // Somehow get logged user ID (sername)...
-      var idUser = 'jerry12345';
+  var getUser = function(cbSuccess, cbError, idUser) {
       if (idUser) {
         cbSuccess(idUser);
       } else {

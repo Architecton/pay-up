@@ -2,8 +2,8 @@
 (function() {
   var contactsList = function() {
     // function that gets the contacts of user with specified ID
-    var getContacts = function(cbSuccess, cbError) {
-      getUser(cbSuccess, cbError);
+    var getContacts = function(cbSuccess, cbError, idUser) {
+      getUser(cbSuccess, cbError, idUser);
     };
     // Return function that gets the contacts.
     return {
@@ -13,9 +13,7 @@
   
     
   // TODO function gets currently logged in user
-  var getUser = function(cbSuccess, cbError) {
-      // Somehow get logged user ID (username)...
-      var idUser = 'jerry12345';
+  var getUser = function(cbSuccess, cbError, idUser) {
       if (idUser) {
         cbSuccess(idUser);
       } else {
