@@ -4,10 +4,9 @@
 (function() {
   function contactManagement($http, authentication) {
     
-    // Edit notes of contact with specified idContact of user with specified idUser.
+    // editNotes: edit notes of contact with specified idContact of user with specified idUser.
     var editNotes = function(idUser, idContact, notes) {
-      return $http.put('/api/users/' + idUser + '/contacts/' + idContact, {
-        notes,
+      return $http.put('/api/users/' + idUser + '/contacts/' + idContact, notes, {
         headers: {
           Authorization: 'Bearer ' + authentication.getToken()
         }
@@ -17,9 +16,10 @@
         });
     };
     
+    // addContact: add new contact to specified user's list of contacts
     var addContact = function(idUser, contactData) {
-        return $http.post('/api/users/' + idUser + '/contacts', {
-            contactData,
+        console.log(contactData);
+        return $http.post('/api/users/' + idUser + '/contacts', contactData, {
             headers: {
                 Authorization: 'Bearer ' + authentication.getToken()
             }

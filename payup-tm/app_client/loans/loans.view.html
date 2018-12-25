@@ -1,6 +1,6 @@
 <div class="container">
     <navbar></navbar>
-    
+    <div> {{ vm.data.loans }} </div>
     <!-- Manage Loans main page -->
     <div class="row navBottomNeighbor bodyRow bottomRow" id="loans-main">
         <div class="col-xs-12 col-lg-8 loans-left">
@@ -99,9 +99,9 @@
                 </p>
                 
                 <div class="loanModButtonContainer">
-                    <input type="button" onclick="confirmLoanMessage();" class="button_loanMod leftLoanButton" id="button_confirmLoanEdit" value="Confirm">
-                    <input type="button" onclick="resolveLoanMessage();" class="button_loanMod centerLoanButton" id="button_loanResolve" value="Resolve">
-                    <input type="button" onclick="deleteLoanMessage();" class="button_loanMod rightLoanButton" id="button_loanDelete" value="Delete">
+                    <input type="button" ng-click="vm.confirmLoan()" class="button_loanMod leftLoanButton" id="button_confirmLoanEdit" value="Confirm">
+                    <input type="button" ng-click="vm.resolveLoan()" class="button_loanMod centerLoanButton" id="button_loanResolve" value="Resolve">
+                    <input type="button" ng-click="vm.deleteLoan()" class="button_loanMod rightLoanButton" id="button_loanDelete" value="Delete">
                 </div>
                 <div>
                     <button class="button_visualiseLoan" onclick="document.getElementById('id10').style.display='block'">Loan Chart</button>
@@ -220,6 +220,7 @@
 </div>
 
 <script>
+    /* global getDebtChart */
     getDebtChart([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], [1,2,3,4,5,6,5,4,6,7,8,3,4,5,6,7], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], 'EUR');
 </script>
 <!-- /Debt by Time Plot -->

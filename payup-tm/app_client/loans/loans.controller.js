@@ -144,6 +144,159 @@
       }
     };
     
+    // Loan confirmation ///////////////////////////////////////////////////////////////
+    
+    
+    // Data required for loan confirmation
+    vm.confirmLoanData = {
+      idUser: authentication.currentUser().username,
+      idLoan: ""
+    };
+  
+    // confirmLoan: check data and make call to service that confirms loan
+    vm.confirmLoan = function() {
+      if (vm.idUser && vm.idLoan) {
+        Swal({
+          title: 'Confirm this loan?',
+          text: "Are you sure you want to confirm this loan?",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Confirm Loan'
+        }).then((result) => {
+          if (result.value) {
+            loanManagement.confirmLoan(vm.confirmLoanData.idUser, vm.confirmLoanData.idLoan).then(function success(response) {
+                // Swal success
+                Swal(
+                  'Loan confirmed!',
+                  'The loan contract is now valid.',
+                  'success'
+                );
+            }, function error(response) {
+              // Swal error
+                Swal(
+                  'Error',
+                  'Something went wrong. Please try again.',
+                  'error'
+                );
+            });
+          }
+        });
+      } else {
+        // Swal error
+        Swal(
+          'Error',
+          'Something went wrong. Please try again.',
+          'error'
+        );
+      }
+    };
+
+
+    /////////////////////////////////////////////////////////////////////////////////////
+
+
+    // Loan deletion ////////////////////////////////////////////////////////////////////
+    
+    // Data required for loan deletion
+    vm.deleteLoanData = {
+      idUser: authentication.currentUser().username,
+      idLoan: ""
+    };
+    
+    
+    // deleteLoan: check data and make call to service that deletes loan
+    vm.deleteLoan = function() {
+      if (vm.idUser && vm.idLoan) {
+        // Ask user to confirm
+        Swal({
+          title: 'Delete this loan?',
+          text: "Are you sure you want to delete this loan? This action cannot be undone.",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Delete Loan Contract'
+        }).then((result) => {
+          if (result.value) {
+              loanManagement.deleteLoan(vm.deleteLoanData.idUser, vm.deleteLoanData.idLoan).then(function success(response) {
+                // Swal success
+                Swal(
+                  'Loan contract deleted!',
+                  'The loan contract has been deleted.',
+                  'success'
+                );
+              }, function error(response) {
+                // Swal error
+                Swal(
+                  'Error',
+                  'Something went wrong. Please try again.',
+                  'error'
+                );
+              });    
+          }
+        });
+      } else {
+        // Swal error
+        Swal(
+          'Error',
+          'Something went wrong. Please try again.',
+          'error'
+        );
+      }
+    };
+    
+    /////////////////////////////////////////////////////////////////////////////////////
+    
+    // Loan resolution //////////////////////////////////////////////////////////////////
+    
+    // Data needed for loan resolution
+    vm.resolveLoanData = {
+      idUser: authentication.currentUser().username,
+      idLoan: "",
+    };
+    
+    // resolveLoan: check data and make call to service that resolves loan
+    vm.resolveLoan = function() {
+      if (vm.idUser && vm.idLoan) {
+        // Ask user to confirm
+        Swal({
+          title: 'Resolve this loan?',
+          text: "Are you sure you want to resolve this loan? This action cannot be undone.",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Resolve Loan'
+        }).then((result) => {
+          if (result.value) {
+              loanManagement.resolveLoan(vm.resolveLoanData.idUser, vm.resolveLoanData.idLoan).then(function success(response) {
+                Swal(
+                  'Loan resolved!',
+                  'The loan has been sucessfully resolved!',
+                  'success'
+                );
+              }, function error(response) {
+                Swal(
+                  'Error',
+                  'Something went wrong. Please try again.',
+                  'error'
+                );
+              });    
+          }
+        });
+      } else {
+        // Swal error
+        Swal(
+          'Error',
+          'Something went wrong. Please try again.',
+          'error'
+        );
+      }
+    };
+    //////////////////////////////////////////////////////////////////////////////////////
+    
     loansList.getLoans(             // Pass getData and showError functions
       vm.getData, 
       vm.showError);

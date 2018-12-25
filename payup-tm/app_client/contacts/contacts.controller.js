@@ -66,7 +66,7 @@
         // If user logged in
         if(currentUser) {
           // Try to edit notes.
-          contactManagement.editNotes(vm.contactNotes.notes, currentUser.username, vm.contactNotes.idContact).then(function success(response) {
+          contactManagement.editNotes(currentUser.username, vm.contactNotes.idContact, {"notes": vm.contactNotes.notes}).then(function success(response) {
               // If successful
               Swal('Done!', 'Contact notes successfully edited!', 'success').then(ok => {
                   document.getElementById('id11').style.display='none';
@@ -136,7 +136,7 @@
               document.getElementById('id04').style.display='none';
             });
           return false;
-      } else if (!re.test(String(vm.signupData.email).toLowerCase())) {
+      } else if (!re.test(String(vm.contactData.email).toLowerCase())) {
         vm.formError = "Invalid email format! Please try again.";
         Swal({
             type: 'error',
@@ -148,7 +148,7 @@
         return false;
       } else {
         // Add contact.
-        // vm.addContact();
+        vm.addContact();
         // Close modal window and display confirmation.
       }
     };
