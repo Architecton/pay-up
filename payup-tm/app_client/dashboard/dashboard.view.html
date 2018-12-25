@@ -19,24 +19,12 @@
         <div class="center">
             <div class="v-align dashTableDiv">
                 <h2 class="selectedLoansHeader">Selected Loans:</h2>
-                <div class="form-group">
-                    <label class="sortLabel" for="dashboardLoansFilter">Sort by:</label>
-                    <select class="form-control" id="dashboardLoansFilter">
-                        <option>Issued/newest</option>
-                        <option>Issued/oldest</option>
-                        <option>Deadline/nearest</option>
-                        <option>Deadline/furthest</option>
-                        <option>Amount/highest</option>
-                        <option>Amount/lowest</option>
-                    </select>
-                </div>
                 <table class="table table-bordered table-striped table-dark loanTable">
                     <thead class="thread-light">
                         <tr>
-                            <th>Loan ID</th>
-                            <th>Source ID</th>
-                            <th>Recepient ID</th>
-                            <th>Issued</th>
+                            <th>Loaner</th>
+                            <th>Recepient</th>
+                            <th>Date issued</th>
                             <th>Deadline</th>
                             <th>Amount</th>
                             <th>Currency</th>
@@ -45,18 +33,17 @@
                             <th>Status</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody ng-repeat="x in vm.data.selectedLoans">
                         <tr>
-                            <td>01</td>
-                            <td>1337</td>
-                            <td>1666</td>
-                            <td>1.1.2000</td>
-                            <td>1.1.2019</td>
-                            <td>1000</td>
-                            <td>$</td>
-                            <td>1%</td>
-                            <td>Simple</td>
-                            <td>Active</td>
+                            <td>{{ x.loaner }}</td>
+                            <td>{{ x.recipient }}</td>
+                            <td>{{ x.dateIssued | date : 'M-d-yyyy' }}</td>
+                            <td>{{ x.deadline  | date : 'M-d-yyyy' }}</td>
+                            <td>{{ x.amount }}</td>
+                            <td>{{ x.currency }}</td>
+                            <td>{{ x.interest }}%</td>
+                            <td>{{ x.compoundInterest }}</td>
+                            <td>{{ x.status }}</td>
                         </tr>
                     </tbody>
                 </table>
