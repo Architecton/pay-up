@@ -9,7 +9,7 @@
       // Make GET request to retrieve contacts data.
       contactsData.contacts(idUser).then(
         function success(response) {  // If response successfuly retrieved...
-          vm.message = response.data.length > 0 ? "" : "No contacts found.";      // If respone is empty
+          vm.message = response.data.length > 0 ? "" : "Empty response from server";      // If respone is empty
           // Data to be exposed
           vm.data = {                                                             // selectedLoans are the loans in the HTTP response to the GET request.
             // Return user's contacts.
@@ -20,6 +20,29 @@
           console.log(response.e);
         }
       );
+    };
+    
+    vm.contactDetails = {
+      _id: "",
+      name: "",
+      surname: "",
+      email: "",
+      phone: "",
+      region: "",
+      username: "",
+      notes: ""
+    };
+    
+    vm.showContactDetails = function(contact) {
+      vm.contactDetails._id = contact._id;
+      vm.contactDetails.name = contact.name;
+      vm.contactDetails.surname = contact.surname;
+      vm.contactDetails.email = contact.email;
+      vm.contactDetails.phone = contact.phone;
+      vm.contactDetails.region = contact.region;
+      vm.contactDetails.username = contact.username;
+      vm.contactDetails.notes = contact.notes;
+      vm.contactDetails.id = contact.id;
     };
     
     
@@ -38,6 +61,7 @@
     
     // editNotes: edit contact's notes
     vm.editNotes = function() {
+      vm.contactNotes.idContact = vm.contactDetails._id;
       vm.formError = "";
       // Check if notes are present.
       if (!vm.contactNotes.notes || vm.contactNotes.notes.replace(/^\s+|\s+$/g, '').length == 0) {
@@ -68,8 +92,11 @@
           // Try to edit notes.
           contactManagement.editNotes(currentUser.username, vm.contactNotes.idContact, {"notes": vm.contactNotes.notes}).then(function success(response) {
               // If successful
+              // Clear display.
+              Object.keys(vm.contactDetails).forEach(v => vm.contactDetails[v] = "");
               Swal('Done!', 'Contact notes successfully edited!', 'success').then(ok => {
-                  document.getElementById('id11').style.display='none';
+                getListContacts(); // Get updated list of contacts.
+                document.getElementById('id11').style.display='none';
               });
               // If error
           }, function error(response) {
@@ -160,8 +187,11 @@
       if(currentUser) {   // If logged in
         // Add contact.
         contactManagement.addContact(currentUser.username, vm.contactData).then(function success(response) {
+          // Clear contact details.
+          Object.keys(vm.contactDetails).forEach(v => vm.contactDetails[v] = "");
           Swal('Done!', 'Contact successfully added!', 'success').then(ok => {
-              document.getElementById('id04').style.display='none';    
+              getListContacts(); // Get updated list of contacts.
+              document.getElementById('id04').style.display='none';
           });
         }, function error(response) {
             vm.formError = "No user with specified username found.";
@@ -197,8 +227,9 @@
     // Delete contact: delete logged in user's contact with specified contact id
     vm.deleteContact = function() {
       vm.formError = "";
+      vm.contactDeletionData.idContact = vm.contactDetails._id;
       // Check if data needed for deletion is present.
-      if(vm.contactDeletionData && vm.contactDeletionData.replace(/^\s+|\s+$/g, '').length > 0) {
+      if(vm.contactDeletionData.idContact && vm.contactDeletionData.idContact.replace(/^\s+|\s+$/g, '').length > 0) {
         // Get currently logged in user.
         currentUser = authentication.currentUser();
         // If user logged in
@@ -222,33 +253,50 @@
                   'Deleted!',
                   'Your contact has been deleted.',
                   'success'
-                );
+                ).then(ok => {
+                  // Clear display.
+                  Object.keys(vm.contactDetails).forEach(v => vm.contactDetails[v] = "");
+                  getListContacts();
+                });
               }, function error(response) {
                 // Else show error alert.
                  Swal(
                   'Whoops!',
                   'Something went wrong! Please try again.',
                   'error'
-                ) ;
+                );
               });
             }
           });
         // If user not logged in
         } else {
-          vm.formError("Error - please try logging in again.");
+          vm.formError = "Error - please try logging in again.";
+          Swal(
+              'Whoops!',
+              vm.formError,
+              'error'
+            );
         }
       // If idContact missing
       } else {
-        vm.formError("No contact selected!");
+        vm.formError = "No contact selected!";
+        Swal(
+          'Whoops!',
+          vm.formError,
+          'error'
+        );
       }
     };
 
     /////////////////////////////////////////
   
     // Call to service function that retrieves the loans to be displayed on the dashboard.
-    contactsList.getContacts(             // Pass getData and showError functions
-      vm.getData, 
-      vm.showError);
+    function getListContacts() {
+      contactsList.getContacts(             // Pass getData and showError functions
+        vm.getData, 
+        vm.showError);
+    }
+    getListContacts();
   }
   
   contactsCtrl.$inject = ['$scope', 'contactsData', 'contactsList', 'contactManagement', 'authentication'];
