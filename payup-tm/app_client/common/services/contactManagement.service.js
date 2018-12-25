@@ -18,7 +18,6 @@
     
     // addContact: add new contact to specified user's list of contacts
     var addContact = function(idUser, contactData) {
-        console.log(contactData);
         return $http.post('/api/users/' + idUser + '/contacts', contactData, {
             headers: {
                 Authorization: 'Bearer ' + authentication.getToken()

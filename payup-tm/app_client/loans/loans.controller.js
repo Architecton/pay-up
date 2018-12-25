@@ -39,8 +39,8 @@
     vm.sendNewLoanData = function() {
       // Get currency.
       vm.loanData.currency= document.getElementById("currencySel").value;
-      console.log(vm.loanData.compoundInterest != 'Yes' || vm.loanData.compoundInterest != 'No' || 
-                 vm.loanData.interest_on_debt != 'Yes' || vm.loanData.interest_on_debt != 'No');
+      // Extract recipient id
+      vm.loanData.recipient = vm.loanData.recipient.substring(0, vm.loanData.recipient.indexOf('(') - 1).trim();   // vm.loanData.recipient.substring(vm.loanData.recipient.indexOf(',')+2, vm.loanData.recipient.length - 1);
       // Handle form errors
       vm.formError = "";
       // If any form data is missing
@@ -91,9 +91,8 @@
           interest_on_debt: vm.loanData.interest_on_debt == 'Yes' ? true : false
         };
 
-        // Add loan
-        console.log(vm.loanDataProcessed);
-        //vm.addLoan();
+        // Add loan.
+        vm.addLoan();
       }
     };
     
@@ -113,8 +112,7 @@
           confirmButtonText: 'Confirm Loan'
         }).then((result) => {
           if (result.value) {
-            // Add loan
-            loanManagement.addLoan(currentUser.username, vm.loanData).then(function success(response) {
+            loanManagement.addLoan(currentUser.username, vm.loanDataProcessed).then(function success(response) {
               Swal(
                 'Loan confirmed!',
                 'The loan contract is now valid.',

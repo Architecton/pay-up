@@ -6,19 +6,19 @@
     
     
     // addLoan: add new loan to user with specified user ID
-    var addLoan = function($http, idUser, loanData) {
+    var addLoan = function(idUser, loanData) {
         return $http.post('/api/users/' + idUser + '/loans', loanData, {
             headers: {
                 Authorization: 'Bearer ' + authentication.getToken()
             }
         }).then(function success(response) {
-           console.log(response.data); 
+           console.log(response); 
         });
     };
     
     
     // confirmLoan: confirm loan with specified loan ID of user with specified user ID
-    var confirmLoan = function($http, idUser, idLoan) {
+    var confirmLoan = function(idUser, idLoan) {
       return $http.put('/api/users/' + idUser + '/loans/' + idLoan, {status: "active"}, {
         headers: {
           Authorization: 'Bearer ' + authentication.getToken()
@@ -30,7 +30,7 @@
     
     
     // deleteLoan: delete loan with specified loan ID of user with specified user ID
-    var deleteLoan = function($http, idUser, idLoan) {
+    var deleteLoan = function(idUser, idLoan) {
      return $http.delete('/api/users/' + idUser + '/loans/' + idLoan, {
        headers: {
           Authorization: 'Bearer ' + authentication.getToken()
@@ -42,7 +42,7 @@
     
     
     // resolveLoan: resolve loan with specified loan ID of user with specified user ID.
-    var resolveLoan = function($http, idUser, idLoan) {
+    var resolveLoan = function(idUser, idLoan) {
       return $http.put('/api/users/' + idUser + '/loans/' + idLoan, {status: "resolved"}, {
         headers: {
           Authorization: 'Bearer ' + authentication.getToken()
