@@ -6,7 +6,7 @@
             <h2 class="loansLabel">My Loans</h2>
             <div class="form-group">
                     <label class="loansLabel" for="loanSort">Sort by:</label>
-                    <select class="form-control" id="loansSort" ng-model="vm.orderSel" ng-change="vm.applyOrder(vm.orderSel)">
+                    <select class="form-control" style="margin-top:3px; margin-bottom:3px;" id="loansSort" ng-model="vm.orderSel" ng-change="vm.applyOrder(vm.orderSel)">
                         <option>Issued/newest</option>
                         <option>Issued/oldest</option>
                         <option>Deadline/nearest</option>
@@ -17,13 +17,10 @@
                         <option>Recipient</option>
                     </select>
                     
-                    <br>
-                    <label class="loansLabel" for="search_loanByName">Or search by name:</label>
-                    <input type="text" name="loanFilterSelect" required class="text">
-                    <br>
+                    
                     <label class="loansLabel" for="select_userType">Filter:</label>
                     
-                    <select class="form-control" id="select_userType" ng-model="vm.filterSel" ng-change="vm.applyFilter(vm.filterSel);">
+                    <select class="form-control" style="margin-top:3px; margin-bottom:3px;" id="select_userType" ng-model="vm.filterSel" ng-change="vm.applyFilter(vm.filterSel);">
                         <option>Pending</option>
                         <option>Active</option>
                         <option>Resolved</option>
