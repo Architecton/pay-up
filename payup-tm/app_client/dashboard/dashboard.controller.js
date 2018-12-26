@@ -13,7 +13,7 @@
           // Data to be exposed
           vm.data = {                                                             // selectedLoans are the loans in the HTTP response to the GET request.
             // Return active loans sorted by the loan amount.
-            selectedLoans: response.data.filter(loan => loan.status == 'active').sort((a,b) => (a.amount > b.amount) ? 1 : ((b.amount > a.amount) ? -1 : 0))
+            selectedLoans: response.data.filter(function(loan) {loan.status == 'active'}).sort(function(a,b) { (a.amount > b.amount) ? 1 : ((b.amount > a.amount) ? -1 : 0)})
           };
         }, function error(response) {  // else if error...
           vm.message = "Error";

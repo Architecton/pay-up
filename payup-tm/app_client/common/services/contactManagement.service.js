@@ -37,11 +37,21 @@
         });
     };
     
+    // getSearchList: get list of all user's names, surnames and usernames
+    var getSearchList = function() {
+      return $http.get('/api/users', {
+        headers: {
+                Authorization: 'Bearer ' + authentication.getToken()
+          }
+      });
+    };
+    
     // Return object containing the functions offered by this service.
     return {
       editNotes: editNotes,
       addContact: addContact,
-      deleteContact: deleteContact
+      deleteContact: deleteContact,
+      getSearchList: getSearchList
     };
   }
   

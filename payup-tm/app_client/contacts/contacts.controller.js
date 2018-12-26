@@ -71,7 +71,7 @@
             type: 'error',
             title: 'Error',
             text: vm.formError
-          }).then(ok => {
+          }).then(function(ok) {
             document.getElementById('id11').style.display='none';
           });
       // Check if idContact is present.
@@ -81,7 +81,7 @@
             type: 'error',
             title: 'Error',
             text: vm.formError
-          }).then(ok => {
+          }).then(function(ok) {
             document.getElementById('id11').style.display='none';
         });
       } else {
@@ -93,8 +93,8 @@
           contactManagement.editNotes(currentUser.username, vm.contactNotes.idContact, {"notes": vm.contactNotes.notes}).then(function success(response) {
               // If successful
               // Clear display.
-              Object.keys(vm.contactDetails).forEach(v => vm.contactDetails[v] = "");
-              Swal('Done!', 'Contact notes successfully edited!', 'success').then(ok => {
+              Object.keys(vm.contactDetails).forEach(function(v) { vm.contactDetails[v] = "" });
+              Swal('Done!', 'Contact notes successfully edited!', 'success').then(function(ok) {
                 getListContacts(); // Get updated list of contacts.
                 document.getElementById('id11').style.display='none';
               });
@@ -104,7 +104,7 @@
                 type: 'error',
                 title: 'Error',
                 text: 'Whoops! Something went wrong. Please try again!'
-              }).then(ok => {
+              }).then(function(ok) {
                 document.getElementById('id11').style.display='none';
               });
           });
@@ -115,7 +115,7 @@
               type: 'error',
               title: 'Error',
               text: vm.formError
-            }).then(ok => {
+            }).then(function(ok) {
               document.getElementById('id11').style.display='none';
             });
         }
@@ -159,7 +159,7 @@
               type: 'error',
               title: 'Error',
               text: vm.formError
-            }).then(ok => {
+            }).then(function(ok) {
               document.getElementById('id04').style.display='none';
             });
           return false;
@@ -169,7 +169,7 @@
             type: 'error',
             title: 'Error',
             text: vm.formError
-          }).then(ok => {
+          }).then(function(ok) {
             document.getElementById('id04').style.display='none';
           });
         return false;
@@ -188,8 +188,8 @@
         // Add contact.
         contactManagement.addContact(currentUser.username, vm.contactData).then(function success(response) {
           // Clear contact details.
-          Object.keys(vm.contactDetails).forEach(v => vm.contactDetails[v] = "");
-          Swal('Done!', 'Contact successfully added!', 'success').then(ok => {
+          Object.keys(vm.contactDetails).forEach(function(v) { vm.contactDetails[v] = "" });
+          Swal('Done!', 'Contact successfully added!', 'success').then(function(ok) {
               getListContacts(); // Get updated list of contacts.
               document.getElementById('id04').style.display='none';
           });
@@ -199,7 +199,7 @@
               type: 'error',
               title: 'Error',
               text: vm.formError
-            }).then(ok => {
+            }).then(function(ok) {
               document.getElementById('id04').style.display='none';
             });
         });
@@ -209,7 +209,7 @@
             type: 'error',
             title: 'Error',
             text: vm.formError
-          }).then(ok => {
+          }).then(function(ok) {
             document.getElementById('id04').style.display='none';
           });
       }
@@ -243,7 +243,7 @@
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, delete the contact!'
-          }).then((result) => {
+          }).then(function (result) {
             // if user confirmed
             if (result.value) {
               // Try to delete contact
@@ -253,9 +253,9 @@
                   'Deleted!',
                   'Your contact has been deleted.',
                   'success'
-                ).then(ok => {
+                ).then(function(ok) {
                   // Clear display.
-                  Object.keys(vm.contactDetails).forEach(v => vm.contactDetails[v] = "");
+                  Object.keys(vm.contactDetails).forEach(function(v) { vm.contactDetails[v] = "" });
                   getListContacts();
                 });
               }, function error(response) {
@@ -317,10 +317,43 @@
       }
     };
   
-  
-  
     /////////////////////////////////////////
-  
+    
+    
+    // User search //////////////////////////
+    // List of users to search in
+    
+    vm.expression = "";
+    
+    
+    // Get list of users to display in search.
+    (vm.getUsersList = function() {
+      contactManagement.getSearchList().then(function success(response) {
+        vm.usersList = {
+          listAll: response.data
+        };
+      }, function error(response) {
+        vm.usersList.users = "Error Retrieving data from server.";
+      });
+    })();
+    
+    vm.selectedContact = "";
+    
+    vm.fillFields = function() {
+      var fieldValues = {
+        name : vm.selectedContact.substring(0, vm.selectedContact.indexOf(' ')),
+        surname: vm.selectedContact.substring(vm.selectedContact.indexOf(' ')+1, vm.selectedContact.indexOf(',')),
+        username: vm.selectedContact.substring(vm.selectedContact.indexOf(',')+2)
+      };
+      // Fill out the forms.
+      document.getElementById("contactUsername").value= fieldValues.username;
+      document.getElementById("contactName").value= fieldValues.name;
+      document.getElementById("contactSurname").value= fieldValues.surname;
+    };
+    
+    
+    /////////////////////////////////////////
+    
   
     // Call to service function that retrieves the loans to be displayed on the dashboard.
     function getListContacts() {

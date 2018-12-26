@@ -79,7 +79,7 @@ module.exports.fillDB = function(request, response) {
 module.exports.userGetAll = function(request, response) {
   // Return all users
   User
-    .find({})
+    .find({}, 'name surname username')
     .exec(function(error, users) {
       if (!users) {  // If user not found
         getJsonResponse(response, 404, {

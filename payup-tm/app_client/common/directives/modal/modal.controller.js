@@ -40,7 +40,7 @@
               imageHeight: 230,
               imageAlt: 'Custom image',
               animation: true
-            }).then(ok => {
+            }).then(function(ok) {
               // Redirect user to dashboard.
               document.getElementById('id01').style.display='none';
               $location.path('/dashboard');
@@ -74,7 +74,7 @@
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Delete Account'
-      }).then(result => {
+      }).then(function(result) {
         console.log(result);
         // If user confirmed
         if (result.value) {
@@ -86,7 +86,7 @@
                   title: 'Account deleted!',
                   text: 'We will miss you! Please don\'t hesitate to contact us if you have any complaints about our service.',
                   type: 'success'
-                }).then(ok => {
+                }).then(function(ok) {
                   // Redirect to homepage
                   document.getElementById('id03').style.display='none';
                   $location.path('/');
@@ -105,8 +105,9 @@
     ///////////////////////////////////////////////
     
     
+    
     modvm.settingsValues = {
-      nightmode: "",
+      nightmode: false,
       defaultCurrency: ""
     };
     
@@ -116,16 +117,23 @@
       // Get currency.
       modvm.settingsValues.defaultCurrency= document.getElementById("settingsCurrencySel").value;
       console.log(modvm.settingsValues);
-      if (idUser && modvm.settingsValues.nightmode && modvm.settingsValues.defaultCurrency) {
+      if (idUser && modvm.settingsValues.defaultCurrency) {
         if (typeof modvm.settingsValues.nightmode == 'boolean' && modvm.settingsValues.defaultCurrency.replace(/^\s+|\s+$/g, '').length > 0) {
           authentication.updateSettings(idUser, modvm.settingsValues).then(function success(response) {
             Swal({
               title: 'Saved!',
               text: 'Your settings have been saved!',
               type: 'success'
-            }).then(ok => {
-              // Reload page
-              $route.reload();
+            }).then(function(ok) {
+              // Check nightmode setting
+              if (modvm.settingsValues.nightmode) {
+                console.log("SET");
+                document.documentElement.style.backgroundColor = 'black';
+                document.body.style.backgroundColor = 'black'; 
+              } else {
+                document.documentElement.style.backgroundColor = 'lightgrey';
+                document.body.style.backgroundColor = 'lightgrey';
+              }
               document.getElementById('id02').style.display='none';
             });
           }, function error(response) {

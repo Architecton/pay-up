@@ -68,12 +68,16 @@
         }
       };
       
+      // Data from reCaptcha responsex
+      vm.response = {
+        recaptchaResponse: ""
+      };
+      
       // performSignup: perform sign up
       vm.performSignup = function() {
-        console.log(vm.signupData);
         vm.formError = "";
         authentication    // Call to service that provides signUp function that makes API call.
-          .signUp(vm.signupData)
+          .signUp(vm.signupData, vm.response.recaptchaResponse)
           .then(          // When finished
             function(success) {
               /* global Swal */
@@ -99,6 +103,8 @@
       };
     }
     
+    
+    
     // showSignupConfirmation: show successful signup confirmation.
     var showSignupConfirmation = function() {
       return new Promise(function(resolve) {
@@ -110,12 +116,14 @@
                 imageHeight: 230,
                 imageAlt: 'Custom image',
                 animation: true
-        }).then(ok => {
+        }).then(function(ok) {
           resolve(true);
         });
       });
     };
-    
+  
+  signupCtrl.$inject = ['$location', '$route', 'authentication'];
+  
   /* global angular */
   angular
     .module('payupApp')

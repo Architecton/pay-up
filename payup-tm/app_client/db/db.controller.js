@@ -14,24 +14,24 @@
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'YES!'
-      }).then((result) => {
+      }).then(function(result) {
         if (result.value) {
-          let timerInterval;
+          var timerInterval;
             Swal({
               title: 'NUKING DATABASE!!!',
               html: 'DATABASE WILL BE NUKED IN <strong></strong> SECONDS!!!!',
               timer: 2000,
-              onBeforeOpen: () => {
+              onBeforeOpen: function() {
                 Swal.showLoading();
-                timerInterval = setInterval(() => {
+                timerInterval = setInterval(function() {
                   Swal.getContent().querySelector('strong')
                     .textContent = Swal.getTimerLeft();
                 }, 100);
               },
-              onClose: () => {
+              onClose: function() {
                 clearInterval(timerInterval);
               }
-            }).then((result) => {
+            }).then(function(result) {
               if (
                 result.dismiss === Swal.DismissReason.timer
               ) {
@@ -46,7 +46,7 @@
                       type: 'error',
                       title: 'WHAT???',
                       text: 'You are not authorized to press this button! Who exactly do you think you are?!'
-                    }).then(ok => {
+                    }).then(function(ok) {
                       $location.path('/');
                       $route.reload();
                     });
@@ -71,7 +71,7 @@
             imageHeight: 200,
             imageAlt: 'Custom image',
             animation: false
-          }).then(ok => {
+          }).then(function(ok) {
             $location.path('/');
             $route.reload();
           });
@@ -81,7 +81,7 @@
             type: 'error',
             title: 'WHAT???',
             text: response.status == 400 ? 'You\'ve already done this, haven\'t you??' : 'You are not authorized to press this button! Who exactly do you think you are?!'
-          }).then(ok => {
+          }).then(function(ok) {
             $location.path('/');
             $route.reload();
           }); 
@@ -89,6 +89,9 @@
       );
     };
   }
+  
+  dbCtrl.$inject = ['$scope', '$location', '$route', 'testHelper', 'authentication'];  
+  
   // Add controller to the app
   /* global angular */
   angular

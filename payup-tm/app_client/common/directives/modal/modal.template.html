@@ -23,13 +23,13 @@
             <input type="password" placeholder="Enter Password" name="psw" required ng-model="modvm.loginData.password">
             <div style="text-align:center">
                 <button type="submit" form="loginForms" class="loginButton btn btn-primary">Log In</button>
-                <input class="opts rememberMe" type="checkbox" checked="checked" name="remember"> Remember me
+                <input class="opts rememberMe" style="margin-left:10px;" type="checkbox" checked="checked" name="remember"> Remember me
             </div>
         </div>
         
         <!-- forgot password section -->
         <div style="text-align: center;">
-            <span class="opts"><a href="TODO">Forgot password?</a></span>
+            <span class="opts"><a href="https://www.wikihow.com/Remember-a-Forgotten-Password">Forgot password?</a></span>
         </div>
         
     </form>
@@ -105,7 +105,7 @@
         <div class="container settings">
             <label for="currency"><b>Default Currency</b></label>
             <div class="bfh-selectbox bfh-currencies" id="settingsCurrencySel" data-currency="EUR" data-flags="true"></div>
-            <input class="opts" type="checkbox" checked="checked" name="mode" ng-model="modvm.settingsValues.nightmode"> Night Mode
+            <input class="opts" type="checkbox" id="nightmode" name="mode" ng-model="modvm.settingsValues.nightmode"> Night Mode
         </div>
         
         <!-- Save button section -->

@@ -7,7 +7,6 @@
             <div class="v-align dashTableDiv">
                 <h1 class="contactsLabel">Your Contacts</h1>
                 
-                
                 <!-- Filter and new contact functionality -->
                 <div class="contactsRow">
                     <div class="col-xs-6">
@@ -106,16 +105,25 @@
             <!-- forms links and checkboxes -->
             <div class="container contactsContainer" >
                 <h2 class="databaseSearchHeading">Search Database for Users</h2>
-                <input type="text" placeholder="Search for Users by name" name="search">
-                <button type="submit" onclick="Swal('Done!', 'Contact successfully added!', 'success');" class="contactAddedAlert btn btn-primary">Select</button>
+                
+                <input class="form-control" ng-model="vm.expression" placeholder="search..." />
+                
+                <div style="margin-top:10px; margin-bottom:10px;">
+                    <label><b>Found users:</b></label>
+                    <select class="form-control" ng-model="vm.selectedContact">
+                        <option ng-repeat="x in vm.usersList.listAll | filter: vm.expression">{{ x.name }} {{ x.surname }}, {{ x._id }}</option>
+                    </select>
+                </div>
+                
+                <button type="button" ng-click="vm.fillFields()" class="contactAddedAlert btn btn-primary">Select</button>
                 <span onclick="document.getElementById('id04').style.display='none'" class="opts" title="Cancel" onmouseover="">Cancel</span>
                 
                 <h2 class="databaseSearchHeading">Manually Add New Contact</h2>
                 
                 <label for="psw"><b>First Name</b></label>
-                <input type="text" placeholder="Enter first name" name="name" required ng-model="vm.contactData.name">
+                <input type="text" placeholder="Enter first name" name="name" id="contactName" required ng-model="vm.contactData.name">
                 <label for="psw"><b>Last Name</b></label>
-                <input type="text" placeholder="Enter last name" name="lastname" required ng-model="vm.contactData.surname">
+                <input type="text" placeholder="Enter last name" name="lastname" id="contactSurname" required ng-model="vm.contactData.surname">
                 <label for="psw"><b>E-mail</b></label>
                 <input type="text" placeholder="Enter e-mail" name="email" required ng-model="vm.contactData.email">
                 <label for="psw"><b>Telephone number</b></label>
@@ -123,7 +131,7 @@
                 <label for="psw"><b>City/Region</b></label>
                 <input type="text" placeholder="Enter city/region" name="region" required ng-model="vm.contactData.region">
                 <label for="psw"><b>Username</b></label>
-                <input type="text" placeholder="Enter username" name="username" required ng-model="vm.contactData.username">
+                <input type="text" placeholder="Enter username" name="username" id="contactUsername" required ng-model="vm.contactData.username">
                 
                 <button type="submit" class="contactAddedAlert btn btn-primary">Add Contact</button>
                 

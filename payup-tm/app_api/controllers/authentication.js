@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 var nodemailer = require('nodemailer');
 var User = mongoose.model('User');
 var testingData = require('./testingData');
+var requestF = require('request');
 
 // Create mail transporter.
 let transporter = nodemailer.createTransport({
@@ -65,60 +66,90 @@ module.exports.authLogIn = function(request, response) {
 	})(request, response);
 };
 
+// Validate reCAPTCHA using Google's API
+var validateCaptchaResponse = function(response) {
+  return new Promise(function(resolve) {
+    requestF.post(
+      'https://www.google.com/recaptcha/api/siteverify',
+      {
+          form: {
+              secret: process.env.RECAPTCHA_PASS,
+              response: response
+          }
+      },
+      function (error, response, body) {
+          if (!error && response.statusCode == 200) {
+            resolve(Boolean(JSON.parse(response.body).success));
+          } else {
+            resolve(false);
+          }
+      }
+    );
+  });
+};
 
 // authSignUp: create new user and store in DB
 module.exports.authSignUp = function(request, response) {
-  // Check if passwords match.
-  if(request.body.password.length == 2 && request.body.password[0] === request.body.password[1]){
-	// Create new user.
-    var newUser = new User();
-    newUser.name = request.body.name;
-    newUser.surname = request.body.surname;
-    newUser._id = request.body.username;
-    newUser.setPassword(request.body.password[0]);
-    newUser.email = request.body.email;
-    newUser.gender = request.body.gender;
-    newUser.dateJoined = new Date().toJSON().slice(0,10).replace(/-/g,'-');
-    newUser.status = 0;
-    newUser.defaultCurrency = "EUR";
-    newUser.nightmode = false;
-    newUser.loans = [];
-    newUser.contacts = [];
-    newUser.messages = [];
-  // if passwords do not match
-  } else {
-    getJsonResponse(response, 400, {
-          "message": "Passwords must match."
-    });
-    return;
-  }
-  // Validate created user.
-  validateUser(newUser).then(function(result) {
-    // If successfuly validated, create new user and send confirmation e-mail.
+  // Verify captcha
+  validateCaptchaResponse(request.body.response).then(function(result) {
     if (result) {
-      // Create new user.
-      User.create(newUser, function(error, user) {
-        // If there was an error
-        if (error) {
-          getJsonResponse(response, 500, error);
-        // If all went well, send confirmation e-mail.
-        } else {
-          sendConfirmationMail(newUser.email).then(function(result) {
-            // If confirmation mail successfuly sent, return new user as signal value.
-            if(result) {
-              getJsonResponse(response, 201, user);
+      // Check if passwords match.
+      if(request.body.user.password.length == 2 && request.body.user.password[0] === request.body.user.password[1]){
+    	// Create new user.
+        var newUser = new User();
+        newUser.name = request.body.user.name;
+        newUser.surname = request.body.user.surname;
+        newUser._id = request.body.user.username;
+        newUser.setPassword(request.body.user.password[0]);
+        newUser.email = request.body.user.email;
+        newUser.gender = request.body.user.gender;
+        newUser.dateJoined = new Date().toJSON().slice(0,10).replace(/-/g,'-');
+        newUser.status = 0;
+        newUser.defaultCurrency = "EUR";
+        newUser.nightmode = false;
+        newUser.loans = [];
+        newUser.contacts = [];
+        newUser.messages = [];
+      // if passwords do not match
+      } else {
+        getJsonResponse(response, 400, {
+              "message": "Passwords must match."
+        });
+        return;
+      }
+      // Validate created user.
+      validateUser(newUser).then(function(result) {
+        // If successfuly validated, create new user and send confirmation e-mail.
+        if (result) {
+          // Create new user.
+          User.create(newUser, function(error, user) {
+            // If there was an error
+            if (error) {
+              getJsonResponse(response, 500, error);
+            // If all went well, send confirmation e-mail.
             } else {
-              // if trouble sending confirmation e-mail
-              getJsonResponse(response, 500, {'status' : 'Error sending confirmation mail.'});
+              sendConfirmationMail(newUser.email).then(function(result) {
+                // If confirmation mail successfuly sent, return new user as signal value.
+                if(result) {
+                  getJsonResponse(response, 201, user);
+                } else {
+                  // if trouble sending confirmation e-mail
+                  getJsonResponse(response, 500, {'status' : 'Error sending confirmation mail.'});
+                }
+              });
             }
           });
+        // If new user is not valid.
+        } else {
+          getJsonResponse(response, 400, {
+              "message": "invalid user parameters"
+          }); 
         }
       });
-    // If new user is not valid.
     } else {
-    	console.log("WHOOPS!!!");
+      console.log("Failing here!!!");
       getJsonResponse(response, 400, {
-          "message": "invalid user parameters"
+        "message": "error verifying captcha response"
       }); 
     }
   });
@@ -127,7 +158,6 @@ module.exports.authSignUp = function(request, response) {
 
 // validateUser: validate user properties
 var validateUser = function(newUser) {
-	console.log(newUser);
   // Validate user.
   return new Promise(function(resolve, reject) {
         // Create regular expression for email verification.

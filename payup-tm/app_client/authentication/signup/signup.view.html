@@ -4,7 +4,7 @@
     <!-- ####################################### Sign up Form ########################################### -->
     <div class="row navBottomNeighbor bodyRow bottomRow">
         <div class="center">
-            <div class="v-align"">
+            <div class="v-align">
                     <form ng-submit="vm.sendData()" autocomplete="off" class="signupForm" id="signupForm">
                     <h1 class="accountCreation">Create a New Account</h1>
                         <p>
@@ -50,9 +50,19 @@
                             </div>
                             <input type="email" name="email" id="signupId_email" ng-model="vm.signupData.email">
                         </p>
+                        
                         <p>
-                            <div class="g-recaptcha" id="recaptcha" data-sitekey="6Le9yn4UAAAAADa3SLo6DdyOyZo7c7-A01xdlcRR"></div>
+                        
+                           <div id="recaptcha">
+                                <div
+                                    vc-recaptcha
+                                    key="'6Le9yn4UAAAAADa3SLo6DdyOyZo7c7-A01xdlcRR'"
+                                    ng-model="vm.response.recaptchaResponse"
+                                ></div>
+                            </div>
+                            
                         </p>
+                        
                         <p>
                             <input type="checkbox" id="signupId_termsAndConditions" ng-model="vm.signupData.acceptTerms">
                             <label for="signupId_termsAndConditions">I have read and agree to <a href="#" onclick="document.getElementById('id04').style.display='block';return false;">The Terms and Conditions</a>.</label>

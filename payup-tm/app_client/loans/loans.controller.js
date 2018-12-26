@@ -71,7 +71,7 @@
               type: 'error',
               title: 'Error',
               text: vm.formError
-            }).then(ok => {
+            }).then(function(ok) {
               document.getElementById('id07').style.display='none';
             });
           return false;
@@ -110,7 +110,7 @@
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
           confirmButtonText: 'Send request'
-        }).then((result) => {
+        }).then(function(result) {
           if (result.value) {
             loanManagement.addLoan(currentUser.username, vm.loanDataProcessed).then(function success(response) {
               // Update list of loans
@@ -126,7 +126,7 @@
                   type: 'error',
                   title: 'Error',
                   text: vm.formError
-                }).then(ok => {
+                }).then(function(ok) {
                   document.getElementById('id07').style.display='none';
                 });
             });
@@ -138,7 +138,7 @@
             type: 'error',
             title: 'Error',
             text: vm.formError
-          }).then(ok => {
+          }).then(function(ok) {
             document.getElementById('id04').style.display='none';
           });
       }
@@ -171,7 +171,7 @@
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
           confirmButtonText: 'Confirm Loan'
-        }).then((result) => {
+        }).then(function(result) {
           if (result.value) {
             loanManagement.confirmLoan(vm.confirmLoanData.idUser, vm.confirmLoanData.idLoan).then(function success(response) {
                 // Update list of loans
@@ -228,7 +228,7 @@
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
           confirmButtonText: 'Delete Loan Contract'
-        }).then((result) => {
+        }).then(function(result) {
           if (result.value) {
               loanManagement.deleteLoan(vm.deleteLoanData.idUser, vm.deleteLoanData.idLoan).then(function success(response) {
                 // Update loan list
@@ -281,7 +281,7 @@
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
           confirmButtonText: 'Resolve Loan'
-        }).then((result) => {
+        }).then(function(result) {
           if (result.value) {
               loanManagement.resolveLoan(vm.resolveLoanData.idUser, vm.resolveLoanData.idLoan).then(function success(response) {
                 // Update list of loans
@@ -410,6 +410,8 @@
     }
     getListLoans();
   }
+  
+  loansCtrl.$inject = ['$scope', 'loansData', 'loansList', 'loanManagement', 'authentication'];
   
   // Add controller to the app
   /* global angular */

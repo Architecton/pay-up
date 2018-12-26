@@ -13,7 +13,10 @@
     
     // saveToken: save token in local storage.
     var saveToken = function(token) {
-      $window.localStorage['payup-token'] = token;
+      return new Promise(function(result) {
+        $window.localStorage['payup-token'] = token;  
+        result(true);
+      });
     };
   
     // getToken: get JWT token from local storage.
@@ -22,8 +25,8 @@
     };
   
     // signup: make a post request to sign up
-    var signUp = function(user) {
-      return $http.post('/api/users', user).then(  // WARNING!!! API DOES NOT return the JWT token on sign up. Have to log in after signing up
+    var signUp = function(user, recaptchaResponse) {
+      return $http.post('/api/users', {user: user, response: recaptchaResponse}).then(  // WARNING!!! API DOES NOT return the JWT token on sign up. Have to log in after signing up
         function success(response) {
           console.log(response.data.token);
         });
@@ -33,13 +36,32 @@
     var logIn = function(user) {
       return $http.post('/api/users/login', user).then(
         function success(response) {
-          saveToken(response.data.token);
+          saveToken(response.data.token).then(function(result) {
+            
+            
+            // TODO!!!!!!!!!!
+            
+            if (result) {
+              document.getElementById("nightmode").checked = currentUser().nightmode;
+              if (currentUser().nightmode) {
+                document.getElementsByClassName("globalBackground")[0].style.backgroundColor = 'black';
+                document.getElementsByClassName("globalBackground")[1].style.backgroundColor = 'black';
+                // document.documentElement.style.backgroundColor = 'black';
+                // document.body.style.backgroundColor = 'black'; 
+              } else {
+                document.documentElement.style.backgroundColor = 'lightgrey';
+                document.body.style.backgroundColor = 'lightgrey';
+              } 
+            }
+          });
         });
     };
   
     // logOut: remove JWT token from local storage
     var logOut = function() {
       $window.localStorage.removeItem('payup-token');
+      document.documentElement.style.backgroundColor = 'lightgrey';
+      document.body.style.backgroundColor = 'lightgrey';
     };
   
     // isLoggedIn: check if user is logged in
@@ -82,7 +104,6 @@
     
     // updateSettings: update user's settings
     var updateSettings = function(idUser, settingsValues) {
-      console.log(settingsValues);
       return $http.put('/api/users/' + idUser + '/saveSettings', settingsValues, {
         headers: {
           Authorization: 'Bearer ' + getToken()
