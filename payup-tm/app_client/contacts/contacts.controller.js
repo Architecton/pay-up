@@ -289,6 +289,38 @@
     };
 
     /////////////////////////////////////////
+    
+    // Contact Sorting //////////////////////
+  
+    // User ordering selection value
+    vm.orderSel = "";
+    // Processed user ordering selection value (used as filter - actual property name)
+    vm.orderProp = "";
+    
+    // applyOrder: apply ordering and update table of contacts.
+    vm.applyOrder = function(selVal) {
+      switch (selVal) {
+        case 'Username':
+          vm.orderProp = 'username';
+          getListContacts();
+          break;
+        case 'First name':
+          vm.orderProp = 'name';
+          getListContacts();
+          break;
+        case 'Last name':
+          vm.orderProp = 'surname';
+          getListContacts();
+          break;
+        default:
+          vm.orderProp = 'amount';
+      }
+    };
+  
+  
+  
+    /////////////////////////////////////////
+  
   
     // Call to service function that retrieves the loans to be displayed on the dashboard.
     function getListContacts() {

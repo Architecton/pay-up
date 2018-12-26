@@ -13,13 +13,12 @@
                     <div class="col-xs-6">
                         <div class="form-group">
                             <!-- filter selection -->
-                            <label class="contactsLabel" for="dashFilterSel">Apply filter:</label>
+                            <label class="contactsLabel" for="dashFilterSel">Sort contacts by:</label>
                             <div>
-                                <select class="form-control contactsFilter" id="contactsFilter">
-                                    <option>Lenders with pending loans</option>
-                                    <option>Loaners with pending loans</option>
-                                    <option>Contacts with no loans</option>
-                                    <option>Contacts from same region</option>
+                                <select class="form-control contactsFilter" id="contactsFilter" ng-model="vm.orderSel" ng-change="vm.applyOrder(vm.orderSel)">
+                                    <option>Username</option>
+                                    <option>First name</option>
+                                    <option>Last name</option>
                                 </select>
                             </div>
                         </div>
@@ -44,7 +43,7 @@
                                     }
                                 </script>
                                 
-                                <tbody class="selectableRow" ng-repeat="x in vm.data.contacts" ng-click="vm.showContactDetails(x)" onclick="deselect(); this.style.color='blue';">
+                                <tbody class="selectableRow" ng-repeat="x in vm.data.contacts | orderBy: vm.orderProp" ng-click="vm.showContactDetails(x)" onclick="deselect(); this.style.color='blue';">
                                     <td> {{ x.username }} </td>
                                     <td> {{ x.name }} </td>
                                     <td> {{ x.surname }} </td>

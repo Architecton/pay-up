@@ -312,6 +312,7 @@
     
     // Loan filtering //////////////////////////////
     
+    // filters
     vm.noFilter = function (item) {
       return true;
     };
@@ -328,10 +329,13 @@
       return item.status == 'resolved';
     };
     
+    // Current filter (default - no filter)
     vm.currentFilter = vm.noFilter();
     
+    // Value of filter selection drop down field
     vm.filterSel = "";
     
+    // applyFilter: apply filtering and update table of loans.
     vm.applyFilter = function(selVal) {
       switch (selVal) {
         case 'Pending':
@@ -356,12 +360,12 @@
     
     // Loan sorting ////////////////////////////////
     
+    // User ordering selection value
     vm.orderSel = "";
+    // Processed user ordering selection value (used as filter - actual property name)
     vm.orderProp = "";
-    vm.orderByAmount = function() {
-      vm.orderProp = 'amount';
-    };
     
+    // applyOrder: apply ordering and update table of loans.
     vm.applyOrder = function(selVal) {
       switch (selVal) {
         case 'Amount/highest':
