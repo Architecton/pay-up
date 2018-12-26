@@ -111,29 +111,46 @@
     };
     
     modvm.updateSettings = function() {
+      // Get user id
       var idUser = authentication.currentUser().username;
-      console.log("HERE 1");
+      // Get currency.
+      modvm.settingsValues.defaultCurrency= document.getElementById("settingsCurrencySel").value;
+      console.log(modvm.settingsValues);
       if (idUser && modvm.settingsValues.nightmode && modvm.settingsValues.defaultCurrency) {
-        console.log("HERE 2");
         if (typeof modvm.settingsValues.nightmode == 'boolean' && modvm.settingsValues.defaultCurrency.replace(/^\s+|\s+$/g, '').length > 0) {
-          console.log("HERE 3");
-          console.log(modvm.settingsValues);
           authentication.updateSettings(idUser, modvm.settingsValues).then(function success(response) {
-            // Swal success
+            Swal({
+              title: 'Saved!',
+              text: 'Your settings have been saved!',
+              type: 'success'
+            }).then(ok => {
+              // Reload page
+              $route.reload();
+              document.getElementById('id02').style.display='none';
+            });
           }, function error(response) {
-            // Swal fail
+            Swal({
+              title: 'Error',
+              text: 'Something went wrong. Please try again.',
+              type: 'error'
+            });
           });
         } else {
-          // Swal fail
+          Swal({
+            title: 'Error',
+            text: 'Something went wrong. Please try again.',
+            type: 'error'
+          });
         }
       } else {
-        // Swal fail
+        Swal({
+          title: 'Error',
+          text: 'Something went wrong. Please try again.',
+          type: 'error'
+        });
       }
     };
-    
   }
-  
-  
   
   modalCtrl.$inject = ['$location', 'authentication', '$route'];
 

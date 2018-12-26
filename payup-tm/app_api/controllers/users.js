@@ -326,8 +326,7 @@ module.exports.userSaveSettings = function(request, response) {
             // VALIDATE REQUESTED UPDATES
             if (  // Validate setting values types and values.
               typeof request.body.defaultCurrency === 'string' &&
-              typeof request.body.nightmode === 'string' && 
-              request.body.nightmode == 'true' || request.body.nightmode == 'false'
+              typeof request.body.nightmode == 'boolean'
               ) {
               // Update contact
               user.defaultCurrency = request.body.defaultCurrency;

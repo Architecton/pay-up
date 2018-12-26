@@ -62,7 +62,8 @@
           username: payload.username,
           name: payload.name,
           surname: payload.surname,
-          email: payload.email
+          email: payload.email,
+          nightmode: payload.nightmode
         };
       }
     };

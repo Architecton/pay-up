@@ -1,3 +1,4 @@
+<script src="style/form-helpers/dist/js/bootstrap-formhelpers.min.js"></script>
 <!-- ################################## LOGIN BOX ########################## -->
 
 <!-- login box -->
@@ -93,7 +94,7 @@
     
     <!-- Contents of settings box -->
     <!-- TODO: save settings -->
-    <form class="modal-content-narrow animate">
+    <form ng-submit="modvm.updateSettings()" class="modal-content-narrow animate">
         
         <!-- title -->
         <div class="ttlcontainer">
@@ -103,13 +104,13 @@
         <!-- Settings list -->
         <div class="container settings">
             <label for="currency"><b>Default Currency</b></label>
-            <div class="bfh-selectbox bfh-currencies" data-currency="EUR" data-flags="true"></div>
-            <input class="opts" type="checkbox" checked="checked" name="mode"> Night Mode
+            <div class="bfh-selectbox bfh-currencies" id="settingsCurrencySel" data-currency="EUR" data-flags="true"></div>
+            <input class="opts" type="checkbox" checked="checked" name="mode" ng-model="modvm.settingsValues.nightmode"> Night Mode
         </div>
         
         <!-- Save button section -->
         <div style="text-align: center;">
-            <button type="button" class="settingsSave btn btn-primary">Save</button>
+            <button type="submit" class="settingsSave btn btn-primary">Save</button>
             <span onclick="document.getElementById('id02').style.display='none'" class="opts cancelLink" title="Cancel" onmouseover="" >Cancel</span>
         </div>
     </form>
