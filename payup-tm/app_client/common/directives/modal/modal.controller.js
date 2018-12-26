@@ -3,6 +3,8 @@
   function modalCtrl($location, authentication, $route) {
     var modvm = this;
 
+    modvm.loggedUser = authentication.currentUser();
+
     // Data needed to log in
     modvm.loginData = {
       username: "",
@@ -101,7 +103,37 @@
       });
     };
     ///////////////////////////////////////////////
+    
+    
+    modvm.settingsValues = {
+      nightmode: "",
+      defaultCurrency: ""
+    };
+    
+    modvm.updateSettings = function() {
+      var idUser = authentication.currentUser().username;
+      console.log("HERE 1");
+      if (idUser && modvm.settingsValues.nightmode && modvm.settingsValues.defaultCurrency) {
+        console.log("HERE 2");
+        if (typeof modvm.settingsValues.nightmode == 'boolean' && modvm.settingsValues.defaultCurrency.replace(/^\s+|\s+$/g, '').length > 0) {
+          console.log("HERE 3");
+          console.log(modvm.settingsValues);
+          authentication.updateSettings(idUser, modvm.settingsValues).then(function success(response) {
+            // Swal success
+          }, function error(response) {
+            // Swal fail
+          });
+        } else {
+          // Swal fail
+        }
+      } else {
+        // Swal fail
+      }
+    };
+    
   }
+  
+  
   
   modalCtrl.$inject = ['$location', 'authentication', '$route'];
 

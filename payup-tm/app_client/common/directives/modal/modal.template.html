@@ -58,20 +58,20 @@
             <div class="profileData">
                 <div>
                     <b>Name: </b>
-                    <small>Janez</small>    
+                    <small>{{ modvm.loggedUser.name }}</small>    
                     
                 </div>
                 <div>
                     <b>Last name: </b>
-                    <small>Novak</small>    
+                    <small>{{ modvm.loggedUser.surname }}</small>    
                 </div>
                 <div>
                     <b>Username: </b>
-                    <small>jn9283</small>    
+                    <small>{{ modvm.loggedUser.username }}</small>    
                 </div>
                 <div>
                     <b>E-mail: </b>
-                    <small align="left">janez.novak@example.com</small>
+                    <small align="left">{{ modvm.loggedUser.email }}</small>
                 </div>
             </div>
             <div style="margin:10px;">

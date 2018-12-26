@@ -80,6 +80,7 @@ userSchema.methods.generateJwt = function() {
   return jwt.sign({
     username: this._id,
     name: this.name,
+    surname: this.surname,
     email: this.email,
     expirationDate: parseInt(expirationDate.getTime() / 1000, 10)
   }, process.env.JWT_PASSWORD);

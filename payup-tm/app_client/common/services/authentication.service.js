@@ -61,6 +61,7 @@
         return {  // Return username, email and name as decoded from token.
           username: payload.username,
           name: payload.name,
+          surname: payload.surname,
           email: payload.email
         };
       }
@@ -77,6 +78,16 @@
         logOut();
       });
     };
+    
+    // updateSettings: update user's settings
+    var updateSettings = function(idUser, settingsValues) {
+      console.log(settingsValues);
+      return $http.put('/api/users/' + idUser + '/saveSettings', settingsValues, {
+        headers: {
+          Authorization: 'Bearer ' + getToken()
+        }
+      });
+    };
   
     // Return object containing the functions offered by this service.
     return {
@@ -87,7 +98,8 @@
       logOut: logOut,
       isLoggedIn: isLoggedIn,
       currentUser: currentUser,
-      deleteAccount: deleteAccount
+      deleteAccount: deleteAccount,
+      updateSettings: updateSettings
     };
   }
   
