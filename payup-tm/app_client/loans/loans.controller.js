@@ -103,21 +103,21 @@
       if(currentUser) {   // If logged in
         // Promp user to confirm.
         Swal({
-          title: 'Confirm this loan?',
-          text: "Are you sure you want to confirm this loan?",
+          title: 'Send loan contact request?',
+          text: "Are you sure you want to send this loan contract request?",
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
-          confirmButtonText: 'Confirm Loan'
+          confirmButtonText: 'Send request'
         }).then((result) => {
           if (result.value) {
             loanManagement.addLoan(currentUser.username, vm.loanDataProcessed).then(function success(response) {
               // Update list of loans
               getListLoans();
               Swal(
-                'Loan confirmed!',
-                'The loan contract is now valid.',
+                'Contract request sent!',
+                'The loan contract request has been sent.',
                 'success'
               );
             }, function error(response) {
@@ -309,6 +309,94 @@
         );
       }
     };
+    
+    // Loan filtering //////////////////////////////
+    
+    vm.noFilter = function (item) {
+      return true;
+    };
+    
+    vm.pendingFilter = function (item) { 
+      return item.status == 'pending';
+    };
+    
+    vm.activeFilter = function (item) { 
+      return item.status == 'active';
+    };
+    
+    vm.resolvedFilter = function (item) { 
+      return item.status == 'resolved';
+    };
+    
+    vm.currentFilter = vm.noFilter();
+    
+    vm.filterSel = "";
+    
+    vm.applyFilter = function(selVal) {
+      switch (selVal) {
+        case 'Pending':
+          vm.currentFilter = vm.pendingFilter;
+          getListLoans();
+          break;
+        case 'Active':
+          vm.currentFilter = vm.activeFilter;
+          getListLoans();
+          break;
+        case 'Resolved':
+          vm.currentFilter = vm.resolvedFilter;  
+          getListLoans();
+          break;
+        default:
+          vm.currentFilter = vm.noFilter;
+          getListLoans();
+      }
+    };
+    
+    ////////////////////////////////////////////////
+    
+    // Loan sorting ////////////////////////////////
+    
+    vm.orderSel = "";
+    vm.orderProp = "";
+    vm.orderByAmount = function() {
+      vm.orderProp = 'amount';
+    };
+    
+    vm.applyOrder = function(selVal) {
+      switch (selVal) {
+        case 'Amount/highest':
+          vm.orderProp = '-amount';
+          getListLoans();
+          break;
+        case 'Amount/lowest':
+          vm.orderProp = 'amount';
+          getListLoans();
+          break;
+        case 'Issued/newest':
+          vm.orderProp = '-dateIssued';
+          getListLoans();
+          break;
+        case 'Issued/oldest':
+          vm.orderProp = 'dateIssued';
+          getListLoans();
+          break;
+        case 'Deadline/nearest':
+          vm.orderProp = 'deadline';
+          getListLoans();
+          break;
+        case 'Deadline/furthest':
+          vm.orderProp = '-deadline';
+          getListLoans();
+          break;
+        default:
+          vm.orderProp = 'amount';
+      }
+    };
+    
+    
+    ////////////////////////////////////////////////
+
+    
     //////////////////////////////////////////////////////////////////////////////////////
     function getListLoans() {
       loansList.getLoans(             // Pass getData and showError functions

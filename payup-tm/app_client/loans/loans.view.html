@@ -6,7 +6,7 @@
             <h2 class="loansLabel">My Loans</h2>
             <div class="form-group">
                     <label class="loansLabel" for="loanSort">Sort by:</label>
-                    <select class="form-control" id="loansSort">
+                    <select class="form-control" id="loansSort" ng-model="vm.orderSel" ng-change="vm.applyOrder(vm.orderSel)">
                         <option>Issued/newest</option>
                         <option>Issued/oldest</option>
                         <option>Deadline/nearest</option>
@@ -14,18 +14,19 @@
                         <option>Amount/highest</option>
                         <option>Amount/lowest</option>
                         <option>Source</option>
-                        <option>Recepient</option>
+                        <option>Recipient</option>
                     </select>
                     
                     <br>
                     <label class="loansLabel" for="search_loanByName">Or search by name:</label>
-                    <input type="text" name="partySearch" required class="text">
+                    <input type="text" name="loanFilterSelect" required class="text">
                     <br>
-                    <label class="loansLabel" for="select_userType">Party:</label>
+                    <label class="loansLabel" for="select_userType">Filter:</label>
                     
-                    <select class="form-control" id="select_userType">
-                        <option>Source</option>
-                        <option>Recepient</option>
+                    <select class="form-control" id="select_userType" ng-model="vm.filterSel" ng-change="vm.applyFilter(vm.filterSel);">
+                        <option>Pending</option>
+                        <option>Active</option>
+                        <option>Resolved</option>
                     </select>
                     
                     
@@ -55,7 +56,7 @@
                         }
                     </script>
                     
-                    <tbody ng-repeat="x in vm.data.loans" ng-click="vm.selectLoan(x)">
+                    <tbody ng-repeat="x in vm.data.loans | filter: vm.currentFilter | orderBy: vm.orderProp" ng-click="vm.selectLoan(x)">
                         <tr class="selectableRow" onclick="deselect(); this.style.color='blue';">
                             <td>{{ x.loaner }}</td>
                             <td>{{ x.recipient }}</td>
@@ -64,7 +65,7 @@
                             <td>{{ x.amount }}</td>
                             <td>{{ x.currency }}</td>
                             <td>{{ x.interest }}%</td>
-                            <td>{{ x.compoundInterest }}</td>
+                            <td>{{ x.compoundInterest==true ? 'compound' : 'simple' }}</td>
                             <td>{{ x.status }}</td>
                         </tr>
                     </tbody>
@@ -122,7 +123,7 @@
             <!-- Select loaner (must be in contacts)s -->
             <fieldset>
                 <legend class="newLoanLegend">Recipient information</legend>
-                <label for="loanerSel">Select loaner from your contacts:</label>
+                <label for="loanerSel">Select Recipient from your contacts:</label>
                 
                 <div ng-controller="contactsCtrl as vmc">
                     <select ng-repeat="x in vmc.data.contacts" ng-click="" class="form-control loanerSel" id="loanerSel" ng-model="vm.loanData.recipient">

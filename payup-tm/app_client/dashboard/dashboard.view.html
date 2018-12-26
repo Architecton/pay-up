@@ -23,7 +23,7 @@
                     <thead class="thread-light">
                         <tr>
                             <th>Loaner</th>
-                            <th>Recepient</th>
+                            <th>Recipient</th>
                             <th>Date issued</th>
                             <th>Deadline</th>
                             <th>Amount</th>
@@ -42,7 +42,7 @@
                             <td>{{ x.amount }}</td>
                             <td>{{ x.currency }}</td>
                             <td>{{ x.interest }}%</td>
-                            <td>{{ x.compoundInterest }}</td>
+                            <td>{{ x.compoundInterest==true ? 'compound' : 'simple'  }}</td>
                             <td>{{ x.status }}</td>
                         </tr>
                     </tbody>
