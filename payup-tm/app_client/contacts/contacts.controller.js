@@ -142,6 +142,14 @@
     
     // sendNewContactData: send new contact data
     vm.sendNewContactData = function() {
+      // Get data from fields (Reason for not using ng-model - strange "bug" when filling fields with js.)
+      vm.contactData.name = document.getElementById("contactName").value;
+      vm.contactData.surname = document.getElementById("contactSurname").value;
+      vm.contactData.email = document.getElementById("contactEmail").value;
+      vm.contactData.phone = document.getElementById("contactPhone").value;
+      vm.contactData.region = document.getElementById("contactRegion").value;
+      vm.contactData.username = document.getElementById("contactUsername").value;
+      
       // Handle form errors
       vm.formError = "";
       // If any form data is missing
@@ -346,7 +354,7 @@
         username: vm.selectedContact.substring(vm.selectedContact.indexOf(',')+2)
       };
       // Fill out the forms.
-      document.getElementById("contactUsername").value= fieldValues.username;
+      document.getElementById("contactUsername").value = fieldValues.username;
       document.getElementById("contactName").value= fieldValues.name;
       document.getElementById("contactSurname").value= fieldValues.surname;
     };

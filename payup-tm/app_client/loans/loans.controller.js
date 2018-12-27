@@ -186,7 +186,7 @@
               // Swal error
                 Swal(
                   'Error',
-                  'Something went wrong. Please try again.',
+                  'Cannot confirm this loan!',
                   'error'
                 );
             });
@@ -294,7 +294,7 @@
               }, function error(response) {
                 Swal(
                   'Error',
-                  'Something went wrong. Please try again.',
+                  'Cannot resolve this loan!',
                   'error'
                 );
               });    

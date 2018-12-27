@@ -189,11 +189,11 @@ module.exports.loanUpdateSelected = function(request, response) {
               });
             } else {
               // check if status code is valid
-              if(request.body.status === 'pending' || request.body.status === 'active' || request.body.status === 'resolved') {
+              if((request.body.status === 'active' && updatedLoan.status == 'pending') || (request.body.status === 'resolved' && updatedLoan.status == 'active')) {
                 updatedLoan.status = request.body.status;  
               } else {
                 getJsonResponse(response, 400, {
-                  "message": "Invalid loan status code."
+                  "message": "Invalid status change request"
                 });
                 return;
               }
