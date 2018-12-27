@@ -391,6 +391,74 @@ module.exports.loanGetSelected = function(request, response) {
 };
 
 
+module.exports.loanGetChartData = function(request, response) {
+  getLoggedId(request, response, function(request, response, username) {
+    if (!request.params.idUser || !request.params.idLoan || request.params.idUser != username) {
+      getJsonResponse(response, 400, {
+        "message":"Bad request parameters"
+      });
+      return;
+    } else {
+      User
+        .findById(request.params.idUser)
+        .select('_id loans')
+        .exec(
+          function(error, user) {
+            var loan;
+            // if user not found
+            if (!user) {
+              getJsonResponse(response, 404, {
+                "message": 
+                  "Cannot find user with specified id."
+              });
+              return;
+              // if encountered error
+            } else if (error) {
+              getJsonResponse(response, 500, error);
+              return;
+            }
+            // if user has at least one loan
+            if (user.loans && user.loans.length > 0) {
+              loan = user.loans.id(request.params.idLoan);
+              // if loan with specified id not found
+              if (!loan) {
+                getJsonResponse(response, 404, {
+                  "message": 
+                    "Cannot find loan with specified id."
+                });
+              // If loan with specified id is found, return it.
+              } else {
+                getDebtByTime(loan).then(function success(result) {
+                  getJsonResponse(response, 200, result);
+                }, function error(result) {
+                  getJsonResponse(response, 404, {
+                    "message": 
+                      "Error retrieving loan data"
+                  });
+                });
+              }
+            } else {
+              // If loans not found.
+              getJsonResponse(response, 404, {
+                "message": "Cannot find any loans."
+              });
+            }
+          }
+        );
+    }
+  });
+};
+
+
+var getDebtByTime = function(loan) {
+  console.log(loan);
+  return new Promise(function(resolve, reject) {
+    resolve(debtByTime(new Date(loan.dateIssued), new Date(loan.deadline),
+    Number(loan.payment_interval), Number(loan.payment_amount), Number(loan.amount), 
+    Number(loan.interest), Boolean(loan.compoundInterest), Boolean(loan.interest_on_debt)));
+  });
+};
+
 
 // debt_by_time: compute debt as a function of time
 
@@ -419,6 +487,10 @@ function debtByTime(start_date, end_date, payment_interval, payment_amount, prin
   // Compute daily interest percentage
   var daily_interest = interest_rate / (12*32);
   
+  // Total interest accumulated
+  var interest_accumulated = 0;
+  var interest_accumulated_by_day = new Array(num_days);
+  
   // Allocate arrays for storing the dependent and independent variable values.
   // Array representing the index of the current day (x-axis).
   var day = new Array(num_days);
@@ -428,7 +500,6 @@ function debtByTime(start_date, end_date, payment_interval, payment_amount, prin
   
   // if computing interest on current debt
   if (interest_on_debt) {
-      
       // if simple interest
       if (!type_interest) {
           // Compute total debt for each day.
@@ -438,6 +509,8 @@ function debtByTime(start_date, end_date, payment_interval, payment_amount, prin
           for(var i = 1; i <= num_days; i++) {
               interest = principal_amount*daily_interest;
               debt = debt + interest;
+              interest_accumulated = interest_accumulated + interest;
+              interest_accumulated_by_day[i-1] = interest_accumulated;
               interval_count++;
               // If payment day...
               if (interval_count == payment_interval) {
@@ -454,7 +527,7 @@ function debtByTime(start_date, end_date, payment_interval, payment_amount, prin
 
       // if compound interest
       } else if (type_interest) {
-          
+          console.log("FIRE!!!");
           // Compute total debt for each day.
           var debt = principal_amount;
           var interval_count = 0;
@@ -462,20 +535,20 @@ function debtByTime(start_date, end_date, payment_interval, payment_amount, prin
           for(var i = 1; i <= num_days; i++) {
               interest = debt*daily_interest;
               debt += interest;
+              interest_accumulated = interest_accumulated + interest;
+              interest_accumulated_by_day[i-1] = interest_accumulated;
               interval_count++;
               // if payment day
               if (interval_count == payment_interval) {
                   debt -= Math.min(payment_amount, debt);
                   interval_count = 0;
               }
+              // Add results to arrays storing the independent and dependent variable values.
+              day[i-1] = i;
+              debt_per_day[i-1] = debt;
           }
           
-          // Add results to arrays storing the independent and dependent variable values.
-          day[i-1] = i;
-          debt_per_day[i-1] = debt;
-          
-          
-      }  else {
+      } else {
           throw "Invalid interest type";
       }
       
@@ -483,8 +556,7 @@ function debtByTime(start_date, end_date, payment_interval, payment_amount, prin
   } else {
       // if compound interest
       if (!type_interest) {
-       
-       
+
           // Compute total debt for each day.
           var debt = principal_amount;
           var interval_count = 0;
@@ -492,6 +564,8 @@ function debtByTime(start_date, end_date, payment_interval, payment_amount, prin
           for(var i = 1; i <= num_days; i++) {
               interest = principal_amount*daily_interest;
               debt += interest;
+              interest_accumulated = interest_accumulated + interest;
+              interest_accumulated_by_day[i-1] = interest_accumulated;
               interval_count++;
               // If payment day...
               if (interval_count == payment_interval) {
@@ -515,25 +589,28 @@ function debtByTime(start_date, end_date, payment_interval, payment_amount, prin
               interest = principal_amount*daily_interest;
               principal_amount += interest;
               debt += interest;
+              interest_accumulated = interest_accumulated + interest;
+              interest_accumulated_by_day[i-1] = interest_accumulated;
               interval_count++;
               // if payment day
               if (interval_count == payment_interval) {
                   debt -= Math.min(payment_amount, debt);
                   interval_count = 0;
               }
+              // Add results to arrays storing the independent and dependent variable values.
+              day[i-1] = i;
+              debt_per_day[i-1] = debt;
           }
           
-          // Add results to arrays storing the independent and dependent variable values.
-          day[i-1] = i;
-          debt_per_day[i-1] = debt;
+          
           
       }  else {
           throw "Invalid interest type";
       }
   }
-  
+  console.log(debt_per_day);
   // Return results as a record.
-  return {x : day, y : debt_per_day};
+  return {x : day, y : debt_per_day, z: interest_accumulated_by_day};
 }
 
 

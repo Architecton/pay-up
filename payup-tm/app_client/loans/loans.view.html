@@ -53,7 +53,7 @@
                         }
                     </script>
                     
-                    <tbody ng-repeat="x in vm.data.loans | filter: vm.currentFilter | orderBy: vm.orderProp" ng-click="vm.selectLoan(x)">
+                    <tbody ng-repeat="x in vm.data.loans | filter: vm.currentFilter | orderBy: vm.orderProp" ng-click="vm.selectLoan(x); vm.getChartData();">
                         <tr class="selectableRow" onclick="deselect(); this.style.color='blue';">
                             <td>{{ x.loaner }}</td>
                             <td>{{ x.recipient }}</td>
@@ -86,7 +86,7 @@
                     <input type="button" ng-click="vm.deleteLoan()" class="button_loanMod rightLoanButton" id="button_loanDelete" value="Delete">
                 </div>
                 <div>
-                    <button class="button_visualiseLoan" onclick="document.getElementById('id10').style.display='block'">Loan Chart</button>
+                    <button class="button_visualiseLoan" id="loanChartBtn" onclick="document.getElementById('id10').style.display='block';">Loan Chart</button>
                 </div>
             </div>
             <div>
@@ -201,9 +201,23 @@
     </div>
 </div>
 
+<input type="hidden" id="xDataChart">
+<input type="hidden" id="yDataChart">
+<input type="hidden" id="zDataChart">
+
 <script>
-    /* global getDebtChart */
-    getDebtChart([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], [1,2,3,4,5,6,5,4,6,7,8,3,4,5,6,7], [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], 'EUR');
+    var displayChart = function(){
+        var x = document.getElementById('xDataChart').value;
+        var xData = JSON.parse("[" + x + "]");
+        var y = document.getElementById('yDataChart').value;
+        var yData = JSON.parse("[" + y + "]");
+        var z = document.getElementById('zDataChart').value;
+        var zData = JSON.parse("[" + z + "]");
+        /* global getDebtChart */
+        getDebtChart(xData, yData, zData, 'EUR');
+        
+    };
+    document.getElementById("loanChartBtn").addEventListener("click", displayChart);
 </script>
 <!-- /Debt by Time Plot -->
 <!-- ########################### /DEBT CHART BOX ######################## -->

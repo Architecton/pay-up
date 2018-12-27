@@ -1,6 +1,6 @@
 // loansCtrl: loans page controller
 (function() {
-  function loansCtrl($scope, loansData, loansList, loanManagement, authentication) {
+  function loansCtrl($scope, $http, loansData, loansList, loanManagement, authentication) {
     var vm = this;
     
     // getData; get selected loans of user with ID idUser
@@ -118,7 +118,7 @@
               Swal(
                 'Contract request sent!',
                 'The loan contract request has been sent.',
-                'success'
+                'success' 
               ).then(function(ok) {
                 document.getElementById('id07').style.display='none';
               });
@@ -145,9 +145,7 @@
     };
     
     // Loan confirmation ///////////////////////////////////////////////////////////////
-    vm.selectedLoan = {
-      id: ""
-    };
+    vm.selectedLoan = "";
     
     vm.selectLoan = function(loan) {
       vm.selectedLoan = loan._id;
@@ -288,7 +286,7 @@
                 getListLoans();
                 Swal(
                   'Loan resolved!',
-                  'The loan has been sucessfully resolved!',
+                  'The loan has been successfully resolved!',
                   'success'
                 );
               }, function error(response) {
@@ -396,10 +394,36 @@
           vm.orderProp = 'amount';
       }
     };
-    
-    
     ////////////////////////////////////////////////
-
+    
+    // Chart Drawing ///////////////////////////////
+    vm.loanChartData = {
+        x: [],
+        y: [],
+        z: []
+      };
+    // Get data for selected loan from server.
+    vm.getChartData = function () {
+      // API call
+      (function getLoanChartData(idUser, idLoan) {
+        return $http.get('/api/users/' + idUser + '/loans/' + idLoan + '/chartData', {
+          headers: {
+            Authorization: 'Bearer ' + authentication.getToken()
+          }
+        }).then(function success(response) {
+          vm.loanChartData.x = response.data.x;
+          vm.loanChartData.y = response.data.y;
+          vm.loanChartData.z = response.data.z;
+          document.getElementById('xDataChart').value = vm.loanChartData.x;
+          document.getElementById('yDataChart').value = vm.loanChartData.y;
+          document.getElementById('zDataChart').value = vm.loanChartData.z;
+        }, function error(response) {
+          console.log("Error retrieving data for chart rendering");
+          console.log(response.data);
+        });
+      })(authentication.currentUser().username, vm.selectedLoan);
+    };
+    ////////////////////////////////////////////////
     
     //////////////////////////////////////////////////////////////////////////////////////
     function getListLoans() {
@@ -411,7 +435,7 @@
     getListLoans();
   }
   
-  loansCtrl.$inject = ['$scope', 'loansData', 'loansList', 'loanManagement', 'authentication'];
+  loansCtrl.$inject = ['$scope', '$http', 'loansData', 'loansList', 'loanManagement', 'authentication'];
   
   // Add controller to the app
   /* global angular */

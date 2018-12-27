@@ -38,6 +38,7 @@ router.get('/users/:idUser/loans', authentication, ctrlLoans.loanGetUsersLoans);
 router.get('/users/:idUser/loans/:idLoan', authentication, ctrlLoans.loanGetSelected);                      // TESTED (20.12.2018)
 router.put('/users/:idUser/loans/:idLoan', authentication, ctrlLoans.loanUpdateSelected);                   // TESTED (20.12.2018)
 router.delete('/users/:idUser/loans/:idLoan', authentication, ctrlLoans.loanDeleteSelected);                // TESTED (20.12.2018)
+router.get('/users/:idUser/loans/:idLoan/chartData', authentication, ctrlLoans.loanGetChartData);
 
 
 // Controlers for working with contacts.
@@ -52,7 +53,7 @@ router.delete('/users/:idUser/contacts/:idContact', authentication, ctrlContacts
 // Controllers for authentication
 router.post('/users', ctrlAuthentication.authSignUp);                                                       // TESTED (20.12.2018)
 router.post('/users/login', ctrlAuthentication.authLogIn);                                                  // TESTED (20.12.2018)
-router.get('/users/:idUser/:validationCode', ctrlAuthentication.authConfirm);                               
+router.get('/users/:idUser/:validationCode', ctrlAuthentication.authConfirm);                               // TESTED (27.12.2018)    
 
 // Expose router as module.
 module.exports = router;
