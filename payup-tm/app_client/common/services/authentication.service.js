@@ -85,7 +85,8 @@
           name: payload.name,
           surname: payload.surname,
           email: payload.email,
-          nightmode: payload.nightmode
+          nightmode: payload.nightmode,
+          defaultCurrency: payload.defaultCurrency
         };
       }
     };

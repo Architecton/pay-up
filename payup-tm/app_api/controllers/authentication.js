@@ -258,7 +258,7 @@ module.exports.authConfirm = function(request, response) {
             getJsonResponse(response, 400, error);
           } else {
             response.writeHeader(200, {"Content-Type": "text/html"});  
-            response.write('<div style="font-family: Times-New-Roman;"><h1>Account successfully verified!</h1><p>You can now log in with your account and start using our service!</p>Click <a href=https://sp-projekt2-excogitator.c9users.io/">here</a> to go back to the PayUp website and log in!</div>');  
+            response.write('<div style="font-family: Times-New-Roman;"><h1>Account successfully verified!</h1><p>You can now log in with your account and start using our service!</p>Click <a href="https://sp-projekt2-excogitator.c9users.io/">here</a> to go back to the PayUp website and log in!</div>');  
             response.end();
           }
         });

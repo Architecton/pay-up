@@ -137,7 +137,7 @@
                     <input type="number" name="loanAmount" value="1" min=1 ng-model="vm.loanData.amount"><br>
                 </div>
                 <label>Currency:</label>
-                <div class="bfh-selectbox bfh-currencies loanPropSelCurrency" data-currency="EUR" id="currencySel" data-flags="true" ng-model="vm.loanData.currency"></div>
+                <div class="bfh-selectbox bfh-currencies loanPropSelCurrency" data-currency="{{ vm.defaultCurrency }}" id="currencySel" data-flags="true" ng-model="vm.loanData.currency"></div>
                 <label>Interest:</label>
                 <div class="loanPropSel">
                     <input type="number" name="loanAmount" value="1" min=1 ng-model="vm.loanData.interest"><br>

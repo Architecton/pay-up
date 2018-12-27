@@ -85,6 +85,7 @@ userSchema.methods.generateJwt = function() {
     surname: this.surname,
     email: this.email,
     nightmode: this.nightmode,
+    defaultCurrency: this.defaultCurrency,
     expirationDate: parseInt(expirationDate.getTime() / 1000, 10)
   }, process.env.JWT_PASSWORD);
 };

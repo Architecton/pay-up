@@ -2,6 +2,8 @@
 (function() {
   function loansCtrl($scope, $http, loansData, loansList, loanManagement, authentication) {
     var vm = this;
+
+    vm.defaultCurrency = authentication.currentUser().defaultCurrency;
     
     // getData; get selected loans of user with ID idUser
     vm.getData = function(idUser) {

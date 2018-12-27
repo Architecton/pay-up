@@ -104,7 +104,7 @@
         <!-- Settings list -->
         <div class="container settings">
             <label for="currency"><b>Default Currency</b></label>
-            <div class="bfh-selectbox bfh-currencies" id="settingsCurrencySel" data-currency="EUR" data-flags="true"></div>
+            <div class="bfh-selectbox bfh-currencies" id="settingsCurrencySel" data-currency="{{ vm.defaultCurrency }}" data-flags="true"></div>
             <input class="opts" type="checkbox" id="nightmode" name="mode" ng-model="modvm.settingsValues.nightmode"> Night Mode
         </div>
         
