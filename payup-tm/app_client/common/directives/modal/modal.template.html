@@ -21,14 +21,14 @@
             <input type="text" placeholder="Enter Username" name="uname" required ng-model="modvm.loginData.username">
             <label for="psw"><b>Password</b></label>
             <input type="password" placeholder="Enter Password" name="psw" required ng-model="modvm.loginData.password">
-            <div style="text-align:center">
+            <div class="loginBottom">
                 <button type="submit" form="loginForms" class="loginButton btn btn-primary">Log In</button>
-                <input class="opts rememberMe" style="margin-left:10px;" type="checkbox" checked="checked" name="remember"> Remember me
+                <input class="rememberMe" style="margin-left: 10px;" type="checkbox" checked="checked" name="remember"> Remember me
             </div>
         </div>
         
         <!-- forgot password section -->
-        <div style="text-align: center;">
+        <div class="forgotPassword">
             <span class="opts"><a href="https://www.wikihow.com/Remember-a-Forgotten-Password">Forgot password?</a></span>
         </div>
         
@@ -75,9 +75,9 @@
                     <small align="left">{{ modvm.loggedUser.email }}</small>
                 </div>
             </div>
-            <div style="margin:10px;">
-                <button type="button" onclick="document.getElementById('id03').style.display='none'" class="btn btn-primary" style="width:25%; margin:10px; display:inline-block;">Confirm</button>
-                <button type="button" ng-click="modvm.deleteAccount()" class="btn btn-danger" style="width:25%; margin:10px; display:inline-block;">Delete Account</button>
+            <div class="profileOpts">
+                <button type="button" onclick="document.getElementById('id03').style.display='none'" class="btn btn-primary" id="profileBtnConfirm">Confirm</button>
+                <button type="button" ng-click="modvm.deleteAccount()" class="btn btn-danger" id="profileBtnDelete">Delete Account</button>
             </div>
         </div>
     </form>
@@ -109,7 +109,7 @@
         </div>
         
         <!-- Save button section -->
-        <div style="text-align: center;">
+        <div class="saveBtn">
             <button type="submit" class="settingsSave btn btn-primary">Save</button>
             <span onclick="document.getElementById('id02').style.display='none'" class="opts cancelLink" title="Cancel" onmouseover="" >Cancel</span>
         </div>

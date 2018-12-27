@@ -101,6 +101,15 @@
 }
 
 
+.saveBtn {
+    text-align: center;
+}
+
+.loginBottom {
+    text-align:center
+}
+
+
 /* LOGOS */
 
 /* Home logo box */
@@ -499,8 +508,12 @@
 }
 
 .rememberMe {
-    margin-left:10px;
+    margin-left:20px;
     display:inline-block;
+}
+
+.forgotPassword {
+    text-align: center;
 }
 
 
@@ -513,6 +526,22 @@
 .profileData {
     display: inline-block;
     text-align: left;
+}
+
+.profileOpts {
+    margin:10px;
+}
+
+#profileBtnConfirm {
+    width:25%;
+    margin:10px;
+    display:inline-block;
+}
+
+#profileBtnDelete {
+    width:25%;
+    margin:10px;
+    display:inline-block;
 }
 
 
