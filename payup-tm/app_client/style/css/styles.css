@@ -447,6 +447,10 @@
     height:30px;
 }
 
+.newLoanBottomRow {
+    text-align:center;
+}
+
 
 /* DASHBOARD */
 
@@ -499,7 +503,15 @@
     cursor: pointer;
 }
 
+#loansSort {
+    margin-top:3px;
+    margin-bottom:3px;
+}
 
+#select_userType {
+    margin-top:3px;
+    margin-bottom:3px;
+}
 
 
 
