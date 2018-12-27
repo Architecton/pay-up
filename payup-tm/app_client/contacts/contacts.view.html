@@ -65,7 +65,7 @@
                 <div class="contactsRow">
                     <h3 class="contactsLabel">Contact Details</h3>
                     <div class="col-xs-6 borderedSilverBox">
-                        <ul class="contactDetails" style="text-align: left;">
+                        <ul class="contactDetails">
                             <li><b>Username:</b> {{ vm.contactDetails.username }}</li>
                             <li><b>Name:</b> {{ vm.contactDetails.name }}</li>
                             <li><b>Surname:</b> {{ vm.contactDetails.surname }}</li>
@@ -90,7 +90,7 @@
    <!-- ################################## NEW CONTACT BOX ############################ -->
         
     <!-- login box -->
-    <div id="id04" class="modal" style="overflow-y: auto;">
+    <div id="id04" class="modal">
         <!-- close new contact window -->
         <span onclick="document.getElementById('id04').style.display='none'" class="close" title="Close Modal">&times;</span>
         
@@ -108,7 +108,7 @@
                 
                 <input class="form-control" ng-model="vm.expression" placeholder="search..." />
                 
-                <div style="margin-top:10px; margin-bottom:10px;">
+                <div class="contactSearch">
                     <label><b>Found users:</b></label>
                     <select class="form-control" ng-model="vm.selectedContact">
                         <option ng-repeat="x in vm.usersList.listAll | filter: vm.expression">{{ x.name }} {{ x.surname }}, {{ x._id }}</option>
@@ -162,7 +162,7 @@
                 <div class="editNotes">
                     <input type="text" maxlength="80" name="notes" placeholder="Type your notes here." ng-model="vm.contactNotes.notes">
                 </div>
-                <div style="text-align:center">
+                <div class="editNotesBox">
                     <button type="submit" form="editNotesForm" class="contactAddedAlert btn btn-primary">Edit Notes</button>
                     <span onclick="document.getElementById('id11').style.display='none'" class="opts cancelLink" title="Cancel" onmouseover="">Cancel</span>
                 </div>
