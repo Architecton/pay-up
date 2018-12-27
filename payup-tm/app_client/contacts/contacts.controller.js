@@ -167,8 +167,6 @@
               type: 'error',
               title: 'Error',
               text: vm.formError
-            }).then(function(ok) {
-              document.getElementById('id04').style.display='none';
             });
           return false;
       } else if (!re.test(String(vm.contactData.email).toLowerCase())) {
@@ -177,8 +175,6 @@
             type: 'error',
             title: 'Error',
             text: vm.formError
-          }).then(function(ok) {
-            document.getElementById('id04').style.display='none';
           });
         return false;
       } else {
@@ -207,8 +203,6 @@
               type: 'error',
               title: 'Error',
               text: vm.formError
-            }).then(function(ok) {
-              document.getElementById('id04').style.display='none';
             });
         });
       } else {

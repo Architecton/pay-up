@@ -119,15 +119,15 @@
                 'Contract request sent!',
                 'The loan contract request has been sent.',
                 'success'
-              );
+              ).then(function(ok) {
+                document.getElementById('id07').style.display='none';
+              });
             }, function error(response) {
                 vm.formError = "Invalid loan parameters.";
                 Swal({
                   type: 'error',
                   title: 'Error',
                   text: vm.formError
-                }).then(function(ok) {
-                  document.getElementById('id07').style.display='none';
                 });
             });
           }
