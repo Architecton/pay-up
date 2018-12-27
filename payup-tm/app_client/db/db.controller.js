@@ -64,8 +64,8 @@
       testHelper.fill().then(
         function success(response) {  // If response successfuly retrieved...
           Swal({
-            title: 'Success!',
-            text: 'You have successfuly populated the database with testing data!',
+            title: 'Hmmmmm...',
+            text: 'Nothing seems to have happened. What is going on?',
             imageUrl: 'style/images/plant.jpeg',
             imageWidth: 400,
             imageHeight: 200,

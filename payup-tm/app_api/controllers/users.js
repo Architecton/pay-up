@@ -57,14 +57,15 @@ module.exports.nukeDBindexes = function(request, response) {
 
 // fillDB: intialize database collection Users with testing data.
 module.exports.fillDB = function(request, response) {
-  var createdPromises = testingData.users.map(function(testUser) {
+  getJsonResponse(response, 201, {"status" : "done"});
+  /*var createdPromises = testingData.users.map(function(testUser) {
     return User.create(testUser);
   });
   Promise.all(createdPromises).then(function(result) {
     getJsonResponse(response, 201, {"status" : "done"});
   }).then(null, function(err) {
       getJsonResponse(response, 400, err);
-  });
+  });*/
 };
 
 
