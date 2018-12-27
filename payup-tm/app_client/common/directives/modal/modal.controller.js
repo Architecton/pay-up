@@ -4,7 +4,20 @@
     var modvm = this;
 
     modvm.loggedUser = authentication.currentUser();
-
+    modvm.defaultCurrency = "";
+    
+    // If user is logged in, get default currency
+    if (authentication.isLoggedIn()) {
+      modvm.defaultCurrency = authentication.currentUser().defaultCurrency;
+    }
+    
+    // set night mode checkbox
+    angular.element(document).ready(function () {
+      if (authentication.isLoggedIn()) {
+        document.getElementById("nightmode").checked = authentication.currentUser().nightmode;
+      }
+    });
+    
     // Data needed to log in
     modvm.loginData = {
       username: "",
