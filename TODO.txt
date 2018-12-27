@@ -4,4 +4,5 @@
 - SECURITY TEST
 
 
+- clean up css from navbar and modal views (For some reason styles from css are currently not applied)
 - remember me??
