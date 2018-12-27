@@ -50,8 +50,8 @@
           },
           function(error) {         // If error...
             Swal({
-              title: 'Error',
-              text: 'Invalid username or password! Please try again!',
+              title: 'Invalid username or password!',
+              text: 'Make sure you have validated your account by following the link that was sent to your e-mail address.',
               type: 'error'
             });
           }
