@@ -57,13 +57,15 @@ var userSchema = new mongoose.Schema({
   messages: [messageSchema],                              // user's messages
   avatar: Buffer,                                         // user's avatar
   hashValue: String,                                      // password hash value
-  randomValue: String                                     // random value used in hashing
+  randomValue: String,                                    // random value used in hashing
+  validationCode: String                                  // Validation code used for generating address for account validation
 });
 
 
 // setPassword: Set user's passowrd
 userSchema.methods.setPassword = function(password) {
   this.randomValue = crypto.randomBytes(16).toString('hex');
+  this.validationCode = crypto.randomBytes(16).toString('hex');
   this.hashValue = crypto.pbkdf2Sync(password, this.randomValue, 1000, 64, 'sha512').toString('hex');
 };
 

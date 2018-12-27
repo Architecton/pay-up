@@ -52,6 +52,7 @@ router.delete('/users/:idUser/contacts/:idContact', authentication, ctrlContacts
 // Controllers for authentication
 router.post('/users', ctrlAuthentication.authSignUp);                                                       // TESTED (20.12.2018)
 router.post('/users/login', ctrlAuthentication.authLogIn);                                                  // TESTED (20.12.2018)
+router.get('/users/:idUser/:validationCode', ctrlAuthentication.authConfirm);                               
 
 // Expose router as module.
 module.exports = router;

@@ -126,6 +126,28 @@ var addLoan = function(request, response, user) {
               if (error) {
                 getJsonResponse(response, 400, error);
               } else {
+                // Add loan to recipient's list of loans.
+                User
+                .findById(newLoan.recipient)
+                .select('loans')
+                .exec(
+                  function(error, user) {
+                    // if encountered error
+                    if (error) {
+                      getJsonResponse(response, 500, error);
+                    } else {
+                      // add loan to user (see auxiliary function below)
+                      user.loans.push(newLoan);
+                      user.save(function(error, user) {
+                        if (error) {
+                          getJsonResponse(response, 400, error);
+                        } else {
+                          console.log("Successfuly pushed loan to contact.");
+                        }
+                      });
+                    }
+                  }
+                );
                 // Get loan that was just added and return it as reponse.
                 addedLoan = user.loans[user.loans.length - 1];
                 getJsonResponse(response, 201, addedLoan);

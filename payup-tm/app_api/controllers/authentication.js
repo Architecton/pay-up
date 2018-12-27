@@ -56,7 +56,7 @@ module.exports.authLogIn = function(request, response) {
 			getJsonResponse(response, 404, error);
 			return;
 		}
-		if (user) { 	// If authorization successfull, return generated JWT.
+		if (user && user.status == 1) { 	// If authorization successfull, return generated JWT.
 			getJsonResponse(response, 200, {
 				"token" : user.generateJwt()
 			});
@@ -128,7 +128,7 @@ module.exports.authSignUp = function(request, response) {
               getJsonResponse(response, 500, error);
             // If all went well, send confirmation e-mail.
             } else {
-              sendConfirmationMail(newUser.email).then(function(result) {
+              sendConfirmationMail(newUser.email, newUser._id, newUser.validationCode).then(function(result) {
                 // If confirmation mail successfuly sent, return new user as signal value.
                 if(result) {
                   getJsonResponse(response, 201, user);
@@ -214,9 +214,9 @@ var usernameExists = function(username) {
 };
 
 // sendConfirmationMail: send confirmation mail to specified email
-var sendConfirmationMail = function(emailAddress) {
+var sendConfirmationMail = function(emailAddress, idUser, validationCode) {
   return new Promise(function(resolve, reject) {
-    sendMail(emailAddress).then(function(result) {
+    sendMail(emailAddress, idUser, validationCode).then(function(result) {
       if (result) {  // If mail successfuly sent
         resolve(true);
       } else {  // Else.
@@ -227,14 +227,14 @@ var sendConfirmationMail = function(emailAddress) {
 };
 
 // sendMail: auxiliary function that sends mail.
-var sendMail = function(emailAddress) {
+var sendMail = function(emailAddress, idUser, validationCode) {
   return new Promise(function(resolve, reject) {
     // Define helper options.
     let HelperOptions = {
       from: 'payup.app.2019@gmail.com',
       to: emailAddress,
       subject: 'Confirm e-mail',
-      text: 'Please click the link below to confirm your e-mail account.\n https://sp-projekt2-excogitator.c9users.io'
+      text: 'Please click the link below to confirm your e-mail account.\n https://sp-projekt2-excogitator.c9users.io/api/users/' + idUser + '/' + validationCode
     };
     // Send mail via transporter.
     transporter.sendMail(HelperOptions, (error, info) => {
@@ -244,6 +244,25 @@ var sendMail = function(emailAddress) {
         resolve(true);  // If successfuly sent mail, resolve as true.
     });
   });
+};
+
+module.exports.authConfirm = function(request, response) {
+  if (request.params && request.params.idUser && request.params.validationCode) {
+    User.findById(request.params.idUser).exec(function(error, user) {
+      if (user._id == request.params.idUser && request.params.validationCode == user.validationCode) {
+        user.status = 1;
+        user.save(function(error, user) {
+          if (error) {
+            getJsonResponse(response, 400, error);
+          } else {
+            getJsonResponse(response, 200, "Account successfuly verified!");
+          }
+        });
+      } else {
+        getJsonResponse(response, 400, "Missing request parameters");
+      }
+    });
+  }
 };
 
 ///////////////////////////////////////////////////////////////////////////////////
