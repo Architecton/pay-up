@@ -1,44 +1,4 @@
-- API controller for signup - check for matching passwords (the passwords field is an array of length 2 containing both passwords).
-- Tell aljaž that contact id is the mongo generated id.
-- Test API call that sends confirmation mail.
-
-###################################################
-API files:
-
-contacts.js     // FINISHED - TODO TESTING
-loans.js        // FINISHED - TODO TESTING
-testingData.js  // FINISHED - TODO TESTING
-users.js        // FINISHED - TODO TESTING
-####################################################
-
-# API TESTING ######################################
-contacts.js     // 12.12.2018 (DONE)
-loans.js        // 13.12.2019
-users.js        // 14.12.2019 (DONE)
-####################################################
-
-# TO IMPLEMENT #####################################
-Get loan stats: Api call that returns loan data with respect to time (day)
-
-
-Example of a response
-
-{
-    day: [1, 2, 3, ...],
-    debt: [1200, 1200.01, 1200.02, ...],
-    interest: [0, 0.01, 0.02, ...]
-}
-
-####################################################
-
-# TO IMPLEMENT AND TEST ############################
-New functions in users.js
-Fix schema to add messages and avatar
-####################################################
-
-
-
-
-# TO ADD ###########################################
-Add fixes api documentation.
-####################################################
+- ROLES (Admin can see all loans)
+- TRACKING
+- SELENIUM
+- SECURITY TEST
