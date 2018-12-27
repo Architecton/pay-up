@@ -707,3 +707,13 @@ html, body {
     background-position: center; 
     overflow:hidden
 }
+
+.dbHeading {
+    color:silver;
+    text-align: center;
+    font-family: Times-New-Roman;
+}
+
+.dbWhoa {
+    font-size: 70px;
+}
