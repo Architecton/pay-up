@@ -134,20 +134,14 @@
         if (typeof modvm.settingsValues.nightmode == 'boolean' && modvm.settingsValues.defaultCurrency.replace(/^\s+|\s+$/g, '').length > 0) {
           authentication.updateSettings(idUser, modvm.settingsValues).then(function success(response) {
             Swal({
-              title: 'Saved!',
-              text: 'Your settings have been saved!',
+              title: 'Your settings have been saved!',
+              text: 'Please log in again for the changes to take effect!',
               type: 'success'
             }).then(function(ok) {
-              // Check nightmode setting
-              if (modvm.settingsValues.nightmode) {
-                console.log("SET");
-                document.documentElement.style.backgroundColor = 'black';
-                document.body.style.backgroundColor = 'black'; 
-              } else {
-                document.documentElement.style.backgroundColor = 'lightgrey';
-                document.body.style.backgroundColor = 'lightgrey';
-              }
               document.getElementById('id02').style.display='none';
+                authentication.logOut();
+                $location.path('/');
+                $route.reload();
             });
           }, function error(response) {
             Swal({
