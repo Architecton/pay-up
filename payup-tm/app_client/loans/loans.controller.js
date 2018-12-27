@@ -414,6 +414,8 @@
           vm.loanChartData.x = response.data.x;
           vm.loanChartData.y = response.data.y;
           vm.loanChartData.z = response.data.z;
+          // Set values to hidden input fields on html page. The inline script retrieves the data from
+          // these hidden forms.
           document.getElementById('xDataChart').value = vm.loanChartData.x;
           document.getElementById('yDataChart').value = vm.loanChartData.y;
           document.getElementById('zDataChart').value = vm.loanChartData.z;

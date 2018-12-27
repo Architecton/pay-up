@@ -52,24 +52,12 @@
       });
     };
     
-    var getLoanChartData = function(idLoan, idUser) {
-      return $http.get('/api/users/' + idUser + '/loans/' + idLoan + '/chartData', {
-        headers: {
-          Authorization: 'Bearer ' + authentication.getToken()
-        }
-      }).then(function success(response) {
-          console.log(response.data);
-      });
-    };
-    
-    
     // Return object containing the functions offered by this service.
     return {
       addLoan: addLoan,
       confirmLoan: confirmLoan,
       deleteLoan: deleteLoan,
-      resolveLoan: resolveLoan,
-      getLoanChartData: getLoanChartData
+      resolveLoan: resolveLoan
     };
   }
   

@@ -451,7 +451,6 @@ module.exports.loanGetChartData = function(request, response) {
 
 
 var getDebtByTime = function(loan) {
-  console.log(loan);
   return new Promise(function(resolve, reject) {
     resolve(debtByTime(new Date(loan.dateIssued), new Date(loan.deadline),
     Number(loan.payment_interval), Number(loan.payment_amount), Number(loan.amount), 
@@ -527,7 +526,6 @@ function debtByTime(start_date, end_date, payment_interval, payment_amount, prin
 
       // if compound interest
       } else if (type_interest) {
-          console.log("FIRE!!!");
           // Compute total debt for each day.
           var debt = principal_amount;
           var interval_count = 0;
@@ -608,7 +606,6 @@ function debtByTime(start_date, end_date, payment_interval, payment_amount, prin
           throw "Invalid interest type";
       }
   }
-  console.log(debt_per_day);
   // Return results as a record.
   return {x : day, y : debt_per_day, z: interest_accumulated_by_day};
 }

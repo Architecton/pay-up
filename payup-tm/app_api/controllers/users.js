@@ -382,7 +382,6 @@ var getLoggedId = function(request, response, callback) {
         callback(request, response, user._id);
       });
   } else {    // Else if no payload or if payload does not contain field username
-  console.log("FAIL");
     getJsonResponse(response, 400, {
       "message": "Inadequate data in token"
     });

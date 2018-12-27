@@ -147,7 +147,6 @@ module.exports.authSignUp = function(request, response) {
         }
       });
     } else {
-      console.log("Failing here!!!");
       getJsonResponse(response, 400, {
         "message": "error verifying captcha response"
       }); 
