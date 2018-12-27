@@ -154,6 +154,45 @@
         }
       }
     },
+    "/users/{idUser}/{validationCode}" : {
+      "get" : {
+        "tags" : [ "Authentication" ],
+        "summary" : "validate mail",
+        "operationId" : "validateMail",
+        "parameters" : [ {
+          "name" : "idUser",
+          "in" : "path",
+          "description" : "user's ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "validationCode",
+          "in" : "path",
+          "description" : "validation code associated with the account",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Bad request parameters"
+          },
+          "200" : {
+            "description" : "validation successful",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/users/{idUser}" : {
       "get" : {
         "tags" : [ "Users" ],
@@ -564,6 +603,65 @@
         }
       }
     },
+    "/users/{idUser}/loans/{idLoan}/chartData" : {
+      "get" : {
+        "tags" : [ "Loans" ],
+        "summary" : "get data for chart rendering",
+        "operationId" : "loanGetChartData",
+        "parameters" : [ {
+          "name" : "idUser",
+          "in" : "path",
+          "description" : "ID of user",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "idLoan",
+          "in" : "path",
+          "description" : "ID of loan",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Invalid ID supplied"
+          },
+          "404" : {
+            "description" : "User with specified ID not found or Loan with specified ID not found"
+          },
+          "500" : {
+            "description" : "Error retrieving loan"
+          },
+          "200" : {
+            "description" : "data successfully retrieved",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "x" : {
+                      "type" : "object",
+                      "description" : "day index"
+                    },
+                    "y" : {
+                      "type" : "object",
+                      "description" : "debt by day"
+                    },
+                    "z" : {
+                      "type" : "object",
+                      "description" : "interest accumulated by day"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/contacts" : {
       "get" : {
         "tags" : [ "Contacts" ],
@@ -872,6 +970,21 @@
           "messages" : {
             "type" : "object",
             "description" : "list of user's messages"
+          },
+          "avatar" : {
+            "type" : "string"
+          },
+          "hashValue" : {
+            "type" : "string",
+            "description" : "password hash value"
+          },
+          "randomValue" : {
+            "type" : "string",
+            "description" : "random value used in hashing"
+          },
+          "validationCode" : {
+            "type" : "string",
+            "description" : "value used to generate the address for account validation through e-mail"
           }
         }
       },
