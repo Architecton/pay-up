@@ -332,8 +332,9 @@
     (vm.getUsersList = function() {
       contactManagement.getSearchList().then(function success(response) {
         vm.usersList = {
-          listAll: response.data
+          listAll: response.data.filter(function(res) { return res._id != authentication.currentUser().username })
         };
+        console.log(response.data);
       }, function error(response) {
         vm.usersList.users = "Error Retrieving data from server.";
       });
