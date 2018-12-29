@@ -392,6 +392,14 @@
           vm.orderProp = '-deadline';
           getListLoans();
           break;
+        case 'Recipient':
+          vm.orderProp = 'recipient';
+          getListLoans();
+          break;
+        case 'Source':
+          vm.orderProp = 'loaner';
+          getListLoans();
+          break;
         default:
           vm.orderProp = 'amount';
       }

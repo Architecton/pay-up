@@ -5,8 +5,8 @@
   function authentication($window, $http) {
     
     // Fix errors regarding UTF-8 coding.
-    var b64Utf8 = function (niz) {
-      return decodeURIComponent(Array.prototype.map.call($window.atob(niz), function(c) {
+    var b64Utf8 = function (str) {
+      return decodeURIComponent(Array.prototype.map.call($window.atob(str), function(c) {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
       }).join(''));
     };
@@ -68,7 +68,7 @@
     var isLoggedIn = function() {
       var token = getToken();   // Try to get token.
       if (token) {  // If token exists, get payload.
-        var payload = JSON.parse($window.atob(token.split('.')[1]));
+        var payload = JSON.parse(b64Utf8(token.split('.')[1]));
         return payload.expirationDate > Date.now() / 1000;  // Check whether the token has expired.
       } else {
         return false;     // If no token found, return false.
@@ -79,7 +79,7 @@
     var currentUser = function() {
       if (isLoggedIn()) {       // Check if user is logged in.
         var token = getToken();
-        var payload = JSON.parse($window.atob(token.split('.')[1]));
+        var payload = JSON.parse(b64Utf8(token.split('.')[1]));
         return {  // Return username, email and name as decoded from token.
           username: payload.username,
           name: payload.name,
