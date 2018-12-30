@@ -1,0 +1,23 @@
+<!-- Contents of login box -->
+<div class="modal-header">
+    <button type="button" class="close" aria-label="Close" ng-click="notesvm.cancel()">
+         <span style="margin-top:10px;" aria-hidden="true">&times;</span>
+    </button>
+</div>
+<form ng-controller="contactsCtrl as vm" ng-submit="vm.sendNotesData(notesvm.neededData, notesvm.parentScope)" autocomplete="off" class="modal-body" id="editNotesForm">
+    
+    <!-- avatar image -->
+    <div class="ttlcontainer">
+        <h1><b>Edit Contact Notes</b></h1>
+    </div>
+    
+    <div>
+        <div class="editNotes">
+            <input type="text" maxlength="80" name="notes" placeholder="Type your notes here." ng-model="vm.contactNotes.notes">
+        </div>
+        <div class="editNotesBox">
+            <button type="submit" form="editNotesForm" class="contactAddedAlert btn btn-primary">Edit Notes</button>
+            <span ng-click="notesvm.cancel()" class="opts cancelLink" title="Cancel" onmouseover="">Cancel</span>
+        </div>
+    </div>
+</form>

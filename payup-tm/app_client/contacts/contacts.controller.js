@@ -1,6 +1,6 @@
 // dashboardCtrl: dashboard page controller
 (function() {
-  function contactsCtrl($scope, contactsData, contactsList, contactManagement, authentication) {
+  function contactsCtrl($scope, $uibModal, $uibModalStack, contactsData, contactsList, contactManagement, authentication) {
     // Pogled-model se generira ob kreiranju novega primerka krmilnika, zato lahko do njega preprosto dostopamo z this
     var vm = this;
     
@@ -8,7 +8,7 @@
     vm.getData = function(idUser) {
       // Make GET request to retrieve contacts data.
       contactsData.contacts(idUser).then(
-        function success(response) {  // If response successfuly retrieved...
+        function success(response) {  // If response successfully retrieved...
           vm.message = response.data.length > 0 ? "" : "Empty response from server";      // If respone is empty
           // Data to be exposed
           vm.data = {                                                             // selectedLoans are the loans in the HTTP response to the GET request.
@@ -54,14 +54,34 @@
         notes: ""
     };
     
+    vm.editnotesModalShow = function() {
+      vm.loginModal = $uibModal.open({
+        animation: true,
+        templateUrl: 'contacts/editnotes.html',
+        windowClass: 'app-modal-window',
+        controller: 'notesModCtrl',
+        controllerAs: 'notesvm',
+        resolve: {
+          parent: function () {
+              return vm;
+          }
+        }
+      });
+      vm.loginModal.result.then(function(){
+         
+       }, function(){
+         
+       });
+    };
+    
     // sendData: send data to function that makes call to service that makes call to API
-    vm.sendNotesData = function() {
-        vm.editNotes();
+    vm.sendNotesData = function(idContact, scope) {
+      vm.editNotes(idContact, scope);
     };
     
     // editNotes: edit contact's notes
-    vm.editNotes = function() {
-      vm.contactNotes.idContact = vm.contactDetails._id;
+    vm.editNotes = function(idContact, scope) {
+      vm.contactNotes.idContact = idContact;
       vm.formError = "";
       // Check if notes are present.
       if (!vm.contactNotes.notes || vm.contactNotes.notes.replace(/^\s+|\s+$/g, '').length == 0) {
@@ -71,8 +91,6 @@
             type: 'error',
             title: 'Error',
             text: vm.formError
-          }).then(function(ok) {
-            document.getElementById('id11').style.display='none';
           });
       // Check if idContact is present.
       } else if (!vm.contactNotes.idContact || vm.contactNotes.idContact.replace(/^\s+|\s+$/g, '').length == 0) {
@@ -82,7 +100,7 @@
             title: 'Error',
             text: vm.formError
           }).then(function(ok) {
-            document.getElementById('id11').style.display='none';
+            $uibModalStack.dismissAll();
         });
       } else {
         // Get current logged in user.
@@ -93,10 +111,11 @@
           contactManagement.editNotes(currentUser.username, vm.contactNotes.idContact, {"notes": vm.contactNotes.notes}).then(function success(response) {
               // If successful
               // Clear display.
-              Object.keys(vm.contactDetails).forEach(function(v) { vm.contactDetails[v] = "" });
               Swal('Done!', 'Contact notes successfully edited!', 'success').then(function(ok) {
-                getListContacts(); // Get updated list of contacts.
-                document.getElementById('id11').style.display='none';
+                $uibModalStack.dismissAll();
+                Object.keys(scope.contactDetails).forEach(function(v) { scope.contactDetails[v] = "" });
+                scope.getListContacts();
+                
               });
               // If error
           }, function error(response) {
@@ -105,7 +124,7 @@
                 title: 'Error',
                 text: 'Whoops! Something went wrong. Please try again!'
               }).then(function(ok) {
-                document.getElementById('id11').style.display='none';
+                $uibModalStack.dismissAll();
               });
           });
         // If JWT not found
@@ -116,7 +135,7 @@
               title: 'Error',
               text: vm.formError
             }).then(function(ok) {
-              document.getElementById('id11').style.display='none';
+              $uibModalStack.dismissAll();
             });
         }
       }
@@ -126,6 +145,22 @@
     
     
     // Adding new contact /////////////////////
+
+    vm.newcontactModalShow = function() {
+      vm.loginModal = $uibModal.open({
+        animation: true,
+        templateUrl: 'contacts/newcontact.html',
+        windowClass: 'app-modal-window',
+        controller: 'ModalInstanceCtrl',
+        controllerAs: 'modctrl'
+      });
+      vm.loginModal.result.then(function(){
+         
+       }, function(){
+         
+       });
+    };
+    
 
     // Data needed for creating a new contact
     vm.contactData = {
@@ -194,8 +229,8 @@
           // Clear contact details.
           Object.keys(vm.contactDetails).forEach(function(v) { vm.contactDetails[v] = "" });
           Swal('Done!', 'Contact successfully added!', 'success').then(function(ok) {
-              getListContacts(); // Get updated list of contacts.
-              document.getElementById('id04').style.display='none';
+              vm.getListContacts(); // Get updated list of contacts.
+              $uibModalStack.dismissAll();
           });
         }, function error(response) {
             vm.formError = "No user with specified username found.";
@@ -212,7 +247,7 @@
             title: 'Error',
             text: vm.formError
           }).then(function(ok) {
-            document.getElementById('id04').style.display='none';
+            $uibModalStack.dismissAll();
           });
       }
     };
@@ -258,7 +293,7 @@
                 ).then(function(ok) {
                   // Clear display.
                   Object.keys(vm.contactDetails).forEach(function(v) { vm.contactDetails[v] = "" });
-                  getListContacts();
+                  vm.getListContacts();
                 });
               }, function error(response) {
                 // Else show error alert.
@@ -304,15 +339,15 @@
       switch (selVal) {
         case 'Username':
           vm.orderProp = 'username';
-          getListContacts();
+          vm.getListContacts();
           break;
         case 'First name':
           vm.orderProp = 'name';
-          getListContacts();
+          vm.getListContacts();
           break;
         case 'Last name':
           vm.orderProp = 'surname';
-          getListContacts();
+          vm.getListContacts();
           break;
         default:
           vm.orderProp = 'amount';
@@ -359,16 +394,15 @@
     
   
     // Call to service function that retrieves the loans to be displayed on the dashboard.
-    function getListContacts() {
+    (vm.getListContacts = function () {
       contactsList.getContacts(             // Pass getData and showError functions
         vm.getData, 
         vm.showError,
         authentication.currentUser().username);
-    }
-    getListContacts();
+    })();
   }
   
-  contactsCtrl.$inject = ['$scope', 'contactsData', 'contactsList', 'contactManagement', 'authentication'];
+  contactsCtrl.$inject = ['$scope', '$uibModal', '$uibModalStack', 'contactsData', 'contactsList', 'contactManagement', 'authentication'];
 
   
   // Add controller to the app
@@ -377,3 +411,17 @@
     .module('payupApp')
     .controller('contactsCtrl', contactsCtrl);
 })();
+
+
+angular.module('payupApp').controller('notesModCtrl', function (parent, $uibModalInstance, $uibModalStack) {
+  var notesvm = this;
+  notesvm.parentScope = parent;
+  
+  notesvm.cancel = function () {
+    $uibModalStack.dismissAll();
+  };
+  
+  notesvm.neededData = parent.contactDetails._id;
+  notesvm.modalInstance = $uibModalInstance;
+  
+});
