@@ -170,9 +170,11 @@
     
     // Loan confirmation ///////////////////////////////////////////////////////////////
     vm.selectedLoan = "";
+    vm.currency = "";
     
     vm.selectLoan = function(loan) {
       vm.selectedLoan = loan._id;
+      vm.currency = loan.currency;
     };
     
     // Data required for loan confirmation
@@ -451,6 +453,7 @@
           document.getElementById('xDataChart').value = vm.loanChartData.x;
           document.getElementById('yDataChart').value = vm.loanChartData.y;
           document.getElementById('zDataChart').value = vm.loanChartData.z;
+          document.getElementById('curr').value = vm.currency;
         }, function error(response) {
           console.log("Error retrieving data for chart rendering");
           console.log(response.data);
