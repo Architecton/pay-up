@@ -418,15 +418,18 @@
 })();
 
 
+// Controller for working with modal windows dealing with contacts
 angular.module('payupApp').controller('notesModCtrl', function (parent, $uibModalInstance, $uibModalStack) {
   var notesvm = this;
+  // Get parent scope
   notesvm.parentScope = parent;
   
+  // cancel: called when pressing cancel or x
   notesvm.cancel = function () {
     $uibModalStack.dismissAll();
   };
   
+  // Get needed data from parent scope.
   notesvm.neededData = parent.contactDetails._id;
-  notesvm.modalInstance = $uibModalInstance;
   
 });

@@ -1,0 +1,77 @@
+<script src="style/form-helpers/dist/js/bootstrap-formhelpers.min.js"></script>
+<!-- Contents of login box -->
+<form ng-controller="loansCtrl as vm" ng-submit="vm.sendNewLoanData(loansmodvm.parentScope)" autocomplete="off" class="modal-body">
+    
+    <!-- title -->
+    <div class="imgcontainer">
+        <h1><b>Create New Loan</b></h1>
+    </div>
+    
+    <!-- Loan properties -->
+    <div class="container">
+        <!-- Select loaner (must be in contacts)s -->
+        <fieldset>
+            <legend class="newLoanLegend">Recipient information</legend>
+            <label for="loanerSel">Select Recipient from your contacts:</label>
+            
+            <div ng-controller="contactsCtrl as vmc">
+                <select class="form-control loanerSel" id="loanerSel" ng-model="vm.loanData.recipient">
+                    <option ng-repeat="x in vmc.data.contacts"> {{ x.username }} ({{ x.name  }} {{ x.surname }}, {{ x._id }})</option>
+                </select>
+            </div>
+        </fieldset>
+        
+        <!-- amount -->
+        <fieldset>
+            <legend class="newLoanLegend">Loan Information:</legend>
+            <label>Amount to loan:</label>
+            <div class="loanPropSel">
+                <input type="number" name="loanAmount" value="1" min=1 ng-model="vm.loanData.amount"><br>
+            </div>
+            <label>Currency:</label>
+            <div class="bfh-selectbox bfh-currencies loanPropSelCurrency" data-currency="{{ vm.defaultCurrency }}" id="currencySel" data-flags="true" ng-model="vm.loanData.currency"></div>
+            <label>Interest:</label>
+            <div class="loanPropSel">
+                <input type="number" name="loanAmount" value="1" min=1 ng-model="vm.loanData.interest"><br>
+            </div>
+            <label>Compound Interest:</label>
+            <div class="loanPropSel">
+                <select ng-model="vm.loanData.compoundInterest">
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+            </div>
+            <label>Interest on Debt:</label>
+            <div class="loanPropSel">
+                <select ng-model="vm.loanData.interest_on_debt">
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+            </div>
+        </fieldset>
+        
+        <fieldset>
+            <legend class="newLoanLegend">Deadlines and Payment Intervals</legend>
+            <label>Payment Interval (in days):</label>
+            <div class="loanPropSel">
+                <input type="number" name="loanAmount" value="1" min=1 ng-model="vm.loanData.payment_interval"><br>
+            </div>
+            <label>Payment Amount:</label>
+            <div class="loanPropSel">
+                <input type="number" name="loanAmount" value="1" min=1 ng-model="vm.loanData.payment_amount"><br>
+            </div>
+            <label>Repayment Deadline:</label>
+            <div class="loanPropSel">
+                <input type="date" name="paymentDeadline" ng-model="vm.loanData.deadline"><br>
+            </div>
+        </fieldset>
+        
+    </div>
+    
+    
+    <div class="newLoanBottomRow">
+            <button type="submit" class="loanConfirmButton btn btn-primary">Create Loan</button>
+            <span ng-click="loansmodvm.cancel()" class="opts cancelLink" title="Cancel" onmouseover="">Cancel</span>
+    </div>
+    
+</form>

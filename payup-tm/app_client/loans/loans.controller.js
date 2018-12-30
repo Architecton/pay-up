@@ -1,6 +1,6 @@
 // loansCtrl: loans page controller
 (function() {
-  function loansCtrl($scope, $http, loansData, loansList, loanManagement, authentication) {
+  function loansCtrl($scope, $uibModal, $uibModalStack, $http, loansData, loansList, loanManagement, authentication) {
     var vm = this;
 
     vm.defaultCurrency = authentication.currentUser().defaultCurrency;
@@ -23,6 +23,28 @@
       );
     };
     
+    
+    vm.newloanModalShow = function() {
+      vm.loginModal = $uibModal.open({
+        animation: true,
+        templateUrl: 'loans/newloan.html',
+        windowClass: 'app-modal-window',
+        controller: 'loansModCtrl',
+        controllerAs: 'loansmodvm',
+        resolve: {
+          parent: function () {
+              return vm;
+          }
+        }
+      });
+      vm.loginModal.result.then(function(){
+         
+       }, function(){
+         
+       });
+    };
+    
+    
     // Data needed for creating a new loan
     vm.loanData = {
         loaner: authentication.currentUser().username,
@@ -38,7 +60,7 @@
     };
     
     // sendNewLoanData: send new loan data
-    vm.sendNewLoanData = function() {
+    vm.sendNewLoanData = function(scope) {
       // Get currency.
       vm.loanData.currency= document.getElementById("currencySel").value;
       // Extract recipient id
@@ -94,12 +116,12 @@
         };
 
         // Add loan.
-        vm.addLoan();
+        vm.addLoan(scope);
       }
     };
     
     // addContact: add contact to currently logged in user's list of contacts.
-    vm.addLoan = function() {
+    vm.addLoan = function(scope) {
       vm.formError = "";
       currentUser = authentication.currentUser();  // Get currently logged in user.
       if(currentUser) {   // If logged in
@@ -116,13 +138,13 @@
           if (result.value) {
             loanManagement.addLoan(currentUser.username, vm.loanDataProcessed).then(function success(response) {
               // Update list of loans
-              getListLoans();
               Swal(
                 'Contract request sent!',
                 'The loan contract request has been sent.',
-                'success' 
+                'success'
               ).then(function(ok) {
-                document.getElementById('id07').style.display='none';
+                scope.getListLoans();
+                $uibModalStack.dismissAll();
               });
             }, function error(response) {
                 vm.formError = "Invalid loan parameters.";
@@ -141,7 +163,7 @@
             title: 'Error',
             text: vm.formError
           }).then(function(ok) {
-            document.getElementById('id04').style.display='none';
+            $uibModalStack.dismissAll();
           });
       }
     };
@@ -175,7 +197,7 @@
           if (result.value) {
             loanManagement.confirmLoan(vm.confirmLoanData.idUser, vm.confirmLoanData.idLoan).then(function success(response) {
                 // Update list of loans
-                getListLoans();
+                vm.getListLoans();
                 // Swal success
                 Swal(
                   'Loan confirmed!',
@@ -232,7 +254,7 @@
           if (result.value) {
               loanManagement.deleteLoan(vm.deleteLoanData.idUser, vm.deleteLoanData.idLoan).then(function success(response) {
                 // Update loan list
-                getListLoans();
+                vm.getListLoans();
                 Swal(
                   'Loan contract deleted!',
                   'The loan contract has been deleted.',
@@ -285,7 +307,7 @@
           if (result.value) {
               loanManagement.resolveLoan(vm.resolveLoanData.idUser, vm.resolveLoanData.idLoan).then(function success(response) {
                 // Update list of loans
-                getListLoans();
+                vm.getListLoans();
                 Swal(
                   'Loan resolved!',
                   'The loan has been successfully resolved!',
@@ -340,19 +362,19 @@
       switch (selVal) {
         case 'Pending':
           vm.currentFilter = vm.pendingFilter;
-          getListLoans();
+          vm.getListLoans();
           break;
         case 'Active':
           vm.currentFilter = vm.activeFilter;
-          getListLoans();
+          vm.getListLoans();
           break;
         case 'Resolved':
           vm.currentFilter = vm.resolvedFilter;  
-          getListLoans();
+          vm.getListLoans();
           break;
         default:
           vm.currentFilter = vm.noFilter;
-          getListLoans();
+          vm.getListLoans();
       }
     };
     
@@ -370,35 +392,35 @@
       switch (selVal) {
         case 'Amount/highest':
           vm.orderProp = '-amount';
-          getListLoans();
+          vm.getListLoans();
           break;
         case 'Amount/lowest':
           vm.orderProp = 'amount';
-          getListLoans();
+          vm.getListLoans();
           break;
         case 'Issued/newest':
           vm.orderProp = '-dateIssued';
-          getListLoans();
+          vm.getListLoans();
           break;
         case 'Issued/oldest':
           vm.orderProp = 'dateIssued';
-          getListLoans();
+          vm.getListLoans();
           break;
         case 'Deadline/nearest':
           vm.orderProp = 'deadline';
-          getListLoans();
+          vm.getListLoans();
           break;
         case 'Deadline/furthest':
           vm.orderProp = '-deadline';
-          getListLoans();
+          vm.getListLoans();
           break;
         case 'Recipient':
           vm.orderProp = 'recipient';
-          getListLoans();
+          vm.getListLoans();
           break;
         case 'Source':
           vm.orderProp = 'loaner';
-          getListLoans();
+          vm.getListLoans();
           break;
         default:
           vm.orderProp = 'amount';
@@ -438,16 +460,15 @@
     ////////////////////////////////////////////////
     
     //////////////////////////////////////////////////////////////////////////////////////
-    function getListLoans() {
+    (vm.getListLoans = function() {
       loansList.getLoans(             // Pass getData and showError functions
         vm.getData, 
         vm.showError,
         authentication.currentUser().username);
-    }
-    getListLoans();
+    })();
   }
   
-  loansCtrl.$inject = ['$scope', '$http', 'loansData', 'loansList', 'loanManagement', 'authentication'];
+  loansCtrl.$inject = ['$scope', '$uibModal', '$uibModalStack', '$http', 'loansData', 'loansList', 'loanManagement', 'authentication'];
   
   // Add controller to the app
   /* global angular */
@@ -455,3 +476,16 @@
     .module('payupApp')
     .controller('loansCtrl', loansCtrl);
 })();
+
+
+// Controller for working with modal windows dealing with loans
+angular.module('payupApp').controller('loansModCtrl', function (parent, $uibModalInstance, $uibModalStack) {
+  var loansmodvm = this;
+  // Get parent scope
+  loansmodvm.parentScope = parent;
+  
+  // cancel: called when pressing cancel or x
+  loansmodvm.cancel = function () {
+    $uibModalStack.dismissAll();
+  };
+});
