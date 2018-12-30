@@ -374,7 +374,6 @@
         vm.usersList = {
           listAll: response.data.filter(function(res) { return res._id != authentication.currentUser().username })
         };
-        console.log(response.data);
       }, function error(response) {
         vm.usersList.users = "Error Retrieving data from server.";
       });
