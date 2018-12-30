@@ -1,0 +1,29 @@
+<div class="modal-header">
+    <button type="button" class="close" aria-label="Close" ng-click="modctrl.cancel()">
+         <span style="margin-top:10px;" aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <!-- Contents of settings box -->
+    <form ng-controller="modalCtrl as modvm" ng-submit="modvm.updateSettings()">
+        <!-- title -->
+        <div class="ttlcontainer">
+            <h1><b>Settings</b></h1>
+        </div>
+        
+        <!-- Settings list -->
+        <div class="container settings">
+            <label for="currency"><b>Default Currency</b></label>
+            <div class="bfh-selectbox bfh-currencies" id="settingsCurrencySel" data-currency="{{ modvm.defaultCurrency }}" data-flags="true"></div>
+            <input class="opts" type="checkbox" id="nightmode" name="mode" ng-model="modvm.settingsValues.nightmode"> Night Mode
+        </div>
+        
+        <div class="modal-footer">
+            <!-- Save button section -->
+            <div class="saveBtn">
+                <button type="submit" class="settingsSave btn btn-primary">Save</button>
+                <span ng-click="modctrl.cancel()" class="opts cancelLink" title="Cancel" onmouseover="">Cancel</span>
+            </div>
+        </div>
+    </form>
+</div>

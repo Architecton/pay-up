@@ -63,9 +63,9 @@
                             
                         </p>
                         
-                        <p>
+                        <p ng-controller="modalCtrl as modvm">
                             <input type="checkbox" id="signupId_termsAndConditions" ng-model="vm.signupData.acceptTerms">
-                            <label for="signupId_termsAndConditions">I have read and agree to <a href="#" onclick="document.getElementById('id04').style.display='block';return false;">The Terms and Conditions</a>.</label>
+                            <label for="signupId_termsAndConditions">I have read and agree to <a href="#" ng-click="modvm.termsModalShow()">The Terms and Conditions</a>.</label>
                         </p>
                         <p>
                             <button type="submit" form="signupForm" class="btn btn-success" is="signupConfirmButton">Sign up</button>

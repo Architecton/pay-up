@@ -1,7 +1,67 @@
 // modalCtrl: controller that handles the log in
 (function() {
-  function modalCtrl($location, authentication, $route) {
+  function modalCtrl($scope, $uibModal, $location, authentication, $route) {
     var modvm = this;
+    
+    modvm.loginModalShow = function() {
+      modvm.loginModal = $uibModal.open({
+        animation: true,
+        templateUrl: 'common/directives/modal/login.html',
+        windowClass: 'app-modal-window',
+        controller: 'ModalInstanceCtrl',
+        controllerAs: 'modctrl'
+      });
+      modvm.loginModal.result.then(function(){
+         
+       }, function(){
+         
+       });
+    };
+    
+    modvm.profileModalShow = function() {
+      modvm.profileModal = $uibModal.open({
+        animation: true,
+        templateUrl: 'common/directives/modal/profile.html',
+        windowClass: 'app-modal-window',
+        controller: 'ModalInstanceCtrl',
+        controllerAs: 'modctrl'
+      });
+      modvm.profileModal.result.then(function(){
+         
+       }, function(){
+         
+       });
+    };
+    
+    modvm.settingsModalShow = function() {
+      modvm.settingsModal = $uibModal.open({
+        animation: true,
+        templateUrl: 'common/directives/modal/settings.html',
+        windowClass: 'app-modal-window',
+        controller: 'ModalInstanceCtrl',
+        controllerAs: 'modctrl'
+      });
+       modvm.settingsModal.result.then(function(){
+         
+       }, function(){
+         
+       });
+    };
+    
+    modvm.termsModalShow = function() {
+      modvm.termsModal = $uibModal.open({
+        animation: true,
+        templateUrl: 'common/directives/modal/terms.html',
+        windowClass: 'app-modal-window',
+        controller: 'ModalInstanceCtrl',
+        controllerAs: 'modctrl'
+      });
+      modvm.termsModal.result.then(function(){
+         
+       }, function(){
+         
+       });
+    };
 
     modvm.loggedUser = authentication.currentUser();
     modvm.defaultCurrency = "";
@@ -35,6 +95,29 @@
         modvm.performLogin();  // Else perform log in with specified data.
       }
     };
+    
+    
+    modvm.open = function (size) {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        ariaLabelledBy: 'modal-title',
+        ariaDescribedBy: 'modal-body',
+        controller: 'ModalInstanceC',
+        controllerAs: 'vm',
+        size: size,
+        resolve: {
+          data: function () {
+            return modvm.data;
+          }
+        }
+      });
+  
+      modalInstance.result.then(function () {
+        alert("now I'll close the modal");
+      });
+    };
+    
+    
 
     // performLogin: perform log in
     modvm.performLogin = function() {
@@ -167,10 +250,18 @@
     };
   }
   
-  modalCtrl.$inject = ['$location', 'authentication', '$route'];
+  modalCtrl.$inject = ['$scope', '$uibModal', '$location', 'authentication', '$route'];
 
   /* global angular */
   angular
     .module('payupApp')
     .controller('modalCtrl', modalCtrl);
 })();
+
+
+angular.module('payupApp').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance) {
+  var modctrl = this;
+  modctrl.cancel = function () {
+    $uibModalInstance.dismiss();
+  };
+});

@@ -42,7 +42,7 @@
   
   /* global angular */
   angular
-    .module('payupApp', ['ngRoute', 'ngSanitize', 'vcRecaptcha'])
+    .module('payupApp', ['ngRoute', 'ngSanitize', 'vcRecaptcha', 'ui.bootstrap'])
     .config(['$routeProvider', '$locationProvider', setting]);
 })();
 /* Angular nam omogoča uporabo pogled-modela, kamor lahko povežemo naše podatke, 

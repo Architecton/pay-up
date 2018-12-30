@@ -1,0 +1,41 @@
+<div class="modal-header">
+    <button type="button" class="close" aria-label="Close" ng-click="modctrl.cancel()">
+         <span style="margin-top:10px;" aria-hidden="true">&times;</span>
+    </button>
+</div>
+<!-- Contents of login box -->
+<form ng-controller="modalCtrl as modvm">
+    
+    <!-- avatar image -->
+    <div class="imgcontainer">
+        <h1><b>Your Profile</b></h1>
+        <img src="./images/avatar2.png" alt="Avatar">
+    </div>
+    
+    <!-- forms links and checkboxes -->
+    <div class="imgcontainer">
+        <div class="profileData">
+            <div>
+                <b>Name: </b>
+                <small>{{ modvm.loggedUser.name }}</small>    
+                
+            </div>
+            <div>
+                <b>Last name: </b>
+                <small>{{ modvm.loggedUser.surname }}</small>    
+            </div>
+            <div>
+                <b>Username: </b>
+                <small>{{ modvm.loggedUser.username }}</small>    
+            </div>
+            <div>
+                <b>E-mail: </b>
+                <small align="left">{{ modvm.loggedUser.email }}</small>
+            </div>
+        </div>
+        <div class="profileOpts">
+            <button type="button" ng-click="modctr.cancel()" class="btn btn-primary" id="profileBtnConfirm">Confirm</button>
+            <button type="button" ng-click="modvm.deleteAccount()" class="btn btn-danger" id="profileBtnDelete">Delete Account</button>
+        </div>
+    </div>
+</form>

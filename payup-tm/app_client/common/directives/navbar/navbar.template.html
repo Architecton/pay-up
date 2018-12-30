@@ -23,9 +23,9 @@
           <ul ng-show="navvm.isLoggedIn" class="expandRight nav navbar-nav navbar-right">
             <li class="dropdown">
               <a href="#" class="loggedInText dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Logged in as {{ navvm.currentUser.username }}<span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a style="cursor: pointer;" onclick="document.getElementById('id03').style.display='block'" class="navbarTextDropDown">Profile</a></li>
-                <li><a style="cursor: pointer;" onclick="document.getElementById('id02').style.display='block'" class="navbarTextDropDown">Settings</a></li>
+              <ul ng-controller='modalCtrl as modvm' class="dropdown-menu">
+                <li><a style="cursor: pointer;" ng-click="modvm.profileModalShow()" class="navbarTextDropDown">Profile</a></li>
+                <li><a style="cursor: pointer;" ng-click="modvm.settingsModalShow()" class="navbarTextDropDown">Settings</a></li>
                 <li><a style="cursor: pointer;" href="" class="navbarTextDropDown">Messages</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a style="cursor: pointer;" href="" class="navbarTextDropDown" ng-click="navvm.logOut()">Log out</a></li>
@@ -33,8 +33,8 @@
             </li>
           </ul>
           <ul ng-hide="navvm.isLoggedIn" class="expandRight nav navbar-nav navbar-right">
-            <li>
-              <a class="navbarTextLoginSignup navbar-brand" onclick="document.getElementById('id01').style.display='block'">Log In</a>
+            <li ng-controller='modalCtrl as modvm'>
+              <a class="navbarTextLoginSignup navbar-brand" ng-click="modvm.loginModalShow()">Log In</a>
             </li>
             <li>
               <a class="navbarTextLoginSignup navbar-brand" href="/signup">Sign Up</a>
