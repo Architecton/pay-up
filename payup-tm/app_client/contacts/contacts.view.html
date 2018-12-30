@@ -85,63 +85,6 @@
         </div>
     </div>
    <!-- #################### /Contacts Section ########################## -->
-   
-   
-   <!-- ################################## NEW CONTACT BOX ############################ -->
-        
-    <!-- login box -->
-    <div id="id04" class="modal">
-        <!-- close new contact window -->
-        <span onclick="document.getElementById('id04').style.display='none'" class="close" title="Close Modal">&times;</span>
-        
-        <!-- Contents of login box -->
-        <form ng-submit="vm.sendNewContactData()" autocomplete="off" class="modal-content2 animate" id="newContactForm">
-            
-            <!-- avatar image -->
-            <div class="ttlcontainer">
-                <h1><b>Add New Contact</b></h1>
-            </div>
-            
-            <!-- forms links and checkboxes -->
-            <div class="container contactsContainer" >
-                <h2 class="databaseSearchHeading">Search Database for Users</h2>
-                
-                <input class="form-control" ng-model="vm.expression" placeholder="search..." />
-                
-                <div class="contactSearch">
-                    <label><b>Found users:</b></label>
-                    <select class="form-control" ng-model="vm.selectedContact">
-                        <option ng-repeat="x in vm.usersList.listAll | filter: vm.expression">{{ x.name }} {{ x.surname }}, {{ x._id }}</option>
-                    </select>
-                </div>
-                
-                <button type="button" ng-click="vm.fillFields()" class="contactAddedAlert btn btn-primary">Select</button>
-                <span onclick="document.getElementById('id04').style.display='none'" class="opts" title="Cancel" onmouseover="">Cancel</span>
-                
-                <h2 class="databaseSearchHeading">Manually Add New Contact</h2>
-                
-                <label for="psw"><b>First Name</b></label>
-                <input type="text" placeholder="Enter first name" name="name" id="contactName" required>
-                <label for="psw"><b>Last Name</b></label>
-                <input type="text" placeholder="Enter last name" name="lastname" id="contactSurname" required>
-                <label for="psw"><b>E-mail</b></label>
-                <input type="text" placeholder="Enter e-mail" name="email" id="contactEmail" required>
-                <label for="psw"><b>Telephone number</b></label>
-                <input type="text" placeholder="Enter telephone number" name="phone" id="contactPhone">
-                <label for="psw"><b>City/Region</b></label>
-                <input type="text" placeholder="Enter city/region" name="region" id="contactRegion">
-                <label for="psw"><b>Username</b></label>
-                <input type="text" placeholder="Enter username" name="username" id="contactUsername">
-                
-                <button type="submit" class="contactAddedAlert btn btn-primary">Add Contact</button>
-                
-                <span onclick="document.getElementById('id04').style.display='none'" class="opts" title="Cancel" onmouseover="">Cancel</span>
-            </div>
-            
-        </form>
-    </div>
-        
-    <!-- ################################## /NEW CONTACT BOX ############################ -->
 </div>
 
 <modal></modal>
