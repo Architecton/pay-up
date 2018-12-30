@@ -1,11 +1,11 @@
 <!-- new contact box -->
 <!-- Contents of login box -->
 <div class="modal-header">
-    <button type="button" class="close" aria-label="Close" ng-click="modctrl.cancel()">
-         <span style="margin-top:10px;" aria-hidden="true">&times;</span>
+    <button type="button" class="close" aria-label="Close" ng-click="notesvm.cancel()">
+         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-<form ng-controller="contactsCtrl as vm" ng-submit="vm.sendNewContactData()" autocomplete="off" class="modal-body" id="newContactForm">
+<form ng-controller="contactsCtrl as vm" ng-submit="vm.sendNewContactData(notesvm.parentScope)" autocomplete="off" class="modal-body" id="newContactForm">
     
     <!-- avatar image -->
     <div class="ttlcontainer">
@@ -26,7 +26,7 @@
         </div>
         
         <button type="button" ng-click="vm.fillFields()" class="contactAddedAlert btn btn-primary">Select</button>
-        <span onclick="document.getElementById('id04').style.display='none'" class="opts" title="Cancel" onmouseover="">Cancel</span>
+        <span ng-click="notesvm.cancel()" class="opts" title="Cancel" onmouseover="">Cancel</span>
         
         <h2 class="databaseSearchHeading">Manually Add New Contact</h2>
         
@@ -45,7 +45,7 @@
         
         <button type="submit" class="contactAddedAlert btn btn-primary">Add Contact</button>
         
-        <span ng-click="modctrl.cancel()" class="opts" title="Cancel" onmouseover="">Cancel</span>
+        <span ng-click="notesvm.cancel()" class="opts" title="Cancel" onmouseover="">Cancel</span>
     </div>
     
 </form>

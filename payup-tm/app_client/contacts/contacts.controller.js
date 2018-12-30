@@ -151,8 +151,13 @@
         animation: true,
         templateUrl: 'contacts/newcontact.html',
         windowClass: 'app-modal-window',
-        controller: 'ModalInstanceCtrl',
-        controllerAs: 'modctrl'
+        controller: 'notesModCtrl',
+        controllerAs: 'notesvm',
+        resolve: {
+          parent: function () {
+              return vm;
+          }
+        }
       });
       vm.loginModal.result.then(function(){
          
@@ -176,7 +181,7 @@
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     
     // sendNewContactData: send new contact data
-    vm.sendNewContactData = function() {
+    vm.sendNewContactData = function(scope) {
       // Get data from fields (Reason for not using ng-model - strange "bug" when filling fields with js.)
       vm.contactData.name = document.getElementById("contactName").value;
       vm.contactData.surname = document.getElementById("contactSurname").value;
@@ -214,22 +219,22 @@
         return false;
       } else {
         // Add contact.
-        vm.addContact();
+        vm.addContact(scope);
         // Close modal window and display confirmation.
       }
     };
     
     // addContact: add contact to currently logged in user's list of contacts.
-    vm.addContact = function() {
+    vm.addContact = function(scope) {
       vm.formError = "";
       currentUser = authentication.currentUser();  // Get currently logged in user.
       if(currentUser) {   // If logged in
         // Add contact.
         contactManagement.addContact(currentUser.username, vm.contactData).then(function success(response) {
           // Clear contact details.
-          Object.keys(vm.contactDetails).forEach(function(v) { vm.contactDetails[v] = "" });
+          Object.keys(scope.contactDetails).forEach(function(v) { scope.contactDetails[v] = "" });
           Swal('Done!', 'Contact successfully added!', 'success').then(function(ok) {
-              vm.getListContacts(); // Get updated list of contacts.
+              scope.getListContacts(); // Get updated list of contacts.
               $uibModalStack.dismissAll();
           });
         }, function error(response) {
