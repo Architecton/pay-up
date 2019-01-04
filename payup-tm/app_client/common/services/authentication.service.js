@@ -37,10 +37,6 @@
       return $http.post('/api/users/login', user).then(
         function success(response) {
           saveToken(response.data.token).then(function(result) {
-            
-            
-            // TODO!!!!!!!!!!
-            
             if (result) {
               document.getElementById("nightmode").checked = currentUser().nightmode;
               if (currentUser().nightmode) {

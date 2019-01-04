@@ -113,7 +113,7 @@ module.exports.authSignUp = function(request, response) {
       // if passwords do not match
       } else {
         getJsonResponse(response, 400, {
-              "message": "Passwords must match."
+          "message": "Passwords must match."
         });
         return;
       }
