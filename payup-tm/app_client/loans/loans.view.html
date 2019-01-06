@@ -69,6 +69,10 @@
                 </table>
         </div>
         
+        <div>
+            <ul uib-pagination total-items="vm.numContacts" ng-model="vm.currentPage" items-per-page="vm.itemsPerPage" ng-change="vm.pageChange(vm.currentPage)">
+        </div>
+        
         
         <!-- Manage loans panel -->
         <div class="col-xs-12 col-lg-4 loans-right">

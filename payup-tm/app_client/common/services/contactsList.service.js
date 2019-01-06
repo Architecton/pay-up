@@ -11,7 +11,7 @@
     };
   };
   
-  
+  // auxiliary function that calls the callback function passed from controller.
   var getUser = function(cbSuccess, cbError, idUser, pageIndex) {
       if (idUser) {
         cbSuccess(idUser, pageIndex);

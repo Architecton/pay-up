@@ -10,7 +10,7 @@
       // Make GET request to retrieve loans data.
       loansData.loans(idUser, pageIndex).then(
         function success(response) {  // If response successfuly retrieved...
-          vm.message = response.data.length > 0 ? "" : "No active loans found.";  // If response empty
+          vm.message = response.data.length > 0 ? "" : "Empty response from server";  // If response empty
           // Data to be exposed
           vm.data = {
             // Return user's loans
@@ -462,14 +462,32 @@
     };
     ////////////////////////////////////////////////
     
+    
+    
+    // PAGINATION ////////////////////////////
+    
+    // number of user's loans (retrieved from call to api)
+    vm.numLoans = 0;
+    loansData.numLoans(authentication.currentUser().username).then(function succes(response) {
+        vm.numLoans = Number(response.headers('numLoans'));
+    });
+    vm.currentPage = 1;                       // Start on page 1.
+    vm.itemsPerPage = 10;                     // The number of returned results is hard coded in API (for now).
+    vm.pageChange = function(currentPage) {   // Handle page change in view by retrieving the relevant page. 
+      vm.getListLoans(Number(currentPage)-1);
+    };
+    //////////////////////////////////////////
+    
+    
+    
     //////////////////////////////////////////////////////////////////////////////////////
-    (vm.getListLoans = function() {
+    (vm.getListLoans = function(pageIndex) {
       loansList.getLoans(             // Pass getData and showError functions
         vm.getData,
         vm.showError,
         authentication.currentUser().username,
-        0);   // PAGE INDEX
-    })();
+        pageIndex);   // PAGE INDEX
+    })(0);
   }
   
   loansCtrl.$inject = ['$scope', '$uibModal', '$uibModalStack', '$http', 'loansData', 'loansList', 'loanManagement', 'authentication'];
