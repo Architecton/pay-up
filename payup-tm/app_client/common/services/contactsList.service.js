@@ -15,7 +15,8 @@
   // TODO function gets currently logged in user
   var getUser = function(cbSuccess, cbError, idUser) {
       if (idUser) {
-        cbSuccess(idUser);
+        // Second argument is the page index.
+        cbSuccess(idUser, 0);
       } else {
         var error;
         error.message = "idUser missing";

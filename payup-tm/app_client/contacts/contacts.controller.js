@@ -5,9 +5,9 @@
     var vm = this;
     
     // getData; get contacts of user with ID idUser
-    vm.getData = function(idUser) {
+    vm.getData = function(idUser, pageIndex) {
       // Make GET request to retrieve contacts data.
-      contactsData.contacts(idUser).then(
+      contactsData.contacts(idUser, pageIndex).then(
         function success(response) {  // If response successfully retrieved...
           vm.message = response.data.length > 0 ? "" : "Empty response from server";      // If respone is empty
           // Data to be exposed

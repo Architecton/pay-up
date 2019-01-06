@@ -6,9 +6,9 @@
     vm.defaultCurrency = authentication.currentUser().defaultCurrency;
     
     // getData; get selected loans of user with ID idUser
-    vm.getData = function(idUser) {
+    vm.getData = function(idUser, pageIndex) {
       // Make GET request to retrieve loans data.
-      loansData.loans(idUser).then(
+      loansData.loans(idUser, pageIndex).then(
         function success(response) {  // If response successfuly retrieved...
           vm.message = response.data.length > 0 ? "" : "No active loans found.";  // If response empty
           // Data to be exposed
@@ -465,7 +465,7 @@
     //////////////////////////////////////////////////////////////////////////////////////
     (vm.getListLoans = function() {
       loansList.getLoans(             // Pass getData and showError functions
-        vm.getData, 
+        vm.getData,
         vm.showError,
         authentication.currentUser().username);
     })();
