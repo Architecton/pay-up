@@ -4,6 +4,8 @@
     var vm = this;
 
     vm.defaultCurrency = authentication.currentUser().defaultCurrency;
+    vm.currentPage = 1;
+    
     
     // getData; get selected loans of user with ID idUser
     vm.getData = function(idUser, pageIndex) {
@@ -43,6 +45,16 @@
          
        });
     };
+    
+    
+    // editData: edit data currently located at the client side.
+    function editData(id, prop, newVal, scope) {
+      for (var i = 0; i < scope.data.loans.length; i++) {
+        if (id == scope.data.loans[i]._id) {
+          scope.data.loans[i][prop] = newVal;
+        }
+      }
+    }
     
     
     // Data needed for creating a new loan
@@ -143,7 +155,7 @@
                 'The loan contract request has been sent.',
                 'success'
               ).then(function(ok) {
-                scope.getListLoans();
+                scope.getListLoans(vm.currentPage-1);
                 $uibModalStack.dismissAll();
               });
             }, function error(response) {
@@ -198,14 +210,15 @@
         }).then(function(result) {
           if (result.value) {
             loanManagement.confirmLoan(vm.confirmLoanData.idUser, vm.confirmLoanData.idLoan).then(function success(response) {
-                // Update list of loans
-                vm.getListLoans();
                 // Swal success
                 Swal(
                   'Loan confirmed!',
                   'The loan contract is now valid.',
                   'success'
-                );
+                ).then(function(ok) {
+                  // Update list of loans
+                  editData(vm.resolveLoanData.idLoan, 'status', 'active', vm);
+                });
             }, function error(response) {
               // Swal error
                 Swal(
@@ -256,7 +269,11 @@
           if (result.value) {
               loanManagement.deleteLoan(vm.deleteLoanData.idUser, vm.deleteLoanData.idLoan).then(function success(response) {
                 // Update loan list
-                vm.getListLoans();
+                for (var i = 0; i < vm.data.loans.length; i++) {
+                  if (vm.deleteLoanData.idLoan == vm.data.loans[i]._id) {
+                    vm.data.loans.splice(i, 1);
+                  }
+                }
                 Swal(
                   'Loan contract deleted!',
                   'The loan contract has been deleted.',
@@ -308,13 +325,14 @@
         }).then(function(result) {
           if (result.value) {
               loanManagement.resolveLoan(vm.resolveLoanData.idUser, vm.resolveLoanData.idLoan).then(function success(response) {
-                // Update list of loans
-                vm.getListLoans();
                 Swal(
                   'Loan resolved!',
                   'The loan has been successfully resolved!',
                   'success'
-                );
+                ).then(function(ok) {
+                  // Update list of loans
+                  editData(vm.resolveLoanData.idLoan, 'status', 'resolved', vm);
+                });
               }, function error(response) {
                 Swal(
                   'Error',
@@ -364,19 +382,19 @@
       switch (selVal) {
         case 'Pending':
           vm.currentFilter = vm.pendingFilter;
-          vm.getListLoans();
+          vm.getListLoans(vm.currentPage-1);
           break;
         case 'Active':
           vm.currentFilter = vm.activeFilter;
-          vm.getListLoans();
+          vm.getListLoans(vm.currentPage-1);
           break;
         case 'Resolved':
           vm.currentFilter = vm.resolvedFilter;  
-          vm.getListLoans();
+          vm.getListLoans(vm.currentPage-1);
           break;
         default:
           vm.currentFilter = vm.noFilter;
-          vm.getListLoans();
+          vm.getListLoans(vm.currentPage-1);
       }
     };
     
@@ -394,35 +412,35 @@
       switch (selVal) {
         case 'Amount/highest':
           vm.orderProp = '-amount';
-          vm.getListLoans();
+          vm.getListLoans(vm.currentPage-1);
           break;
         case 'Amount/lowest':
           vm.orderProp = 'amount';
-          vm.getListLoans();
+          vm.getListLoans(vm.currentPage-1);
           break;
         case 'Issued/newest':
           vm.orderProp = '-dateIssued';
-          vm.getListLoans();
+          vm.getListLoans(vm.currentPage-1);
           break;
         case 'Issued/oldest':
           vm.orderProp = 'dateIssued';
-          vm.getListLoans();
+          vm.getListLoans(vm.currentPage-1);
           break;
         case 'Deadline/nearest':
           vm.orderProp = 'deadline';
-          vm.getListLoans();
+          vm.getListLoans(vm.currentPage-1);
           break;
         case 'Deadline/furthest':
           vm.orderProp = '-deadline';
-          vm.getListLoans();
+          vm.getListLoans(vm.currentPage-1);
           break;
         case 'Recipient':
           vm.orderProp = 'recipient';
-          vm.getListLoans();
+          vm.getListLoans(vm.currentPage-1);
           break;
         case 'Source':
           vm.orderProp = 'loaner';
-          vm.getListLoans();
+          vm.getListLoans(vm.currentPage-1);
           break;
         default:
           vm.orderProp = 'amount';
@@ -471,7 +489,6 @@
     loansData.numLoans(authentication.currentUser().username).then(function succes(response) {
         vm.numLoans = Number(response.headers('numLoans'));
     });
-    vm.currentPage = 1;                       // Start on page 1.
     vm.itemsPerPage = 10;                     // The number of returned results is hard coded in API (for now).
     vm.pageChange = function(currentPage) {   // Handle page change in view by retrieving the relevant page. 
       vm.getListLoans(Number(currentPage)-1);

@@ -3,6 +3,8 @@
   function contactsCtrl($scope, $uibModal, $uibModalStack, contactsData, contactsList, contactManagement, authentication) {
     // Pogled-model se generira ob kreiranju novega primerka krmilnika, zato lahko do njega preprosto dostopamo z this
     var vm = this;
+    vm.currentPage = 1;                       // Contacts pagination index. Start on page 1.
+    
     
     // getData; get contacts of user with ID idUser
     vm.getData = function(idUser, pageIndex) {
@@ -22,6 +24,16 @@
       );
     };
     
+    // editData: edit data currently located at the client side.
+    function editData(id, prop, newVal, scope) {
+      for (var i = 0; i < scope.data.contacts.length; i++) {
+        if (id == scope.data.contacts[i]._id) {
+          scope.data.contacts[i][prop] = newVal;
+        }
+      }
+    }
+    
+    
     vm.contactDetails = {
       _id: "",
       name: "",
@@ -34,6 +46,7 @@
     };
     
     vm.showContactDetails = function(contact) {
+      console.log(contact);
       vm.contactDetails._id = contact._id;
       vm.contactDetails.name = contact.name;
       vm.contactDetails.surname = contact.surname;
@@ -44,7 +57,6 @@
       vm.contactDetails.notes = contact.notes;
       vm.contactDetails.id = contact.id;
     };
-    
     
     // Editing contact notes //////////////////
     
@@ -67,10 +79,10 @@
           }
         }
       });
-      vm.loginModal.result.then(function(){
-         
-       }, function(){
-         
+      vm.loginModal.result.then(function() {
+          
+       }, function() {
+
        });
     };
     
@@ -113,8 +125,10 @@
               // Clear display.
               Swal('Done!', 'Contact notes successfully edited!', 'success').then(function(ok) {
                 $uibModalStack.dismissAll();
-                Object.keys(scope.contactDetails).forEach(function(v) { scope.contactDetails[v] = "" });
-                scope.getListContacts();
+                scope.contactDetails.notes = vm.contactNotes.notes;
+                editData(vm.contactNotes.idContact, 'notes', vm.contactNotes.notes, scope);
+                // Object.keys(scope.contactDetails).forEach(function(v) { scope.contactDetails[v] = "" });
+                // scope.getListContacts(vm.currentPage);
                 
               });
               // If error
@@ -234,7 +248,7 @@
           // Clear contact details.
           Object.keys(scope.contactDetails).forEach(function(v) { scope.contactDetails[v] = "" });
           Swal('Done!', 'Contact successfully added!', 'success').then(function(ok) {
-              scope.getListContacts(); // Get updated list of contacts.
+              scope.getListContacts(vm.currentPage); // Get updated list of contacts.
               $uibModalStack.dismissAll();
           });
         }, function error(response) {
@@ -291,6 +305,12 @@
               // Try to delete contact
               contactManagement.deleteContact(currentUser.username, vm.contactDeletionData.idContact).then(function success(response) {
                 // If successful, show confirmation alter.
+                // Update loan list
+                for (var i = 0; i < vm.data.contacts.length; i++) {
+                  if (vm.contactDeletionData.idContact == vm.data.contacts[i]._id) {
+                    vm.data.contacts.splice(i, 1);
+                  }
+                }
                 Swal(
                   'Deleted!',
                   'Your contact has been deleted.',
@@ -298,7 +318,6 @@
                 ).then(function(ok) {
                   // Clear display.
                   Object.keys(vm.contactDetails).forEach(function(v) { vm.contactDetails[v] = "" });
-                  vm.getListContacts();
                 });
               }, function error(response) {
                 // Else show error alert.
@@ -344,15 +363,15 @@
       switch (selVal) {
         case 'Username':
           vm.orderProp = 'username';
-          vm.getListContacts();
+          vm.getListContacts(vm.currentPage);
           break;
         case 'First name':
           vm.orderProp = 'name';
-          vm.getListContacts();
+          vm.getListContacts(vm.currentPage);
           break;
         case 'Last name':
           vm.orderProp = 'surname';
-          vm.getListContacts();
+          vm.getListContacts(vm.currentPage);
           break;
         default:
           vm.orderProp = 'amount';
@@ -404,7 +423,6 @@
     contactsData.numContacts(authentication.currentUser().username).then(function succes(response) {
         vm.numContacts = Number(response.headers('numContacts'));
     });
-    vm.currentPage = 1;                       // Start on page 1.
     vm.itemsPerPage = 10;                     // The number of returned results is hard coded in API (for now).
     vm.pageChange = function(currentPage) {   // Handle page change in view by retrieving the relevant page. 
       vm.getListContacts(Number(currentPage)-1);
