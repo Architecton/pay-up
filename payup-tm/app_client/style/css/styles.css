@@ -736,9 +736,49 @@ html, body {
 
 
 
-
+/* Modal windows */
 
 .app-modal-window .modal-dialog {
   width: 80%;
   height: 50%;
+}
+
+
+/* Pagination */
+
+.pagination > li > a
+{
+    background-color: white;
+    color: black;
+}
+
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover
+{
+    color: black;
+    background-color: #eee;
+    border-color: #ddd;
+}
+
+.pagination > .active > a
+{
+    color: white;
+    background-color: silver;
+    border: solid 1px silver;
+}
+
+.pagination > .active > a:hover
+{
+    background-color: silver;
+    border: solid 1px silver;
+}
+
+.paginationRow {
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: #333;
+    border:none;
+    float:left;
 }

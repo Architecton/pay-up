@@ -50,8 +50,8 @@
                             </table>
                         </div>
                         
-                        <div>
-                            <ul uib-pagination total-items="vm.numContacts" ng-model="vm.currentPage" items-per-page="vm.itemsPerPage" ng-change="vm.pageChange(vm.currentPage)">
+                        <div class="paginationRow" style="float:left" ng-show="vm.numContacts > 10">
+                                <ul uib-pagination total-items="vm.numContacts" ng-model="vm.currentPage" items-per-page="vm.itemsPerPage" ng-change="vm.pageChange(vm.currentPage)">
                         </div>
                             
                             
