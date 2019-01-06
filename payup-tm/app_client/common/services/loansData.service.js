@@ -1,7 +1,7 @@
 (function() {
   var loansData = function($http, authentication) {
     var loans = function(idUser) {
-      return $http.get('/api/users/' + idUser + '/loans', {
+      return $http.get('/api/users/' + idUser + '/loans/' + 0, {
         headers: {
           Authorization: 'Bearer ' + authentication.getToken()
         }

@@ -1,7 +1,7 @@
 (function() {
   var contactsData = function($http, authentication) {
     var contacts = function(idUser) {
-      return $http.get('/api/users/' + idUser + '/contacts', {
+      return $http.get('/api/users/' + idUser + '/contacts/' + 0, {
         headers: {
           Authorization: 'Bearer ' + authentication.getToken()
         }
