@@ -2,8 +2,8 @@
 (function() {
   var contactsList = function() {
     // function that gets the contacts of user with specified ID
-    var getContacts = function(cbSuccess, cbError, idUser) {
-      getUser(cbSuccess, cbError, idUser);
+    var getContacts = function(cbSuccess, cbError, idUser, pageIndex) {
+      getUser(cbSuccess, cbError, idUser, pageIndex);
     };
     // Return function that gets the contacts.
     return {
@@ -11,12 +11,10 @@
     };
   };
   
-    
-  // TODO function gets currently logged in user
-  var getUser = function(cbSuccess, cbError, idUser) {
+  
+  var getUser = function(cbSuccess, cbError, idUser, pageIndex) {
       if (idUser) {
-        // Second argument is the page index.
-        cbSuccess(idUser, 0);
+        cbSuccess(idUser, pageIndex);
       } else {
         var error;
         error.message = "idUser missing";

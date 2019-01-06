@@ -467,7 +467,8 @@
       loansList.getLoans(             // Pass getData and showError functions
         vm.getData,
         vm.showError,
-        authentication.currentUser().username);
+        authentication.currentUser().username,
+        0);   // PAGE INDEX
     })();
   }
   

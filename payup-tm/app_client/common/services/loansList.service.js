@@ -2,8 +2,8 @@
 (function() {
   var loansList = function() {
     // function that gets the loans to be displayed on the dashboard page.
-    var getLoans = function(cbSuccess, cbError, idUser) {
-      getUser(cbSuccess, cbError, idUser);
+    var getLoans = function(cbSuccess, cbError, idUser, pageIndex) {
+      getUser(cbSuccess, cbError, idUser, pageIndex);
     };
     // Return function that gets the loans to be displayed on the dashboard page.
     return {
@@ -12,10 +12,10 @@
   };
   
   
-  var getUser = function(cbSuccess, cbError, idUser) {
+  var getUser = function(cbSuccess, cbError, idUser, pageIndex) {
       if (idUser) {
         // second argument is the page index
-        cbSuccess(idUser, 0);
+        cbSuccess(idUser, pageIndex);
       } else {
         var error;
         error.message = "idUser missing";
