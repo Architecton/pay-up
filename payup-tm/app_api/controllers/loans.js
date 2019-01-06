@@ -320,15 +320,17 @@ module.exports.loanGetUsersLoans = function(request, response) {
             getJsonResponse(response, 500, error);
             return;
           }
-          // Check if parameters include pageIndex.
+          // If path parameters include the index of the page to return.
           if (request.params.pageIndex) {
             // Get specified page of loans.
             var pageIndex = request.params.pageIndex;
-            var loans = user.loans.slice(pageIndex, pageIndex+10);
+            var loans = user.loans.slice(pageIndex*10, pageIndex*10+10);
+            // Set header value
+            response.set("numLoans", [user.loans.length]);
             getJsonResponse(response, 200, loans);
           } else {
             getJsonResponse(response, 400, {
-              "message" : "Invalid page index"
+              "message" : "Missing page index path parameter"
             }) ;
           }
         });
@@ -340,6 +342,40 @@ module.exports.loanGetUsersLoans = function(request, response) {
     }
   });
 };
+
+
+
+// ** loanGetUsersLoans: get number of loans of user with given id
+module.exports.loanGetNumUsersLoans = function(request, response) {
+  getLoggedId(request, response, function(request, response, username) {
+    // if request has parameters, the parameters include idUser and idUser is the same as the username in JWT
+    if (request.params && request.params.idUser && request.params.idUser == username) {
+      User
+        .findById(request.params.idUser)
+        .exec(function(error, user) {
+          if (!user) {  // If user not found
+            getJsonResponse(response, 404, {
+              "message": 
+                "Cannot find user with given identifier idUser."
+            });
+            return;
+          // if error while executing function
+          } else if (error) {
+            getJsonResponse(response, 500, error);
+            return;
+          }
+          // Set header value and return response.
+          response.set("numLoans", [user.loans.length]).send();
+        });
+    // else if no parameters or if parameters do not include idUser
+    } else {
+      getJsonResponse(response, 400, { 
+        "message": "identifier idUser is missing."
+      });
+    }
+  });
+};
+
 
 
 // ** loanGetSelected: get loan with specified id of user with specified user id (username)

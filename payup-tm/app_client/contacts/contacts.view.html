@@ -41,15 +41,18 @@
                                         }
                                     }
                                 </script>
-                                
-                                <tbody class="selectableRow" ng-repeat="x in vm.data.contacts | orderBy: vm.orderProp" ng-click="vm.showContactDetails(x)" onclick="deselect(); this.style.color='blue';">
-                                    <td> {{ x.username }} </td>
-                                    <td> {{ x.name }} </td>
-                                    <td> {{ x.surname }} </td>
-                                </tbody>
+                                    <tbody class="selectableRow" ng-repeat="x in vm.data.contacts | orderBy: vm.orderProp" ng-click="vm.showContactDetails(x)" onclick="deselect(); this.style.color='blue';">
+                                        <td> {{ x.username }} </td>
+                                        <td> {{ x.name }} </td>
+                                        <td> {{ x.surname }} </td>
+                                    </tbody>
+                                </ul>
                             </table>
                         </div>
-                            
+                        
+                        <div>
+                            <ul uib-pagination total-items="vm.numContacts" ng-model="vm.currentPage" items-per-page="vm.itemsPerPage" ng-change="vm.pageChange(vm.currentPage)">
+                        </div>
                             
                             
                     <!-- Button for adding new contacts -->

@@ -395,16 +395,30 @@
     
     
     /////////////////////////////////////////
+   
+   
+    // PAGINATION ////////////////////////////
     
+    // number of user's contacs (retrieved from call to api)
+    vm.numContacts = 0;
+    contactsData.numContacts(authentication.currentUser().username).then(function succes(response) {
+        vm.numContacts = Number(response.headers('numContacts'));
+    });
+    vm.currentPage = 1;                       // Start on page 1.
+    vm.itemsPerPage = 10;                     // The number of returned results is hard coded in API (for now).
+    vm.pageChange = function(currentPage) {   // Handle page change in view by retrieving the relevant page. 
+      vm.getListContacts(Number(currentPage)-1);
+    };
+    //////////////////////////////////////////
   
     // Call to service function that retrieves the loans to be displayed on the dashboard.
-    (vm.getListContacts = function () {
-      contactsList.getContacts(             // Pass getData and showError functions
+    (vm.getListContacts = function (pageIndex) {
+      contactsList.getContacts(             // Pass getData, showError functions and additional data
         vm.getData, 
         vm.showError,
         authentication.currentUser().username,
-        0); // PAGE INDEX
-    })();
+        pageIndex);
+    })(0);
   }
   
   contactsCtrl.$inject = ['$scope', '$uibModal', '$uibModalStack', 'contactsData', 'contactsList', 'contactManagement', 'authentication'];

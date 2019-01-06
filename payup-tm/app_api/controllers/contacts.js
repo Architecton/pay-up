@@ -186,7 +186,7 @@ var usernameExists = function(username) {
 
 // *************************** //
 
-// ** loanGetUsersContacts: get all contacts of user with given id
+// ** contactGetUsersContacts: get all contacts of user with given id
 module.exports.contactGetUsersContacts = function(request, response) {
   getLoggedId(request, response, function(request, response, username) {
     // if request has parameters, the parameters include idUser and idUser is same as username in JWT
@@ -209,7 +209,9 @@ module.exports.contactGetUsersContacts = function(request, response) {
           if (request.params.pageIndex) {
             // Get specified page of contacts.
             var pageIndex = request.params.pageIndex;
-            var contacts = user.contacts.slice(pageIndex, pageIndex+10);
+            var contacts = user.contacts.slice(pageIndex*10, pageIndex*10+10);
+            // Set header value
+            response.set("numContacts", [user.contacts.length]);
             getJsonResponse(response, 200, contacts);
           } else {
             getJsonResponse(response, 400, {
@@ -225,6 +227,40 @@ module.exports.contactGetUsersContacts = function(request, response) {
     }
   });
 };
+
+
+
+// ** contactGetUsersContacts: get number contacts of user with given id
+module.exports.contactGetNumUsersContacts = function(request, response) {
+  getLoggedId(request, response, function(request, response, username) {
+    // if request has parameters, the parameters include idUser and idUser is same as username in JWT
+    if (request.params && request.params.idUser && request.params.idUser == username) {
+      User
+        .findById(request.params.idUser)
+        .exec(function(error, user) {
+          if (!user) {  // If user not found
+            getJsonResponse(response, 404, {
+              "message": 
+                "Cannot find user with given identifier idUser."
+            });
+            return;
+          // if error while executing function
+          } else if (error) {
+            getJsonResponse(response, 500, error);
+            return;
+          }
+          // Return length of user's contacts list.
+          response.set("numContacts", [user.contacts.length]).send();
+        });
+    // else if no parameters or if parameters do not include idUser
+    } else {
+      getJsonResponse(response, 400, { 
+        "message": "identifier idUser is missing."
+      });
+    }
+  });
+};
+
 
 
 // contactGetSelected: return contact with given idContact (username) of user with given idUser (username)

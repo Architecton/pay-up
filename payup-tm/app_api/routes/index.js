@@ -38,17 +38,18 @@ router.get('/users/:idUser/loans/:pageIndex', authentication, ctrlLoans.loanGetU
 router.get('/users/:idUser/loans/:idLoan', authentication, ctrlLoans.loanGetSelected);                      // TESTED (20.12.2018)
 router.put('/users/:idUser/loans/:idLoan', authentication, ctrlLoans.loanUpdateSelected);                   // TESTED (20.12.2018)
 router.delete('/users/:idUser/loans/:idLoan', authentication, ctrlLoans.loanDeleteSelected);                // TESTED (20.12.2018)
-router.get('/users/:idUser/loans/:idLoan/chartData', authentication, ctrlLoans.loanGetChartData);
+router.get('/users/:idUser/loans/:idLoan/chartData', authentication, ctrlLoans.loanGetChartData);           // TESTED (1.1.2019)
+router.head('/users/:idUser/loans', authentication, ctrlLoans.loanGetNumUsersLoans);                        // TODO TEST
 
 
 // Controlers for working with contacts.
-router.get('/contacts', authentication, ctrlContacts.contactGetAll);                                        // TESTED (12.12.2018)
-router.get('/users/:idUser/contacts/:pageIndex', authentication, ctrlContacts.contactGetUsersContacts);     // TESTED (12.12.2018)
-router.post('/users/:idUser/contacts', authentication, ctrlContacts.contactCreate);                         // TESTED (12.12.2018)
-router.get('/users/:idUser/contacts/:idContact', authentication, ctrlContacts.contactGetSelected);          // TESTED (12.12.2018)
-router.put('/users/:idUser/contacts/:idContact', authentication, ctrlContacts.contactUpdateSelected);       // TESTED (12.12.2018)
-router.delete('/users/:idUser/contacts/:idContact', authentication, ctrlContacts.contactDeleteSelected);    // TESTED (12.12.2018)
-
+router.get('/contacts', authentication, ctrlContacts.contactGetAll);                                          // TESTED (12.12.2018)
+router.get('/users/:idUser/contacts/:pageIndex', authentication, ctrlContacts.contactGetUsersContacts);       // TESTED (12.12.2018)
+router.post('/users/:idUser/contacts', authentication, ctrlContacts.contactCreate);                           // TESTED (12.12.2018)
+router.get('/users/:idUser/contacts/:idContact', authentication, ctrlContacts.contactGetSelected);            // TESTED (12.12.2018)
+router.put('/users/:idUser/contacts/:idContact', authentication, ctrlContacts.contactUpdateSelected);         // TESTED (12.12.2018)
+router.delete('/users/:idUser/contacts/:idContact', authentication, ctrlContacts.contactDeleteSelected);      // TESTED (12.12.2018)
+router.head('/users/:idUser/contacts', authentication, ctrlContacts.contactGetNumUsersContacts);              // TESTED (6.1.2018)
 
 // Controllers for authentication
 router.post('/users', ctrlAuthentication.authSignUp);                                                       // TESTED (20.12.2018)

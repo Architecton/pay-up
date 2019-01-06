@@ -7,8 +7,22 @@
         }
       });
     };
+    
+    var numContacts = function(idUser) {
+      return $http.head('/api/users/' + idUser + '/contacts', {
+        headers: {
+          Authorization: 'Bearer ' + authentication.getToken()
+        }
+      }).then(function success(response) {
+        return response;
+      }, function error(response) {
+        return response;
+      });
+    };
+    
     return {
-      contacts: contacts
+      contacts: contacts,
+      numContacts: numContacts
     };
   };
   
