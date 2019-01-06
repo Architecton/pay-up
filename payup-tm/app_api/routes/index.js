@@ -34,7 +34,7 @@ router.put('/users/:idUser/saveSettings', authentication, ctrlUsers.userSaveSett
 // Controllers for working with loans.
 router.get('/loans', authentication, ctrlLoans.loanGetAll);                                                 // TESTED (20.12.2018)
 router.post('/users/:idUser/loans', authentication, ctrlLoans.loanCreate);                                  // TESTED (20.12.2018)
-router.get('/users/:idUser/loans', authentication, ctrlLoans.loanGetUsersLoans);                            // TESTED (20.12.2018)
+router.get('/users/:idUser/loans/:pageIndex', authentication, ctrlLoans.loanGetUsersLoans);                 // TESTED (20.12.2018)
 router.get('/users/:idUser/loans/:idLoan', authentication, ctrlLoans.loanGetSelected);                      // TESTED (20.12.2018)
 router.put('/users/:idUser/loans/:idLoan', authentication, ctrlLoans.loanUpdateSelected);                   // TESTED (20.12.2018)
 router.delete('/users/:idUser/loans/:idLoan', authentication, ctrlLoans.loanDeleteSelected);                // TESTED (20.12.2018)
@@ -43,7 +43,7 @@ router.get('/users/:idUser/loans/:idLoan/chartData', authentication, ctrlLoans.l
 
 // Controlers for working with contacts.
 router.get('/contacts', authentication, ctrlContacts.contactGetAll);                                        // TESTED (12.12.2018)
-router.get('/users/:idUser/contacts', authentication, ctrlContacts.contactGetUsersContacts);                // TESTED (12.12.2018)
+router.get('/users/:idUser/contacts/:pageIndex', authentication, ctrlContacts.contactGetUsersContacts);     // TESTED (12.12.2018)
 router.post('/users/:idUser/contacts', authentication, ctrlContacts.contactCreate);                         // TESTED (12.12.2018)
 router.get('/users/:idUser/contacts/:idContact', authentication, ctrlContacts.contactGetSelected);          // TESTED (12.12.2018)
 router.put('/users/:idUser/contacts/:idContact', authentication, ctrlContacts.contactUpdateSelected);       // TESTED (12.12.2018)

@@ -503,6 +503,10 @@
     cursor: pointer;
 }
 
+.activeRow {
+    background-color: white;
+}
+
 #loansSort {
     margin-top:3px;
     margin-bottom:3px;

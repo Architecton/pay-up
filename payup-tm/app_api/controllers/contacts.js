@@ -205,9 +205,17 @@ module.exports.contactGetUsersContacts = function(request, response) {
             getJsonResponse(response, 500, error);
             return;
           }
-          // If success, get all user's contacts.
-          var contacts = user.contacts;
-          getJsonResponse(response, 200, contacts);
+          // If path parameters include the index of the page to return.
+          if (request.params.pageIndex) {
+            // Get specified page of contacts.
+            var pageIndex = request.params.pageIndex;
+            var contacts = user.contacts.slice(pageIndex, pageIndex+10);
+            getJsonResponse(response, 200, contacts);
+          } else {
+            getJsonResponse(response, 400, {
+              "message" : "Missing page index path parameter"
+            });
+          }
         });
     // else if no parameters or if parameters do not include idUser
     } else {

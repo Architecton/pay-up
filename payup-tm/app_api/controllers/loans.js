@@ -320,9 +320,17 @@ module.exports.loanGetUsersLoans = function(request, response) {
             getJsonResponse(response, 500, error);
             return;
           }
-          // If success, get all loans of user.
-          var loans = user.loans;
-          getJsonResponse(response, 200, loans);
+          // Check if parameters include pageIndex.
+          if (request.params.pageIndex) {
+            // Get specified page of loans.
+            var pageIndex = request.params.pageIndex;
+            var loans = user.loans.slice(pageIndex, pageIndex+10);
+            getJsonResponse(response, 200, loans);
+          } else {
+            getJsonResponse(response, 400, {
+              "message" : "Invalid page index"
+            }) ;
+          }
         });
     // else if no parameters or if parameters do not include idUser
     } else {
