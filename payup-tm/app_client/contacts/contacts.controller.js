@@ -305,7 +305,8 @@
               // Try to delete contact
               contactManagement.deleteContact(currentUser.username, vm.contactDeletionData.idContact).then(function success(response) {
                 // If successful, show confirmation alter.
-                // Update loan list
+                // Update list of contacts.
+                Object.keys(vm.contactDetails).forEach(function(v) { vm.contactDetails[v] = "" });
                 for (var i = 0; i < vm.data.contacts.length; i++) {
                   if (vm.contactDeletionData.idContact == vm.data.contacts[i]._id) {
                     vm.data.contacts.splice(i, 1);

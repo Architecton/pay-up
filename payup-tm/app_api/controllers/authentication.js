@@ -27,6 +27,7 @@ var getJsonResponse = function(response, status, data) {
   response.json(data);
 };
 
+
 // fillDB functionality ///////////////////////////////////////////////////////////////
 
 // fillDB: intialize database collection Users with testing data.
@@ -35,12 +36,24 @@ module.exports.fillDB = function(request, response) {
     return createTestUser(testUser);
   });
   Promise.all(createdPromises).then(function(result) {
+    setTimeout(addTestContacts, 2000);
     getJsonResponse(response, 201, {"status" : "done"});
   }).then(null, function(err) {
       getJsonResponse(response, 400, err);
   });
 };
 
+// addTestContacts: add test list of test contacts to specified user in testingData
+var addTestContacts = function() {
+  var createdPromises = testingData.contacts.map(function(testContact) {
+    return createTestContact(testContact, testingData.contactsRecipientId);
+  });
+  Promise.all(createdPromises).then(function(result) {
+    
+  }).then(null, function(err) {
+    console.log(err);
+  });
+};
 
 // createTestUser: create a new user in the database from testing data.
 function createTestUser(signupData) {
@@ -64,6 +77,48 @@ function createTestUser(signupData) {
       console.log("Error creating user with username " + user._id);
     } else {
       console.log("User with username " + user._id + " successfully created.");
+    }
+  });
+}
+
+// createTestContacts: add contacts to test user with id idUser (omit all layers of validation)
+function createTestContact(contactData, idUser) {
+  // Skip all layers of validation and create contact from testing data.
+  var newContact = {
+    "name": contactData.name,
+    "surname": contactData.surname,
+    "email": contactData.email,
+    "phone": contactData.phone,
+    "region": contactData.region,
+    "username": contactData.username
+  };
+  // find user by its id (username)
+  User
+    .findById(idUser)
+    .select('contacts')
+    .exec(
+      function(error, user) {
+        if (error) {
+          console.log("Error adding contact with username " + newContact.username);
+        } else {
+          // Call auxiliary function to add contact to retrieved user.
+          console.log(user);
+          addContactToTestUser(user, newContact);
+        }
+      }
+    );
+  
+}
+
+// addContactToTestUser: add contact to specified user retrieved from list of test users.
+function addContactToTestUser(user, newContact) {
+  console.log(user);
+  user.contacts.push(newContact);     // Push created contact to list of contacts and save new user state.
+  user.save(function(error, user) {
+    if (error) {
+      console.log("Error adding contact with username " + newContact.username);
+    } else {
+      console.log("Successfully added contact with username " + newContact.username + " to user with username " + user._id);
     }
   });
 }

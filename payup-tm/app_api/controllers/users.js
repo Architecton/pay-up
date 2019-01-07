@@ -27,7 +27,7 @@ var getJsonResponse = function(response, status, data) {
 
 // nukeDB: remove all contents of database collection Users
 module.exports.nukeDB = function(request, response) {
-  getLoggedId(request, response, function(request, response, username) {
+  // getLoggedId(request, response, function(request, response, username) {
     User.remove({}, function(err, user){
       if (err) {
         // if encountered error
@@ -37,7 +37,7 @@ module.exports.nukeDB = function(request, response) {
         getJsonResponse(response, 204, null);
       }
     }); 
-  });
+  // });
 };
 
 // TODO Only admin
@@ -53,21 +53,6 @@ module.exports.nukeDBindexes = function(request, response) {
     }
   });
 };
-
-
-// fillDB: intialize database collection Users with testing data.
-module.exports.fillDB = function(request, response) {
-  getJsonResponse(response, 201, {"status" : "done"});
-  /*var createdPromises = testingData.users.map(function(testUser) {
-    return User.create(testUser);
-  });
-  Promise.all(createdPromises).then(function(result) {
-    getJsonResponse(response, 201, {"status" : "done"});
-  }).then(null, function(err) {
-      getJsonResponse(response, 400, err);
-  });*/
-};
-
 
 ///////////////////////////////////////////////////////////////////////
 
