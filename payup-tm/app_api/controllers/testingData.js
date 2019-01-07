@@ -100,11 +100,11 @@ var user11 = {
 };
 
 var user12 = {
-	"name" : "Jernej",
-	"surname" : "Vivod",
-	"username" : "jerry123",
+	"name" : "Janez",
+	"surname" : "Novak",
+	"username" : "janezNovak123",
 	"password" : "tralala",
-	"email" : "je.vivod@gmail.com",
+	"email" : "janez.novak@gmail.com",
 	"gender" : "m"
 };
 

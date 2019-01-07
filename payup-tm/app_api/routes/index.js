@@ -14,8 +14,8 @@ var ctrlContacts = require('../controllers/contacts');
 var ctrlAuthentication = require('../controllers/authentication');
 
 
-router.get('/fillDB', ctrlAuthentication.fillDB);                                                    // TESTED (13.12.2018)
-router.delete('/nukeDB', ctrlUsers.nukeDB);                                                 // TESTED (13.12.2018)
+router.get('/fillDB', authentication, ctrlAuthentication.fillDB);                                           // TESTED (13.12.2018)
+router.delete('/nukeDB', authentication, ctrlUsers.nukeDB);                                                 // TESTED (13.12.2018)
 router.delete('/nukeDBindexes', authentication, ctrlUsers.nukeDBindexes);                                   // TESTED (13.12.2018)
 
 
@@ -58,3 +58,8 @@ router.get('/users/:idUser/:validationCode', ctrlAuthentication.authConfirm);   
 
 // Expose router as module.
 module.exports = router;
+
+
+// Detect presence of administrator account. If such an account is not found then it is
+// initialized from data specified in .env file.
+ctrlAuthentication.initAdmins(process.env.ADMIN_USERNAME);

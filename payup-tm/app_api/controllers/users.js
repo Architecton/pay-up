@@ -23,21 +23,23 @@ var getJsonResponse = function(response, status, data) {
 
 // DB //////////////////////////////////////////////////////////////////
 
-// TODO Only admin
-
 // nukeDB: remove all contents of database collection Users
 module.exports.nukeDB = function(request, response) {
-  // getLoggedId(request, response, function(request, response, username) {
-    User.remove({}, function(err, user){
-      if (err) {
-        // if encountered error
-        getJsonResponse(response, 500, err);   
-      }
-      else {
-        getJsonResponse(response, 204, null);
-      }
-    }); 
-  // });
+  getLoggedId(request, response, function(request, response, username) {
+    if (username == process.env.ADMIN_USERNAME) {
+      User.remove({}, function(err, user){
+        if (err) {
+          // if encountered error
+          getJsonResponse(response, 500, err);   
+        }
+        else {
+          getJsonResponse(response, 204, null);
+        }
+      }); 
+    } else {
+      getJsonResponse(response, 401, {"message" : "not authorized"});
+    }
+  });
 };
 
 // TODO Only admin

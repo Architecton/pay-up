@@ -63,6 +63,15 @@ var swaggerDocument = require('./apidoc.json');
 
 // app - the application
 var app = express();
+
+// Middleware to handle certain security flaws.
+app.use(function(req, res, next) {
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  next();
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'app_server', 'views'));
 app.set('view engine', 'pug');
@@ -141,14 +150,6 @@ app.use(function(err, req, res, next) {
       "message": err.name + ": " + err.message
     });
   }
-});
-
-// Middleware to handle certain security flaws.
-app.use(function(req, res, next) {
-  res.setHeader('X-Frame-Options', 'DENY');
-  res.setHeader('X-XSS-Protection', '1; mode=block');
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  next();
 });
 
 

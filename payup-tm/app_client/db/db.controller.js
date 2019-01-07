@@ -72,6 +72,7 @@
         // Make call to service.
         testHelper.fill().then(
           function success(response) {  // If response successfuly retrieved...
+            vm.filled = true;
             Swal({
               title: 'Hmmmmm...',
               text: 'I wonder what just happened?',
@@ -81,6 +82,7 @@
               imageAlt: 'Custom image',
               animation: false
             }).then(function(ok) {
+              vm.filled = true;
               $location.path('/');
               $route.reload();
             });
@@ -96,7 +98,7 @@
             }); 
           }
         );
-      })
+      });
     };
   }
   

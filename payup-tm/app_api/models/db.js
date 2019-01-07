@@ -14,10 +14,6 @@ if (process.env.NODE_ENV === 'production') {
   dbURI = 'mongodb://localhost/mongodb';
 }
 
-/*--------------------------------------------------*/
-//               Koda kopirana iz vaj.              //    
-/*--------------------------------------------------*/
-
 /*
 // If DB_RUI exists, set uri to local DB.
 if(process.env.DB_URI){

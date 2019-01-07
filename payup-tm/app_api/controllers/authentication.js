@@ -32,14 +32,20 @@ var getJsonResponse = function(response, status, data) {
 
 // fillDB: intialize database collection Users with testing data.
 module.exports.fillDB = function(request, response) {
-  var createdPromises = testingData.users.map(function(testUser) {
-    return createTestUser(testUser);
-  });
-  Promise.all(createdPromises).then(function(result) {
-    setTimeout(addTestContacts, 2000);
-    getJsonResponse(response, 201, {"status" : "done"});
-  }).then(null, function(err) {
-      getJsonResponse(response, 400, err);
+  getLoggedId(request, response, function(request, response, username) {
+    if (username == process.env.ADMIN_USERNAME) {
+      var createdPromises = testingData.users.map(function(testUser) {
+        return createTestUser(testUser);
+      });
+      Promise.all(createdPromises).then(function(result) {
+        setTimeout(addTestContacts, 2000);
+        getJsonResponse(response, 201, {"status" : "done"});
+      }).then(null, function(err) {
+          getJsonResponse(response, 400, err);
+      });
+    } else {
+      getJsonResponse(response, 401, {"message" : "not authorized"});
+    }
   });
 };
 
@@ -72,11 +78,18 @@ function createTestUser(signupData) {
   newUser.loans = [];
   newUser.contacts = [];
   newUser.messages = [];
-  User.create(newUser, function(error, user) {
-    if (error) {
-      console.log("Error creating user with username " + user._id);
+  usernameExists(newUser.username).then(function(result) {
+    if (result) {
+      User.create(newUser, function(error, user) {
+        if (error) {
+          return false;
+        } else {
+          console.log("User with username " + user._id + " successfully created.");
+          return true;
+        }
+      });
     } else {
-      console.log("User with username " + user._id + " successfully created.");
+      return false;
     }
   });
 }
@@ -102,12 +115,10 @@ function createTestContact(contactData, idUser) {
           console.log("Error adding contact with username " + newContact.username);
         } else {
           // Call auxiliary function to add contact to retrieved user.
-          console.log(user);
           addContactToTestUser(user, newContact);
         }
       }
     );
-  
 }
 
 // addContactToTestUser: add contact to specified user retrieved from list of test users.
@@ -124,6 +135,53 @@ function addContactToTestUser(user, newContact) {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
+
+
+// ADMIN INITIALIZATION ///////////////////////////////////////////////////////////////
+
+// initAdmins: initialize administrator account if it is not yet present.
+module.exports.initAdmins = function (adminUsername) {
+  usernameExists(adminUsername).then(function(result) {   // Try to detect existing administrator account.
+   if (result) {
+      console.log("Administrator account detected.");
+      return true;
+   } else {                                               // If administrator account not detected, create from data in .env
+    var newUser = new User();
+    newUser.name = process.env.ADMIN_NAME;
+    newUser.surname = process.env.ADMIN_SURNAME;
+    newUser._id = process.env.ADMIN_USERNAME;
+    newUser.setPassword(process.env.ADMIN_PASS);
+    newUser.email = process.env.ADMIN_EMAIL;
+    newUser.gender = process.env.ADMIN_GENDER;
+    newUser.dateJoined = new Date().toJSON().slice(0,10).replace(/-/g,'-');
+    newUser.status = 1;
+    newUser.defaultCurrency = "EUR";
+    newUser.nightmode = false;
+    newUser.loans = [];
+    newUser.contacts = [];
+    newUser.messages = [];
+    newUser.admin = true; // !!!!
+    console.log(newUser);
+    User.create(newUser, function(error, user) {
+        // If there was an error
+        if (error) {
+          console.log("Error adding administrator account.");
+        } else {
+          // Notify that administrator account was successfully added.
+          console.log("Administrator account successfully added.");
+          return true;
+        }
+      });
+   }
+  });
+};
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+
 
 // authLogIn: log in a user by verifying the username and password
 // Return JWT if log in successfull
@@ -194,6 +252,7 @@ module.exports.authSignUp = function(request, response) {
         newUser.loans = [];
         newUser.contacts = [];
         newUser.messages = [];
+        newUser.admin = false;
       // if passwords do not match
       } else {
         getJsonResponse(response, 400, {
@@ -358,6 +417,7 @@ module.exports.authConfirm = function(request, response) {
 // Get user's id (username) from JWT
 var getLoggedId = function(request, response, callback) {
   // If request contains a payload and the payload contains a username
+  console.log(request.payload);
   if (request.payload && request.payload.username) {
     User
       .findById(
