@@ -14,7 +14,7 @@ var ctrlContacts = require('../controllers/contacts');
 var ctrlAuthentication = require('../controllers/authentication');
 
 
-router.get('/fillDB', authentication, ctrlUsers.fillDB);                                                    // TESTED (13.12.2018)
+router.get('/fillDB', authentication, ctrlAuthentication.fillDB);                                                    // TESTED (13.12.2018)
 router.delete('/nukeDB', authentication, ctrlUsers.nukeDB);                                                 // TESTED (13.12.2018)
 router.delete('/nukeDBindexes', authentication, ctrlUsers.nukeDBindexes);                                   // TESTED (13.12.2018)
 

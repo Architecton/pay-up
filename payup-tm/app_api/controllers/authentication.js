@@ -27,11 +27,12 @@ var getJsonResponse = function(response, status, data) {
   response.json(data);
 };
 
+// fillDB functionality ///////////////////////////////////////////////////////////////
 
 // fillDB: intialize database collection Users with testing data.
 module.exports.fillDB = function(request, response) {
   var createdPromises = testingData.users.map(function(testUser) {
-    return User.create(testUser);
+    return createTestUser(testUser);
   });
   Promise.all(createdPromises).then(function(result) {
     getJsonResponse(response, 201, {"status" : "done"});
@@ -40,6 +41,34 @@ module.exports.fillDB = function(request, response) {
   });
 };
 
+
+// createTestUser: create a new user in the database from testing data.
+function createTestUser(signupData) {
+  // Skip all layers of property validation and create new user from passed data.
+  var newUser = new User();
+  newUser.name = signupData.name;
+  newUser.surname = signupData.surname;
+  newUser._id = signupData.username;
+  newUser.setPassword(signupData.password);
+  newUser.email = signupData.email;
+  newUser.gender = signupData.gender;
+  newUser.dateJoined = new Date().toJSON().slice(0,10).replace(/-/g,'-');
+  newUser.status = 1;
+  newUser.defaultCurrency = "EUR";
+  newUser.nightmode = false;
+  newUser.loans = [];
+  newUser.contacts = [];
+  newUser.messages = [];
+  User.create(newUser, function(error, user) {
+    if (error) {
+      console.log("Error creating user with username " + user._id);
+    } else {
+      console.log("User with username " + user._id + " successfully created.");
+    }
+  });
+}
+
+///////////////////////////////////////////////////////////////////////////////////////
 
 // authLogIn: log in a user by verifying the username and password
 // Return JWT if log in successfull
@@ -94,7 +123,7 @@ module.exports.authSignUp = function(request, response) {
   validateCaptchaResponse(request.body.response).then(function(result) {
     if (result) {
       // Check if passwords match.
-      if(request.body.user.password.length == 2 && request.body.user.password[0] === request.body.user.password[1]){
+      if(request.body.user.password.length == 2 && request.body.user.password[0] === request.body.user.password[1]) {
     	// Create new user.
         var newUser = new User();
         newUser.name = request.body.user.name;

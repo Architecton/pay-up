@@ -1,75 +1,94 @@
 // Data used for testing purposes.
 
-
-var user1 = {"name": "Jozef", 
-	"surname": "Novak",
-	"_id": "gozdnijoza97",
-	"password": "jozef123",
-	"email": "joze.novak@gmail.com",
+var user1 = {
+	"name": "Zoran", 
+	"surname": "Bosnić",
+	"username": "ZorroTheGiant123",
+	"password": "tralala",
+	"email": "zoran.bosnic@gmail.com",
 	"gender": "m",
-	"date": "2018-11-15",
-	"status": 1,
-	"defaultCurrency": "EUR",
-	"nightmode": false,
-	"loans": [{
-			 "loaner": "gozdnijoza97",
-			 "recipient": "manca123",
-			 "dateIssued": "2018-12-05",
-			 "deadline": "2018-12-15",
-			 "amount": "100", 
-			 "currency": "EUR", 
-			 "interest": "0.05", 
-			 "payment_interval": 10, 
-			 "payment_amount": 10, 
-			 "compoundInterest": false, 
-			 "interest_on_debt": false, 
-			 "status": 1}],
-
-	 "contacts": [ 
-		{"name": "Manca",
-		 "surname": "Oblak",
-		 "username": "manca123",
-		 "email": "manca.oblak@gmail.com",
-		 "phone": "070123456",
-		 "region": "Celje",
-		 "notes": "Blabla"}],
-		 "messages": []
-	 
 };
 
-var user2 = {"name": "Manca", 
-	"surname": "Oblak",
-	"_id": "manca123",
-	"password": "tralalahopsasa",
-	"email": "manca.oblak@gmail.com",
+var user2 = {
+	"name": "Nikolaj", 
+	"surname": "Zimic",
+	"username": "minterm723",
+	"password": "tralala",
+	"email": "nikolaj.zimic@gmail.com",
+	"gender": "m",
+};
+
+var user3 = {
+	"name": "Neža", 
+	"surname": "Mramor Kosta",
+	"username": "soulIntegrator777",
+	"password": "tralala",
+	"email": "neza.mramor@gmail.com",
 	"gender": "f",
-	"date": "2018-12-15",
-	"status": 1,
-	"defaultCurrency": "EUR",
-	"nightmode": false,
-	"loans": [{
-			 "loaner": "manca123",
-			 "recipient": "gozdnijoza97",
-			 "dateIssued": "2018-10-05",
-			 "deadline": "2019-12-15",
-			 "amount": "1000", 
-			 "currency": "EUR", 
-			 "interest": "0.01", 
-			 "payment_interval": 10, 
-			 "payment_amount": 100, 
-			 "compoundInterest": true, 
-			 "interest_on_debt": false, 
-			 "status": 1}],
-	 "contacts": [ {"name": "Jozef",
-	 "surname": "Novak",
-	 "username": "gozdnijoza97",
-	 "email": "jozef.novak@gmail.com",
-	 "region": "Celje",
-	 "notes" : "Blablabla",
-	 "phone": "070123321"
-	 }],
-	 "messages":[]
+};
+
+var user4 = {
+	"name": "Damir", 
+	"surname": "Franetič",
+	"username": "Muscles&Math122",
+	"password": "tralala",
+	"email": "damir.franetic@gmail.com",
+	"gender": "m",
+};
+
+var user5 = {
+	"name": "Borut", 
+	"surname": "Robič",
+	"username": "studentTerminator12",
+	"password": "tralala",
+	"email": "borut.robic@gmail.com",
+	"gender": "m",
+};
+
+var user6 = {
+	"name": "Dejan", 
+	"surname": "Lavbič",
+	"username": "dekiTheMaster22",
+	"password": "tralala",
+	"email": "dejan.lavbic@gmail.com",
+	"gender": "m",
+};
+
+var user7 = {
+	"name": "Mia", 
+	"surname": "filić",
+	"username": "MiaTheGreat123",
+	"password": "tralala",
+	"email": "mia.filic@gmail.com",
+	"gender": "f",
+};
+
+var user8 = {
+	"name": "Patricio", 
+	"surname": "Bulić",
+	"username": "pa3cio",
+	"password": "tralala",
+	"email": "patricio.bulic@gmail.com",
+	"gender": "m",
+};
+
+var user9 = {
+	"name": "Peter", 
+	"surname": "Marijan Kink",
+	"username": "mathLover7",
+	"password": "tralala",
+	"email": "pater.kink@gmail.com",
+	"gender": "m",
+};
+
+var user10 = {
+	"name": "Martin", 
+	"surname": "Vuk",
+	"username": "MathIsGreat007",
+	"password": "tralala",
+	"email": "martin.vuk@gmail.com",
+	"gender": "m",
 };
 
 // exposes data as array of users.
-module.exports.users = [user1, user2];
+module.exports.users = [user1, user2, user3, user4, user5, user6, user7, user8, user9, user10];

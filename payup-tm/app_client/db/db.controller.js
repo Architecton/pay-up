@@ -19,7 +19,7 @@
           var timerInterval;
             Swal({
               title: 'NUKING DATABASE!!!',
-              html: 'DATABASE WILL BE NUKED IN <strong></strong> SECONDS!!!!',
+              html: 'DATABASE WILL BE NUKED IN <strong></strong> MILLISECONDS!!!!',
               timer: 2000,
               onBeforeOpen: function() {
                 Swal.showLoading();
@@ -60,33 +60,43 @@
     
     // fillDB: add testing data to the database
     vm.fillDB = function() {
-      // Make call to service.
-      testHelper.fill().then(
-        function success(response) {  // If response successfuly retrieved...
-          Swal({
-            title: 'Hmmmmm...',
-            text: 'Nothing seems to have happened. What is going on?',
-            imageUrl: 'style/images/plant.jpeg',
-            imageWidth: 400,
-            imageHeight: 200,
-            imageAlt: 'Custom image',
-            animation: false
-          }).then(function(ok) {
-            $location.path('/');
-            $route.reload();
-          });
-        }, function error(response) {  // else if error...
-          console.log(response.status);
-          Swal({
-            type: 'error',
-            title: 'WHAT???',
-            text: response.status == 400 ? 'You\'ve already done this, haven\'t you??' : 'You are not authorized to press this button! Who exactly do you think you are?!'
-          }).then(function(ok) {
-            $location.path('/');
-            $route.reload();
-          }); 
-        }
-      );
+      Swal({
+        title: 'Whoa!!!!!',
+        text: "Are you sure you want to press this strange looking button?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'YES!'
+      }).then(function (ok) {
+        // Make call to service.
+        testHelper.fill().then(
+          function success(response) {  // If response successfuly retrieved...
+            Swal({
+              title: 'Hmmmmm...',
+              text: 'I wonder what just happened?',
+              imageUrl: 'style/images/plant.jpeg',
+              imageWidth: 400,
+              imageHeight: 200,
+              imageAlt: 'Custom image',
+              animation: false
+            }).then(function(ok) {
+              $location.path('/');
+              $route.reload();
+            });
+          }, function error(response) {  // else if error...
+            console.log(response.status);
+            Swal({
+              type: 'error',
+              title: 'WHAT???',
+              text: response.status == 400 ? 'You\'ve already done this, haven\'t you??' : 'You are not authorized to press this button! Who exactly do you think you are?!'
+            }).then(function(ok) {
+              $location.path('/');
+              $route.reload();
+            }); 
+          }
+        );
+      })
     };
   }
   
