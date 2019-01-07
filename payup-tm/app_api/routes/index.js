@@ -32,7 +32,7 @@ router.put('/users/:idUser/saveSettings', authentication, ctrlUsers.userSaveSett
 
 
 // Controllers for working with loans.
-router.get('/loans', authentication, ctrlLoans.loanGetAll);                                                 // TESTED (20.12.2018)
+router.get('/inspectLoans', authentication, ctrlLoans.loanGetAll);                                          // TESTED (20.12.2018)
 router.post('/users/:idUser/loans', authentication, ctrlLoans.loanCreate);                                  // TESTED (20.12.2018)
 router.get('/users/:idUser/loans/:pageIndex', authentication, ctrlLoans.loanGetUsersLoans);                 // TESTED (20.12.2018)
 router.get('/users/:idUser/loans/:idLoan', authentication, ctrlLoans.loanGetSelected);                      // TESTED (20.12.2018)

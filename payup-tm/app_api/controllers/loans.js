@@ -21,34 +21,40 @@ router.delete('/user/:idUser/loans/:idLoan', ctrlLoans.loanDeleteSelected);
 
 // GET ALL LOANS OF ALL USERS //////////////////////////////////////////////////
 
-// TODO only admin
 
 // ** loanGetAll: get all loans
 module.exports.loanGetAll = function(request, response) {
-  User
-    .find({})
-    .exec(function(error, users) {
-      if (!users) {  // If user not found
-        getJsonResponse(response, 404, {
-          "message": 
-            "Cannot find user with given identifier idUser."
+  getLoggedId(request, response, function(request, response, username) {
+    // Only admin allowed.
+    if (username == process.env.ADMIN_USERNAME){
+      User
+        .find({})
+        .exec(function(error, users) {
+          if (!users) {  // If user not found
+            getJsonResponse(response, 404, {
+              "message": 
+                "Cannot find user with given identifier idUser."
+            });
+            return;
+          // if error while executing function
+          } else if (error) {
+            getJsonResponse(response, 500, error);
+            return;
+          }
+          
+          // get loans of all users and concatenate in array and return as response.
+          var loans = [];
+          users.forEach(function(e) {
+            loans = loans.concat(e.loans);
+          });
+          
+          // return array of loans.
+          getJsonResponse(response, 200, loans);
         });
-        return;
-      // if error while executing function
-      } else if (error) {
-        getJsonResponse(response, 500, error);
-        return;
-      }
-      
-      // get loans of all users and concatenate in array and return as response.
-      var loans = [];
-      users.forEach(function(e) {
-        loans = loans.concat(e.loans);
-      });
-      
-      // return array of loans.
-      getJsonResponse(response, 200, loans);
-    });
+    } else {
+      getJsonResponse(response, 401, {"message" : "not authorized"});
+    }
+  });
 };
 
 ////////////////////////////////////////////////////////////////////////////////
