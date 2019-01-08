@@ -3,9 +3,13 @@
   function loansCtrl($scope, $uibModal, $uibModalStack, $http, loansData, loansList, loanManagement, authentication) {
     var vm = this;
 
+    // Set default currency.
     vm.defaultCurrency = authentication.currentUser().defaultCurrency;
+    
+    // Starting current page.
     vm.currentPage = 1;
-    // Starting filter index
+    
+    // Starting filter index.
     vm.filterIndex = 0;
     
     // getData; get selected loans of user with ID idUser
@@ -26,7 +30,7 @@
       );
     };
     
-    
+    // open modal window for creating a new loan.
     vm.newloanModalShow = function() {
       vm.loginModal = $uibModal.open({
         animation: true,
@@ -383,19 +387,31 @@
       switch (selVal) {
         case 'Pending':
           vm.currentFilter = vm.pendingFilter;
-          vm.getListLoans(vm.currentPage-1, vm.filterIndex);
+          vm.filterIndex = 1;
+          if (vm.numLoans > 10) {
+            vm.getListLoans(vm.currentPage-1, vm.filterIndex); 
+          }
           break;
         case 'Active':
           vm.currentFilter = vm.activeFilter;
-          vm.getListLoans(vm.currentPage-1, vm.filterIndex);
+          vm.filterIndex = 2;
+          if (vm.numLoans > 10) {
+            vm.getListLoans(vm.currentPage-1, vm.filterIndex); 
+          }
           break;
         case 'Resolved':
           vm.currentFilter = vm.resolvedFilter;  
-          vm.getListLoans(vm.currentPage-1, vm.filterIndex);
+          vm.filterIndex = 3;
+          if (vm.numLoans > 10) {
+            vm.getListLoans(vm.currentPage-1, vm.filterIndex); 
+          }
           break;
         default:
           vm.currentFilter = vm.noFilter;
-          vm.getListLoans(vm.currentPage-1, vm.filterIndex);
+          vm.filterIndex = 0;
+          if (vm.numLoans > 10) {
+            vm.getListLoans(vm.currentPage-1, vm.filterIndex); 
+          }
       }
     };
     
@@ -413,35 +429,27 @@
       switch (selVal) {
         case 'Amount/highest':
           vm.orderProp = '-amount';
-          vm.getListLoans(vm.currentPage-1, vm.filterIndex);
           break;
         case 'Amount/lowest':
           vm.orderProp = 'amount';
-          vm.getListLoans(vm.currentPage-1, vm.filterIndex);
           break;
         case 'Issued/newest':
           vm.orderProp = '-dateIssued';
-          vm.getListLoans(vm.currentPage-1, vm.filterIndex);
           break;
         case 'Issued/oldest':
           vm.orderProp = 'dateIssued';
-          vm.getListLoans(vm.currentPage-1, vm.filterIndex);
           break;
         case 'Deadline/nearest':
           vm.orderProp = 'deadline';
-          vm.getListLoans(vm.currentPage-1, vm.filterIndex);
           break;
         case 'Deadline/furthest':
           vm.orderProp = '-deadline';
-          vm.getListLoans(vm.currentPage-1, vm.filterIndex);
           break;
         case 'Recipient':
           vm.orderProp = 'recipient';
-          vm.getListLoans(vm.currentPage-1, vm.filterIndex);
           break;
         case 'Source':
           vm.orderProp = 'loaner';
-          vm.getListLoans(vm.currentPage-1, vm.filterIndex);
           break;
         default:
           vm.orderProp = 'amount';
