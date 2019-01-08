@@ -42,8 +42,9 @@
         templateUrl: 'db/db.view.html',
         controller: "dbCtrl",
         controllerAs: 'vm'
-      });
-    $locationProvider.html5Mode(true);
+      })
+      .otherwise({redirectTo: '/'});
+      $locationProvider.html5Mode(true);
   }
   
   /* global angular */

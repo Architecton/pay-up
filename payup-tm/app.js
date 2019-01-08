@@ -20,6 +20,7 @@ var minify = true;
 
 if (minify) {
   var combined = uglifyjs.minify({
+    'app.js' : fs.readFileSync('app_client/app.js', 'utf-8'),
     'sweetalert2.all.min.js' : fs.readFileSync('app_client/style/sweetalert2/dist/sweetalert2.all.min.js', 'utf-8'),
     'chart.js' : fs.readFileSync('app_client/style/js/chart.js', 'utf-8'),
     'angular-google-analytics.js' : fs.readFileSync('app_client/style/angular-google-analytics/dist/angular-google-analytics.js', 'utf-8'),
