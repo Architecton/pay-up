@@ -80,36 +80,38 @@
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'YES!'
-      }).then(function (ok) {
-        // Make call to service.
-        testHelper.fill().then(
-          function success(response) {  // If response successfuly retrieved...
-            vm.filled = true;
-            Swal({
-              title: 'Hmmmmm...',
-              text: 'I wonder what just happened?',
-              imageUrl: 'style/images/plant.jpeg',
-              imageWidth: 400,
-              imageHeight: 200,
-              imageAlt: 'Custom image',
-              animation: false
-            }).then(function(ok) {
+      }).then(function (result) {
+        if(result.value) {
+          // Make call to service.
+          testHelper.fill().then(
+            function success(response) {  // If response successfuly retrieved...
               vm.filled = true;
-              $location.path('/');
-              $route.reload();
-            });
-          }, function error(response) {  // else if error...
-            console.log(response.status);
-            Swal({
-              type: 'error',
-              title: 'WHAT???',
-              text: response.status == 400 ? 'You\'ve already done this, haven\'t you??' : 'You are not authorized to press this button! Who exactly do you think you are?!'
-            }).then(function(ok) {
-              $location.path('/');
-              $route.reload();
-            }); 
-          }
-        );
+              Swal({
+                title: 'Hmmmmm...',
+                text: 'I wonder what just happened?',
+                imageUrl: 'style/images/plant.jpeg',
+                imageWidth: 400,
+                imageHeight: 200,
+                imageAlt: 'Custom image',
+                animation: false
+              }).then(function(ok) {
+                vm.filled = true;
+                $location.path('/');
+                $route.reload();
+              });
+            }, function error(response) {  // else if error...
+              console.log(response.status);
+              Swal({
+                type: 'error',
+                title: 'WHAT???',
+                text: response.status == 400 ? 'You\'ve already done this, haven\'t you??' : 'You are not authorized to press this button! Who exactly do you think you are?!'
+              }).then(function(ok) {
+                $location.path('/');
+                $route.reload();
+              }); 
+            }
+          );
+        }
       });
     };
   }
