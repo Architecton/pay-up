@@ -40,8 +40,8 @@
             if (result) {
               document.getElementById("nightmode").checked = currentUser().nightmode;
               if (currentUser().nightmode) {
-                document.getElementsByClassName("globalBackground")[0].style.backgroundColor = 'black';
-                document.getElementsByClassName("globalBackground")[1].style.backgroundColor = 'black';
+                // document.getElementsByClassName("globalBackground")[0].style.backgroundColor = 'black';
+                // document.getElementsByClassName("globalBackground")[1].style.backgroundColor = 'black';
                 // document.documentElement.style.backgroundColor = 'black';
                 // document.body.style.backgroundColor = 'black'; 
               } else {

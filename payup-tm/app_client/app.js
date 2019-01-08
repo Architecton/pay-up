@@ -4,7 +4,9 @@
   function setting($routeProvider, $locationProvider) {
     $routeProvider
       .when('/', {
-        templateUrl:'homepage/homepage.view.html'
+        templateUrl:'homepage/homepage.view.html',
+        controller: 'homepageCtrl',
+        controllerAs: 'vm'
       })
       .when('/dashboard', {  
         templateUrl: 'dashboard/dashboard.view.html',
@@ -22,7 +24,9 @@
         controllerAs: 'vm'
       })
       .when('/comingsoon', {
-        templateUrl: 'comingsoon/comingsoon.view.html'
+        templateUrl: 'comingsoon/comingsoon.view.html',
+        controller: 'homepageCtrl',
+        controllerAs: 'vm'
       })
       .when('/contacts', {
         templateUrl: 'contacts/contacts.view.html',
@@ -30,7 +34,9 @@
         controllerAs: 'vm'
       })
       .when('/patchnotes', {
-        templateUrl: 'patchnotes/patchnotes.view.html'
+        templateUrl: 'patchnotes/patchnotes.view.html',
+        controller: 'homepageCtrl',
+        controllerAs: 'vm'
       })
       .when('/db', {
         templateUrl: 'db/db.view.html',

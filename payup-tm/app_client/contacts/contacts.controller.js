@@ -416,6 +416,18 @@
     /////////////////////////////////////////
    
    
+    // NIGHT MODE ////////////////////////////
+    
+    angular.element(document).ready(function () {
+      if (authentication.currentUser().nightmode) {
+        document.getElementsByClassName("globalBackground")[0].style.backgroundColor = 'black';
+        document.getElementsByClassName("globalBackground")[1].style.backgroundColor = 'black';
+      }
+    });
+
+    /////////////////////////////////////////
+   
+   
     // PAGINATION ////////////////////////////
     
     // number of user's contacs (retrieved from call to api)

@@ -2,6 +2,18 @@
 (function() {
   function dbCtrl($scope, $location, $route, testHelper, authentication) {
     var vm = this;
+    
+    
+    // NIGHT MODE /////////////
+    angular.element(document).ready(function () {
+      if (authentication.isLoggedIn() && authentication.currentUser().nightmode) {
+        document.getElementsByClassName("globalBackground")[0].style.backgroundColor = 'black';
+        document.getElementsByClassName("globalBackground")[1].style.backgroundColor = 'black';
+      }
+    });
+    ///////////////////////////
+    
+    
     // nukeDB: remove all users from the database
     vm.nukeDB = function() {
       /* global Swal */

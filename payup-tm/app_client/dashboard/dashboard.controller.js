@@ -31,6 +31,15 @@
         vm.message = error.message;
       });
     };
+    
+    // NIGHT MODE //////////////
+    angular.element(document).ready(function () {
+      if (authentication.currentUser().nightmode) {
+        document.getElementsByClassName("globalBackground")[0].style.backgroundColor = 'black';
+        document.getElementsByClassName("globalBackground")[1].style.backgroundColor = 'black';
+      }
+    });
+    ////////////////////////////
   
     // Call to service function that retrieves the loans to be displayed on the dashboard.
     loansList.getLoans(             // Pass getData and showError functions
