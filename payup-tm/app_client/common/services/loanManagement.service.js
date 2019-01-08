@@ -61,6 +61,8 @@
     };
   }
   
+  loanManagement.$inject = ['$http', 'authentication'];
+  
   // Register service
   /* global angular */
   angular

@@ -122,6 +122,8 @@
     };
   }
   
+  authentication.$inject = ['$window', '$http'];
+  
   // Register service
   /* global angular */
   angular
