@@ -503,12 +503,8 @@
     cursor: pointer;
 }
 
-.selectableRow:hover {
-    color: white;
-}
-
 tr:hover td {
-    background:#4d4d4d
+    background:#a6a6a6
 }
 
 .activeRow {

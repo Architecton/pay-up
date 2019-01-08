@@ -4,6 +4,7 @@
     var loans = function(idUser, pageIndex) {
       return $http.get('/api/users/' + idUser + '/loans/' + pageIndex, {
         headers: {
+          filtidx: 0,
           Authorization: 'Bearer ' + authentication.getToken()
         }
       }).then(function success(response) {

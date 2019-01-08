@@ -330,10 +330,38 @@ module.exports.loanGetUsersLoans = function(request, response) {
           if (request.params.pageIndex) {
             // Get specified page of loans.
             var pageIndex = request.params.pageIndex;
-            var loans = user.loans.slice(pageIndex*10, pageIndex*10+10);
-            // Set header value
-            response.set("numLoans", [user.loans.length]);
-            getJsonResponse(response, 200, loans);
+            var filt = function (loan) { return true };
+            console.log(request.headers.filtidx);
+            if (request.headers.filtidx && typeof request.headers.filtidx) {
+              if (user.loans.length > 10) {
+                switch (request.headers.filtIdx) {
+                  case 0:     // no filter
+                    filt = function (loan) { return true };
+                    break;
+                  case 1:     // pending
+                    filt = function (loan) { return  loan.status == 'pending' };
+                    break;
+                  case 2:     // active
+                    filt = function (loan) { return  loan.status == 'active' };
+                    break;
+                  case 3:     // resolved
+                    filt = function (loan) { return loan.status == 'resolved' };
+                    break;
+                  default:
+                    filt = function (loan) { return true };
+                }
+              }
+              var filtered_loans = user.loans.filter(filt);
+              var loans = filtered_loans.slice(pageIndex*10, pageIndex*10+10);
+              // Set header value
+              response.set("numLoans", [user.loans.length]);
+              getJsonResponse(response, 200, loans);
+            } else {
+              console.log("FAIL HERE!");
+              getJsonResponse(response, 400, {
+                "message" : "Bad filterIndex header"
+              }) ;
+            }
           } else {
             getJsonResponse(response, 400, {
               "message" : "Missing page index path parameter"
