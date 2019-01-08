@@ -518,7 +518,7 @@
 
 
 // Controller for working with modal windows dealing with loans
-angular.module('payupApp').controller('loansModCtrl', function (parent, $uibModalInstance, $uibModalStack) {
+angular.module('payupApp').controller('loansModCtrl', ['parent', '$uibModalInstance', '$uibModalStack', function (parent, $uibModalInstance, $uibModalStack) {
   var loansmodvm = this;
   // Get parent scope
   loansmodvm.parentScope = parent;
@@ -527,4 +527,4 @@ angular.module('payupApp').controller('loansModCtrl', function (parent, $uibModa
   loansmodvm.cancel = function () {
     $uibModalStack.dismissAll();
   };
-});
+}]);

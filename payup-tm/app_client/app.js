@@ -43,8 +43,8 @@
   /* global angular */
   var payupApp = angular.module('payupApp', ['ngRoute', 'ngSanitize', 'vcRecaptcha', 'ui.bootstrap', 'angular-google-analytics']);
   
-    payupApp
-    .config(['$routeProvider', '$locationProvider', setting]);
+  payupApp
+  .config(['$routeProvider', '$locationProvider', setting]);
     
   
   payupApp

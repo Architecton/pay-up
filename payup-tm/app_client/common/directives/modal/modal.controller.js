@@ -259,9 +259,9 @@
 })();
 
 
-angular.module('payupApp').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance) {
+angular.module('payupApp').controller('ModalInstanceCtrl', ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
   var modctrl = this;
   modctrl.cancel = function () {
     $uibModalInstance.dismiss();
   };
-});
+}]);
