@@ -1,10 +1,10 @@
 (function() {
   var loansData = function($http, authentication) {
     // loans: get specified page of user's loans.
-    var loans = function(idUser, pageIndex) {
+    var loans = function(idUser, pageIndex, filterIndex) {
       return $http.get('/api/users/' + idUser + '/loans/' + pageIndex, {
         headers: {
-          filtidx: 2,
+          filtidx: filterIndex,
           Authorization: 'Bearer ' + authentication.getToken()
         }
       }).then(function success(response) {

@@ -5,12 +5,13 @@
 
     vm.defaultCurrency = authentication.currentUser().defaultCurrency;
     vm.currentPage = 1;
-    
+    // Starting filter index
+    vm.filterIndex = 0;
     
     // getData; get selected loans of user with ID idUser
-    vm.getData = function(idUser, pageIndex) {
+    vm.getData = function(idUser, pageIndex, filterIndex) {
       // Make GET request to retrieve loans data.
-      loansData.loans(idUser, pageIndex).then(
+      loansData.loans(idUser, pageIndex, filterIndex).then(
         function success(response) {  // If response successfuly retrieved...
           vm.message = response.data.length > 0 ? "" : "Empty response from server";  // If response empty
           // Data to be exposed
@@ -155,7 +156,7 @@
                 'The loan contract request has been sent.',
                 'success'
               ).then(function(ok) {
-                scope.getListLoans(vm.currentPage-1);
+                scope.getListLoans(vm.currentPage-1, vm.filterIndex);
                 $uibModalStack.dismissAll();
               });
             }, function error(response) {
@@ -382,19 +383,19 @@
       switch (selVal) {
         case 'Pending':
           vm.currentFilter = vm.pendingFilter;
-          vm.getListLoans(vm.currentPage-1);
+          vm.getListLoans(vm.currentPage-1, vm.filterIndex);
           break;
         case 'Active':
           vm.currentFilter = vm.activeFilter;
-          vm.getListLoans(vm.currentPage-1);
+          vm.getListLoans(vm.currentPage-1, vm.filterIndex);
           break;
         case 'Resolved':
           vm.currentFilter = vm.resolvedFilter;  
-          vm.getListLoans(vm.currentPage-1);
+          vm.getListLoans(vm.currentPage-1, vm.filterIndex);
           break;
         default:
           vm.currentFilter = vm.noFilter;
-          vm.getListLoans(vm.currentPage-1);
+          vm.getListLoans(vm.currentPage-1, vm.filterIndex);
       }
     };
     
@@ -412,35 +413,35 @@
       switch (selVal) {
         case 'Amount/highest':
           vm.orderProp = '-amount';
-          vm.getListLoans(vm.currentPage-1);
+          vm.getListLoans(vm.currentPage-1, vm.filterIndex);
           break;
         case 'Amount/lowest':
           vm.orderProp = 'amount';
-          vm.getListLoans(vm.currentPage-1);
+          vm.getListLoans(vm.currentPage-1, vm.filterIndex);
           break;
         case 'Issued/newest':
           vm.orderProp = '-dateIssued';
-          vm.getListLoans(vm.currentPage-1);
+          vm.getListLoans(vm.currentPage-1, vm.filterIndex);
           break;
         case 'Issued/oldest':
           vm.orderProp = 'dateIssued';
-          vm.getListLoans(vm.currentPage-1);
+          vm.getListLoans(vm.currentPage-1, vm.filterIndex);
           break;
         case 'Deadline/nearest':
           vm.orderProp = 'deadline';
-          vm.getListLoans(vm.currentPage-1);
+          vm.getListLoans(vm.currentPage-1, vm.filterIndex);
           break;
         case 'Deadline/furthest':
           vm.orderProp = '-deadline';
-          vm.getListLoans(vm.currentPage-1);
+          vm.getListLoans(vm.currentPage-1, vm.filterIndex);
           break;
         case 'Recipient':
           vm.orderProp = 'recipient';
-          vm.getListLoans(vm.currentPage-1);
+          vm.getListLoans(vm.currentPage-1, vm.filterIndex);
           break;
         case 'Source':
           vm.orderProp = 'loaner';
-          vm.getListLoans(vm.currentPage-1);
+          vm.getListLoans(vm.currentPage-1, vm.filterIndex);
           break;
         default:
           vm.orderProp = 'amount';
@@ -491,20 +492,21 @@
     });
     vm.itemsPerPage = 10;                     // The number of returned results is hard coded in API (for now).
     vm.pageChange = function(currentPage) {   // Handle page change in view by retrieving the relevant page. 
-      vm.getListLoans(Number(currentPage)-1);
+      vm.getListLoans(Number(currentPage)-1, vm.filterIndex);
     };
     //////////////////////////////////////////
     
     
     
     //////////////////////////////////////////////////////////////////////////////////////
-    (vm.getListLoans = function(pageIndex) {
+    (vm.getListLoans = function(pageIndex, filterIndex) {
       loansList.getLoans(             // Pass getData and showError functions
         vm.getData,
         vm.showError,
         authentication.currentUser().username,
-        pageIndex);   // PAGE INDEX
-    })(0);
+        pageIndex,
+        filterIndex);   // PAGE INDEX
+    })(0, 0);
   }
   
   loansCtrl.$inject = ['$scope', '$uibModal', '$uibModalStack', '$http', 'loansData', 'loansList', 'loanManagement', 'authentication'];
