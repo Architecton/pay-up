@@ -144,11 +144,6 @@ var user16 = {
 	"gender": "m",
 };
 
-
-
-
-
-
 var user17 = {
 	"name": "Stanislava", 
 	"surname": "Branko",
@@ -195,6 +190,87 @@ var user21 = {
 };
 
 var user22 = {
+	"name": "Martin", 
+	"surname": "Krizaj",
+	"username": "markriz",
+	"password": "tralala",
+	"email": "matrin.krizaj@gmail.com",
+	"gender": "m",
+};
+
+var user23 = {
+	"name": "Vinko",
+	"surname": "Zavratnik",
+	"username": "vinkopinkodinko",
+	"password": "tralala",
+	"email": "vinko.zavratnik@gmail.com",
+	"gender": "m",
+};
+
+var user24 = {
+	"name": "Stanislav", 
+	"surname": "Vodušek",
+	"username": "StankoManko",
+	"password": "tralala",
+	"email": "stanislav.vodusek@gmail.com",
+	"gender": "m",
+};
+
+var user25 = {
+	"name": "Valentina", 
+	"surname": "Smole",
+	"username": "tinkapinka123",
+	"password": "tralala",
+	"email": "valentina.smole@gmail.com",
+	"gender": "f",
+};
+
+var user26 = {
+	"name": "Gregor", 
+	"surname": "Zupan",
+	"username": "grega9",
+	"password": "tralala",
+	"email": "gregor.zupan@gmail.com",
+	"gender": "m",
+};
+
+var user27 = {
+	"name": "Luka", 
+	"surname": "Zavodnik",
+	"username": "lukec7",
+	"password": "tralala",
+	"email": "luka.zavodnik@gmail.com",
+	"gender": "m",
+};
+
+var user28 = {
+	"name": "Blaž",
+	"surname": "Kos",
+	"username": "blablažlab",
+	"password": "tralala",
+	"email": "blaz.kos@gmail.com",
+	"gender": "m",
+};
+
+var user29 = {
+	"name": "Mojca", 
+	"surname": "Kosobrin",
+	"username": "mojcica99",
+	"password": "tralala",
+	"email": "mojca.kosobrin@gmail.com",
+	"gender": "m",
+};
+
+var user30 = {
+	"name": "Vesna", 
+	"surname": "Cankar",
+	"username": "vesnicaperesnica12",
+	"password": "tralala",
+	"email": "vesna.cankar@gmail.com",
+	"gender": "m",
+};
+
+var user31 = {
 	"name" : "Janez",
 	"surname" : "Novak",
 	"username" : "janezNovak123",
@@ -204,7 +280,7 @@ var user22 = {
 };
 
 // exposes data as array of users.
-module.exports.users = [user1, user2, user3, user4, user5, user6, user7, user8, user9, user10, user11, user12, user13, user14, user15, user16, user17, user18, user19, user20, user21, user22 ];
+module.exports.users = [user1, user2, user3, user4, user5, user6, user7, user8, user9, user10, user11, user12, user13, user14, user15, user16, user17, user18, user19, user20, user21, user22, user23, user24, user25, user26, user27, user28, user29, user30, user31];
 
 
 // Contacts to add to specified user
@@ -398,5 +474,88 @@ var contact21 = {
 	"region" : "Celje"
 };
 
-module.exports.contactsRecipientId = user22.username;
-module.exports.contacts = [contact1, contact2, contact3, contact4, contact5, contact6, contact7, contact8, contact9, contact10, contact11 , contact12, contact13, contact14, contact15, contact16, contact17, contact18, contact19, contact20, contact21];
+
+var contact22 = {
+	"name": "Martin", 
+	"surname": "Krizaj",
+	"username": "markriz",
+	"email": "matrin.krizaj@gmail.com",
+	"phone" : "+386123456",
+	"region" : "Celje"
+};
+
+var contact23 = {
+	"name": "Vinko",
+	"surname": "Zavratnik",
+	"username": "vinkopinkodinko",
+	"email": "vinko.zavratnik@gmail.com",
+	"phone" : "+386123456",
+	"region" : "Celje"
+};
+
+var contact24 = {
+	"name": "Stanislav", 
+	"surname": "Vodušek",
+	"username": "StankoManko",
+	"email": "stanislav.vodusek@gmail.com",
+	"phone" : "+386123456",
+	"region" : "Celje"
+};
+
+var contact25 = {
+	"name": "Valentina", 
+	"surname": "Smole",
+	"username": "tinkapinka123",
+	"email": "valentina.smole@gmail.com",
+	"phone" : "+386123456",
+	"region" : "Celje"
+};
+
+var contact26 = {
+	"name": "Gregor", 
+	"surname": "Zupan",
+	"username": "grega9",
+	"email": "gregor.zupan@gmail.com",
+	"phone" : "+386123456",
+	"region" : "Celje"
+};
+
+var contact27 = {
+	"name": "Luka", 
+	"surname": "Zavodnik",
+	"username": "lukec7",
+	"email": "luka.zavodnik@gmail.com",
+	"phone" : "+386123456",
+	"region" : "Celje"
+};
+
+var contact28 = {
+	"name": "Blaž",
+	"surname": "Kos",
+	"username": "blablažlab",
+	"email": "blaz.kos@gmail.com",
+	"phone" : "+386123456",
+	"region" : "Celje"
+};
+
+var contact29 = {
+	"name": "Mojca", 
+	"surname": "Kosobrin",
+	"username": "mojcica99",
+	"email": "mojca.kosobrin@gmail.com",
+	"phone" : "+386123456",
+	"region" : "Celje"
+};
+
+var contact30 = {
+	"name": "Vesna", 
+	"surname": "Cankar",
+	"username": "vesnicaperesnica12",
+	"email": "vesna.cankar@gmail.com",
+	"phone" : "+386123456",
+	"region" : "Celje"
+};
+
+module.exports.contactsRecipientId = user31.username;
+module.exports.contacts = [contact1, contact2, contact3, contact4, contact5, contact6, contact7, contact8, contact9, contact10, contact11, contact12, contact13, contact14, contact15, contact16, contact17, contact18, contact19, contact20, contact21
+, contact22, contact23, contact24, contact25, contact26, contact27, contact28, contact29, contact30];
