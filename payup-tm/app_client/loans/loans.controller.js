@@ -215,15 +215,14 @@
         }).then(function(result) {
           if (result.value) {
             loanManagement.confirmLoan(vm.confirmLoanData.idUser, vm.confirmLoanData.idLoan).then(function success(response) {
+                // Update list of loans
+                editData(vm.confirmLoanData.idLoan, 'status', 'active', vm);
                 // Swal success
                 Swal(
                   'Loan confirmed!',
                   'The loan contract is now valid.',
                   'success'
-                ).then(function(ok) {
-                  // Update list of loans
-                  editData(vm.resolveLoanData.idLoan, 'status', 'active', vm);
-                });
+                );
             }, function error(response) {
               // Swal error
                 Swal(
@@ -330,14 +329,13 @@
         }).then(function(result) {
           if (result.value) {
               loanManagement.resolveLoan(vm.resolveLoanData.idUser, vm.resolveLoanData.idLoan).then(function success(response) {
+                // Update list of loans
+                editData(vm.resolveLoanData.idLoan, 'status', 'resolved', vm);
                 Swal(
                   'Loan resolved!',
                   'The loan has been successfully resolved!',
                   'success'
-                ).then(function(ok) {
-                  // Update list of loans
-                  editData(vm.resolveLoanData.idLoan, 'status', 'resolved', vm);
-                });
+                );
               }, function error(response) {
                 Swal(
                   'Error',
