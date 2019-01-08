@@ -330,8 +330,9 @@ module.exports.loanGetUsersLoans = function(request, response) {
           if (request.params.pageIndex) {
             // Get specified page of loans.
             var pageIndex = request.params.pageIndex;
+            
+            // set default API-side filter.
             var filt = function (loan) { return true };
-            console.log(request.headers.filtidx);
             if (request.headers.filtidx && request.headers.filtidx == '0' || 
             request.headers.filtidx == '1' || request.headers.filtidx == '2' 
             || request.headers.filtidx == '3') {
@@ -353,7 +354,9 @@ module.exports.loanGetUsersLoans = function(request, response) {
                     filt = function (loan) { return true };
                 }
               }
+              // filter loans with specified filter.
               var filtered_loans = user.loans.filter(filt);
+              // Perform pagination.
               var loans = filtered_loans.slice(pageIndex*10, pageIndex*10+10);
               // Set header value
               response.set("numLoans", [user.loans.length]);
