@@ -4,10 +4,13 @@
     // Pogled-model se generira ob kreiranju novega primerka krmilnika, zato lahko do njega preprosto dostopamo z this
     var vm = this;
     
+    // TODO implement pagination
+    
+    vm.currentPage = 1;
     // getData; get selected loans of user with ID idUser
     vm.getData = function(idUser) {
       // Make GET request to retrieve loans data.
-      loansData.loans(idUser).then(
+      loansData.loans(idUser, vm.currentPage-1).then(
         function success(response) {  // If response successfuly retrieved...
           vm.message = response.data.length > 0 ? "" : "No active loans found.";  // If at least one loan found, set empty message.
           // Data to be exposed

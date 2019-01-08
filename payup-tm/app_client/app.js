@@ -41,9 +41,18 @@
   }
   
   /* global angular */
-  angular
-    .module('payupApp', ['ngRoute', 'ngSanitize', 'vcRecaptcha', 'ui.bootstrap'])
+  var payupApp = angular.module('payupApp', ['ngRoute', 'ngSanitize', 'vcRecaptcha', 'ui.bootstrap', 'angular-google-analytics']);
+  
+    payupApp
     .config(['$routeProvider', '$locationProvider', setting]);
+    
+  
+  payupApp
+  .config(['AnalyticsProvider', function (AnalyticsProvider) {
+    // Add configuration code as desired
+    AnalyticsProvider.setAccount('UA-131836171-1');  //UU-XXXXXXX-X should be your tracking code
+    }]).run(['Analytics', function(Analytics) { }]);
+
 })();
 /* Angular nam omogoča uporabo pogled-modela, kamor lahko povežemo naše podatke, 
 tako da ni treba vsega povezovati z globalnim kontekstom objekta $scope.
