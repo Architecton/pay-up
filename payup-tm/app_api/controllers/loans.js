@@ -332,19 +332,21 @@ module.exports.loanGetUsersLoans = function(request, response) {
             var pageIndex = request.params.pageIndex;
             var filt = function (loan) { return true };
             console.log(request.headers.filtidx);
-            if (request.headers.filtidx && typeof request.headers.filtidx) {
-              if (user.loans.length > 10) {
-                switch (request.headers.filtIdx) {
-                  case 0:     // no filter
+            if (request.headers.filtidx && request.headers.filtidx == '0' || 
+            request.headers.filtidx == '1' || request.headers.filtidx == '2' 
+            || request.headers.filtidx == '3') {
+              if (user.loans.length > 0) {
+                switch (request.headers.filtidx) {
+                  case '0':     // no filter
                     filt = function (loan) { return true };
                     break;
-                  case 1:     // pending
+                  case '1':     // pending
                     filt = function (loan) { return  loan.status == 'pending' };
                     break;
-                  case 2:     // active
+                  case '2':     // active
                     filt = function (loan) { return  loan.status == 'active' };
                     break;
-                  case 3:     // resolved
+                  case '3':     // resolved
                     filt = function (loan) { return loan.status == 'resolved' };
                     break;
                   default:
@@ -357,7 +359,6 @@ module.exports.loanGetUsersLoans = function(request, response) {
               response.set("numLoans", [user.loans.length]);
               getJsonResponse(response, 200, loans);
             } else {
-              console.log("FAIL HERE!");
               getJsonResponse(response, 400, {
                 "message" : "Bad filterIndex header"
               }) ;
