@@ -46,7 +46,6 @@
     };
     
     vm.showContactDetails = function(contact) {
-      console.log(contact);
       vm.contactDetails._id = contact._id;
       vm.contactDetails.name = contact.name;
       vm.contactDetails.surname = contact.surname;
@@ -248,7 +247,7 @@
           // Clear contact details.
           Object.keys(scope.contactDetails).forEach(function(v) { scope.contactDetails[v] = "" });
           Swal('Done!', 'Contact successfully added!', 'success').then(function(ok) {
-              scope.getListContacts(vm.currentPage); // Get updated list of contacts.
+              scope.getListContacts(vm.currentPage-1); // Get updated list of contacts.
               $uibModalStack.dismissAll();
           });
         }, function error(response) {
@@ -364,15 +363,15 @@
       switch (selVal) {
         case 'Username':
           vm.orderProp = 'username';
-          vm.getListContacts(vm.currentPage);
+          // vm.getListContacts(vm.currentPage);
           break;
         case 'First name':
           vm.orderProp = 'name';
-          vm.getListContacts(vm.currentPage);
+          // vm.getListContacts(vm.currentPage);
           break;
         case 'Last name':
           vm.orderProp = 'surname';
-          vm.getListContacts(vm.currentPage);
+          // vm.getListContacts(vm.currentPage);
           break;
         default:
           vm.orderProp = 'amount';

@@ -16,7 +16,7 @@ var fs = require('fs');
 
 // Specify whether to perform minification on script
 // After script is saved in styles, there is no need to create it each time the app is run.
-var minify = false;
+var minify = true;
 
 if (minify) {
   var combined = uglifyjs.minify({
