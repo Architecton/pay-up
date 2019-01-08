@@ -13,36 +13,44 @@ var logger = require('morgan');
 var uglifyjs = require('uglify-js');
 var fs = require('fs');
 
-var combined = uglifyjs.minify({
-  'sweetalert2.all.min.js' : fs.readFileSync('app_client/style/sweetalert2/dist/sweetalert2.all.min.js', 'utf-8'),
-  'chart.js' : fs.readFileSync('app_client/style/js/chart.js', 'utf-8'),
-  'angular-google-analytics.js' : fs.readFileSync('app_client/style/angular-google-analytics/dist/angular-google-analytics.js', 'utf-8'),
-  'contactsList.service.js' : fs.readFileSync('app_client/common/services/contactsList.service.js', 'utf-8'),
-  'authentication.service.js' : fs.readFileSync('app_client/common/services/authentication.service.js', 'utf-8'),
-  'testHelper.service.js' : fs.readFileSync('app_client/common/services/testHelper.service.js', 'utf-8'),
-  'navbar.directive.js' : fs.readFileSync('app_client/common/directives/navbar/navbar.directive.js', 'utf-8'),
-  'modal.directive.js' : fs.readFileSync('app_client/common/directives/modal/modal.directive.js', 'utf-8'),
-  'dashboard.controller.js' : fs.readFileSync('app_client/dashboard/dashboard.controller.js', 'utf-8'),
-  'navbar.controller.js' : fs.readFileSync('app_client/common/directives/navbar/navbar.controller.js', 'utf-8'),
-  'contacts.controller.js' : fs.readFileSync('app_client/contacts/contacts.controller.js', 'utf-8'),
-  'signup.controller.js' : fs.readFileSync('app_client/authentication/signup/signup.controller.js', 'utf-8'),
-  'db.controller' : fs.readFileSync('app_client/db/db.controller.js', 'utf-8'),
-  'loans.controller.js' : fs.readFileSync('app_client/loans/loans.controller.js', 'utf-8'),
-  'modal.controller.js' : fs.readFileSync('app_client/common/directives/modal/modal.controller.js', 'utf-8'),
-  'contactManagement.service.js' : fs.readFileSync('app_client/common/services/contactManagement.service.js', 'utf-8'),
-  'loanManagement.service.js' : fs.readFileSync('app_client/common/services/loanManagement.service.js', 'utf-8'),
-  'loansData.service.js' : fs.readFileSync('app_client/common/services/loansData.service.js', 'utf-8'),
-  'loansList.service.js' : fs.readFileSync('app_client/common/services/loansList.service.js', 'utf-8'),
-  'contactsData.service.js' : fs.readFileSync('app_client/common/services/contactsData.service.js', 'utf-8'),
-});
 
-fs.writeFile('public/angular/payup.min.js', combined.code, function(error) {
-  if (error) {
-    console.log(error);
-  } else {
-    console.log('The script is generated and saved in "payup.min.js".');
-  }
-});
+// Specify whether to perform minification on script
+// After script is saved in styles, there is no need to create it each time the app is run.
+var minify = false;
+
+if (minify) {
+  var combined = uglifyjs.minify({
+    'sweetalert2.all.min.js' : fs.readFileSync('app_client/style/sweetalert2/dist/sweetalert2.all.min.js', 'utf-8'),
+    'chart.js' : fs.readFileSync('app_client/style/js/chart.js', 'utf-8'),
+    'angular-google-analytics.js' : fs.readFileSync('app_client/style/angular-google-analytics/dist/angular-google-analytics.js', 'utf-8'),
+    'contactsList.service.js' : fs.readFileSync('app_client/common/services/contactsList.service.js', 'utf-8'),
+    'authentication.service.js' : fs.readFileSync('app_client/common/services/authentication.service.js', 'utf-8'),
+    'testHelper.service.js' : fs.readFileSync('app_client/common/services/testHelper.service.js', 'utf-8'),
+    'navbar.directive.js' : fs.readFileSync('app_client/common/directives/navbar/navbar.directive.js', 'utf-8'),
+    'modal.directive.js' : fs.readFileSync('app_client/common/directives/modal/modal.directive.js', 'utf-8'),
+    'dashboard.controller.js' : fs.readFileSync('app_client/dashboard/dashboard.controller.js', 'utf-8'),
+    'navbar.controller.js' : fs.readFileSync('app_client/common/directives/navbar/navbar.controller.js', 'utf-8'),
+    'contacts.controller.js' : fs.readFileSync('app_client/contacts/contacts.controller.js', 'utf-8'),
+    'signup.controller.js' : fs.readFileSync('app_client/authentication/signup/signup.controller.js', 'utf-8'),
+    'db.controller' : fs.readFileSync('app_client/db/db.controller.js', 'utf-8'),
+    'loans.controller.js' : fs.readFileSync('app_client/loans/loans.controller.js', 'utf-8'),
+    'modal.controller.js' : fs.readFileSync('app_client/common/directives/modal/modal.controller.js', 'utf-8'),
+    'contactManagement.service.js' : fs.readFileSync('app_client/common/services/contactManagement.service.js', 'utf-8'),
+    'loanManagement.service.js' : fs.readFileSync('app_client/common/services/loanManagement.service.js', 'utf-8'),
+    'loansData.service.js' : fs.readFileSync('app_client/common/services/loansData.service.js', 'utf-8'),
+    'loansList.service.js' : fs.readFileSync('app_client/common/services/loansList.service.js', 'utf-8'),
+    'contactsData.service.js' : fs.readFileSync('app_client/common/services/contactsData.service.js', 'utf-8'),
+  });
+  
+  fs.writeFile('public/angular/payup.min.js', combined.code, function(error) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('The script is generated and saved in "payup.min.js".');
+    }
+  });
+
+}
 
 // routers located in app_server directory
 // var indexRouter = require('./app_server/routes/index');
