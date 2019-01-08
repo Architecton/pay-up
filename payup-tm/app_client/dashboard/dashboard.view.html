@@ -49,6 +49,9 @@
                 </table>
             </div>
         </div>
+        <div class="paginationRow" style="float:left" ng-show="vm.numLoans > 10">
+            <ul uib-pagination total-items="10" ng-model="vm.currentPage" items-per-page="1" ng-change="vm.pageChange(vm.currentPage)">
+        </div>
     </div>
 </div>
 <link rel="stylesheet" href="style/css/styles.css">

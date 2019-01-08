@@ -402,8 +402,32 @@ module.exports.loanGetNumUsersLoans = function(request, response) {
             getJsonResponse(response, 500, error);
             return;
           }
+          
+          // user's loans
+          var loans = user.loans;
+          
+          if (request.headers.statusfilt && request.headers.statusfilt == 'pending' || request.headers.statusfilt == 'active' || request.headers.statusfilt == 'resolved') {
+            var filt = function (loan) { return loan.status == 'pending' };
+            switch (request.headers.statusfilt) {
+              case 'pending':
+                filt = function (loan) { return loan.status == 'pending' };
+                break;
+              case 'active':
+                filt = function (loan) { return loan.status == 'active' };
+                break;
+              case 'resolved':
+                filt = function (loan) { return loan.status == 'resolved' };
+                break;
+              default:
+                filt = function (loan) { return loan.status == 'pending' };
+                break;
+            }
+            // Apply filter
+            loans = loans.filter(filt);
+          }
+          
           // Set header value and return response.
-          response.set("numLoans", [user.loans.length]).send();
+          response.set("numLoans", [loans.length]).send();
         });
     // else if no parameters or if parameters do not include idUser
     } else {

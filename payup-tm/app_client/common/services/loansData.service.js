@@ -24,10 +24,28 @@
         return response;
       });
     };
+    
+    // Make HEAD request to server to get number of user's loans.
+    // add status header to filter by status on API
+    var numActiveLoans = function(idUser, status) {
+    return $http.head('/api/users/' + idUser + '/loans', {
+        headers: {
+          statusfilt : status,
+          Authorization: 'Bearer ' + authentication.getToken()
+        }
+      }).then(function success(response) {
+        return response;
+      }, function error(response) {
+        return response;
+      });
+    };
+    
+    
     // Return implemented functions.
     return {
       loans: loans,
-      numLoans: numLoans
+      numLoans: numLoans,
+      numActiveLoans: numActiveLoans
     };
   };
   

@@ -4,13 +4,29 @@
     // Pogled-model se generira ob kreiranju novega primerka krmilnika, zato lahko do njega preprosto dostopamo z this
     var vm = this;
     
-    // TODO implement pagination
     
-    vm.currentPage = 1;
+    // PAGINATION ////////////////////////////
+      
+    vm.currentPage = 1;  
+    
+    // number of user's loans (retrieved from call to api)
+    vm.numLoans = 0;
+    // get number of active loans
+    loansData.numActiveLoans(authentication.currentUser().username, 'active').then(function succes(response) {
+      vm.numLoans = Number(response.headers('numLoans'));
+    });
+    vm.itemsPerPage = 10;                     // The number of returned results is hard coded in API (for now).
+    vm.pageChange = function(currentPage) {   // Handle page change in view by retrieving the relevant page. 
+      vm.getListLoans(Number(currentPage)-1, 0); // Get page of loans (no filter)
+    };
+    //////////////////////////////////////////
+    
+    
+    
     // getData; get selected loans of user with ID idUser
     vm.getData = function(idUser) {
       // Make GET request to retrieve loans data.
-      loansData.loans(idUser, vm.currentPage-1).then(
+      loansData.loans(idUser, vm.currentPage-1, 0).then(
         function success(response) {  // If response successfuly retrieved...
           vm.message = response.data.length > 0 ? "" : "No active loans found.";  // If at least one loan found, set empty message.
           // Data to be exposed
@@ -45,7 +61,9 @@
     loansList.getLoans(             // Pass getData and showError functions
       vm.getData, 
       vm.showError,
-      authentication.currentUser().username);
+      authentication.currentUser().username,
+      vm.currentPage-1,
+      0);
   }
   
   dashboardCtrl.$inject = ['$scope', 'loansData', 'loansList', 'authentication'];
