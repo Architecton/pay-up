@@ -406,7 +406,9 @@ module.exports.loanGetNumUsersLoans = function(request, response) {
           // user's loans
           var loans = user.loans;
           
-          if (request.headers.statusfilt && request.headers.statusfilt == 'pending' || request.headers.statusfilt == 'active' || request.headers.statusfilt == 'resolved') {
+          if (request.headers.statusfilt && request.headers.statusfilt == 'pending' ||
+          request.headers.statusfilt == 'active' || request.headers.statusfilt == 'resolved' ||
+          request.headers.statusfilt == 'none') {
             var filt = function (loan) { return loan.status == 'pending' };
             switch (request.headers.statusfilt) {
               case 'pending':
@@ -417,6 +419,9 @@ module.exports.loanGetNumUsersLoans = function(request, response) {
                 break;
               case 'resolved':
                 filt = function (loan) { return loan.status == 'resolved' };
+                break;
+              case 'none':
+                filt = function (loan) { return true };
                 break;
               default:
                 filt = function (loan) { return loan.status == 'pending' };

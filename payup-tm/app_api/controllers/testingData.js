@@ -559,3 +559,402 @@ var contact30 = {
 module.exports.contactsRecipientId = user31.username;
 module.exports.contacts = [contact1, contact2, contact3, contact4, contact5, contact6, contact7, contact8, contact9, contact10, contact11, contact12, contact13, contact14, contact15, contact16, contact17, contact18, contact19, contact20, contact21
 , contact22, contact23, contact24, contact25, contact26, contact27, contact28, contact29, contact30];
+
+
+var loan1 = {
+  loaner: user31.username,
+  recipient: contact1.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+var loan2 = {
+  loaner: user31.username,
+  recipient: contact2.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+var loan3 = {
+  loaner: user31.username,
+  recipient: contact3.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+var loan4 = {
+  loaner: user31.username,
+  recipient: contact4.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+var loan5 = {
+  loaner: user31.username,
+  recipient: contact5.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+var loan6 = {
+  loaner: user31.username,
+  recipient: contact6.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+var loan7 = {
+  loaner: user31.username,
+  recipient: contact7.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+var loan8 = {
+  loaner: user31.username,
+  recipient: contact8.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+var loan9 = {
+  loaner: user31.username,
+  recipient: contact9.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+var loan10 = {
+  loaner: user31.username,
+  recipient: contact10.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+var loan11 = {
+  loaner: user31.username,
+  recipient: contact11.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+var loan12 = {
+  loaner: user31.username,
+  recipient: contact12.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+var loan13 = {
+  loaner: user31.username,
+  recipient: contact13.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+var loan14 = {
+  loaner: user31.username,
+  recipient: contact14.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+var loan15 = {
+  loaner: user31.username,
+  recipient: contact15.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+var loan16 = {
+  loaner: user31.username,
+  recipient: contact16.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+var loan17 = {
+  loaner: user31.username,
+  recipient: contact17.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+var loan18 = {
+  loaner: user31.username,
+  recipient: contact18.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+var loan19 = {
+  loaner: user31.username,
+  recipient: contact19.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+var loan20 = {
+  loaner: user31.username,
+  recipient: contact20.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+var loan21 = {
+  loaner: user31.username,
+  recipient: contact21.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+var loan22 = {
+  loaner: user31.username,
+  recipient: contact22.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+var loan23 = {
+  loaner: user31.username,
+  recipient: contact23.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+var loan24 = {
+  loaner: user31.username,
+  recipient: contact24.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+var loan25 = {
+  loaner: user31.username,
+  recipient: contact25.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+var loan26 = {
+  loaner: user31.username,
+  recipient: contact26.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+var loan27 = {
+  loaner: user31.username,
+  recipient: contact27.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+var loan28 = {
+  loaner: user31.username,
+  recipient: contact28.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+var loan29 = {
+  loaner: user31.username,
+  recipient: contact29.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+var loan30 = {
+  loaner: user31.username,
+  recipient: contact30.username,
+  deadline: "2019-03-1",
+  amount: 100,
+  currency: "EUR",
+  interest: 1,
+  payment_interval: 7,
+  payment_amount: 17,
+  compoundInterest: true,
+  interest_on_debt: true
+};
+
+
+
+
+
+
+module.exports.loansLenderId = user31.username;
+module.exports.loans = [loan1, loan2, loan3, loan4, loan5, loan6, loan7, loan8, loan9, loan10, loan11, loan12, loan13, loan14, loan15, loan16, loan17, loan18, loan19, loan20, loan21, loan22, loan23, loan24, loan25, loan26, loan27, loan28, loan29, loan30];

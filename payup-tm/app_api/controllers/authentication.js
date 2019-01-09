@@ -55,11 +55,24 @@ var addTestContacts = function() {
     return createTestContact(testContact, testingData.contactsRecipientId);
   });
   Promise.all(createdPromises).then(function(result) {
+    setTimeout(addTestLoans, 4000);
+  }).then(null, function(err) {
+    console.log(err);
+  });
+};
+
+
+var addTestLoans = function() {
+  var createdPromises = testingData.loans.map(function(testLoan) {
+    return createTestLoan(testLoan, testingData.loansLenderId);
+  });
+  Promise.all(createdPromises).then(function(result) {
     
   }).then(null, function(err) {
     console.log(err);
   });
 };
+
 
 // createTestUser: create a new user in the database from testing data.
 function createTestUser(signupData) {
@@ -123,7 +136,6 @@ function createTestContact(contactData, idUser) {
 
 // addContactToTestUser: add contact to specified user retrieved from list of test users.
 function addContactToTestUser(user, newContact) {
-  console.log(user);
   user.contacts.push(newContact);     // Push created contact to list of contacts and save new user state.
   user.save(function(error, user) {
     if (error) {
@@ -133,6 +145,51 @@ function addContactToTestUser(user, newContact) {
     }
   });
 }
+
+
+function createTestLoan(loanData, idUser) {
+  // Skip all layers of validation and create contact from testing data.
+  var newLoan = {
+    loaner: loanData.loaner,
+    recipient: loanData.recipient,
+    deadline: loanData.deadline,
+    amount: loanData.amount,
+    currency: loanData.currency,
+    interest: loanData.interest,
+    payment_interval: loanData.payment_interval,
+    payment_amount: loanData.payment_amount,
+    compoundInterest: loanData.compoundInterest,
+    interest_on_debt: loanData.interest_on_debt
+  };
+  // find user by its id (username)
+  User
+    .findById(idUser)
+    .select('loans')
+    .exec(
+      function(error, user) {
+        if (error) {
+          console.log("Error adding loan with recipient " + newLoan.recipient);
+        } else {
+          // Call auxiliary function to add contact to retrieved user.
+          addLoanToTestUser(user, newLoan);
+        }
+      }
+    );
+}
+
+
+// addLoanToTestUser: add loans to specified recipient
+function addLoanToTestUser(user, newLoan) {
+  user.loans.push(newLoan);     // Push created loan to list of loans and save new user state.
+  user.save(function(error, user) {
+    if (error) {
+      console.log("Error adding loan with recipient " + newLoan.recipient);
+    } else {
+      console.log("Successfully added loan with recipient " + newLoan.recipient + " to loaner with username " + user._id);
+    }
+  });
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -161,7 +218,6 @@ module.exports.initAdmins = function (adminUsername) {
     newUser.contacts = [];
     newUser.messages = [];
     newUser.admin = true; // !!!!
-    console.log(newUser);
     User.create(newUser, function(error, user) {
         // If there was an error
         if (error) {
@@ -417,7 +473,6 @@ module.exports.authConfirm = function(request, response) {
 // Get user's id (username) from JWT
 var getLoggedId = function(request, response, callback) {
   // If request contains a payload and the payload contains a username
-  console.log(request.payload);
   if (request.payload && request.payload.username) {
     User
       .findById(

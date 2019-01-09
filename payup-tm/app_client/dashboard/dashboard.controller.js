@@ -12,7 +12,7 @@
     // number of user's loans (retrieved from call to api)
     vm.numLoans = 0;
     // get number of active loans
-    loansData.numActiveLoans(authentication.currentUser().username, 'active').then(function succes(response) {
+    loansData.numLoansByStatus(authentication.currentUser().username, 'active').then(function succes(response) {
       vm.numLoans = Number(response.headers('numLoans'));
     });
     vm.itemsPerPage = 10;                     // The number of returned results is hard coded in API (for now).

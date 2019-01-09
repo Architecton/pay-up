@@ -379,36 +379,53 @@
     
     // Value of filter selection drop down field
     vm.filterSel = "";
+    vm.filterSelVal = "none";
     
     // applyFilter: apply filtering and update table of loans.
     vm.applyFilter = function(selVal) {
       switch (selVal) {
         case 'Pending':
+          vm.filterSelVal = 'pending';
           vm.currentFilter = vm.pendingFilter;
           vm.filterIndex = 1;
-          if (vm.numLoans > 10) {
+          if (vm.numTotalLoans > 10) {
             vm.getListLoans(vm.currentPage-1, vm.filterIndex); 
+            loansData.numLoansByStatus(authentication.currentUser().username, vm.filterSelVal).then(function succes(response) {
+                vm.numLoans = Number(response.headers('numLoans'));
+            });
           }
           break;
         case 'Active':
+          vm.filterSelVal = 'active';
           vm.currentFilter = vm.activeFilter;
           vm.filterIndex = 2;
-          if (vm.numLoans > 10) {
+          if (vm.numTotalLoans > 10) {
             vm.getListLoans(vm.currentPage-1, vm.filterIndex); 
+            loansData.numLoansByStatus(authentication.currentUser().username, vm.filterSelVal).then(function succes(response) {
+              vm.numLoans = Number(response.headers('numLoans'));
+            });
           }
           break;
         case 'Resolved':
+          vm.filterSelVal = 'resolved';
           vm.currentFilter = vm.resolvedFilter;  
           vm.filterIndex = 3;
-          if (vm.numLoans > 10) {
+          if (vm.numTotalLoans > 10) {
             vm.getListLoans(vm.currentPage-1, vm.filterIndex); 
+            loansData.numLoansByStatus(authentication.currentUser().username, vm.filterSelVal).then(function succes(response) {
+              vm.numLoans = Number(response.headers('numLoans'));
+            });
           }
           break;
         default:
+          vm.filterSelVal = 'none';
           vm.currentFilter = vm.noFilter;
           vm.filterIndex = 0;
-          if (vm.numLoans > 10) {
+          if (vm.numTotalLoans > 10) {
             vm.getListLoans(vm.currentPage-1, vm.filterIndex); 
+            loansData.numLoansByStatus(authentication.currentUser().username, vm.filterSelVal).then(function succes(response) {
+              vm.numLoans = Number(response.headers('numLoans'));
+            });
           }
       }
     };
@@ -504,13 +521,19 @@
     
     // number of user's loans (retrieved from call to api)
     vm.numLoans = 0;
-    loansData.numLoans(authentication.currentUser().username).then(function succes(response) {
+    loansData.numLoansByStatus(authentication.currentUser().username, vm.filterSelVal).then(function succes(response) {
         vm.numLoans = Number(response.headers('numLoans'));
     });
     vm.itemsPerPage = 10;                     // The number of returned results is hard coded in API (for now).
     vm.pageChange = function(currentPage) {   // Handle page change in view by retrieving the relevant page. 
       vm.getListLoans(Number(currentPage)-1, vm.filterIndex);
     };
+    
+    vm.numTotalLoans = 0;
+    loansData.numLoans(authentication.currentUser().username).then(function succes(response) {
+        vm.numTotalLoans = Number(response.headers('numLoans'));
+    });
+    
     //////////////////////////////////////////
     
     

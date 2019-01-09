@@ -27,7 +27,7 @@
     
     // Make HEAD request to server to get number of user's loans.
     // add status header to filter by status on API
-    var numActiveLoans = function(idUser, status) {
+    var numLoansByStatus = function(idUser, status) {
     return $http.head('/api/users/' + idUser + '/loans', {
         headers: {
           statusfilt : status,
@@ -45,7 +45,7 @@
     return {
       loans: loans,
       numLoans: numLoans,
-      numActiveLoans: numActiveLoans
+      numLoansByStatus: numLoansByStatus
     };
   };
   
