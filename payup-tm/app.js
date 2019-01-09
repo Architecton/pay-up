@@ -33,7 +33,7 @@ if (minify) {
     'navbar.controller.js' : fs.readFileSync('app_client/common/directives/navbar/navbar.controller.js', 'utf-8'),
     'contacts.controller.js' : fs.readFileSync('app_client/contacts/contacts.controller.js', 'utf-8'),
     'signup.controller.js' : fs.readFileSync('app_client/authentication/signup/signup.controller.js', 'utf-8'),
-    'db.controller' : fs.readFileSync('app_client/db/db.controller.js', 'utf-8'),
+    'db.controller' : fs.readFileSync('app_client/dbmanagement/db.controller.js', 'utf-8'),
     'loans.controller.js' : fs.readFileSync('app_client/loans/loans.controller.js', 'utf-8'),
     'modal.controller.js' : fs.readFileSync('app_client/common/directives/modal/modal.controller.js', 'utf-8'),
     'contactManagement.service.js' : fs.readFileSync('app_client/common/services/contactManagement.service.js', 'utf-8'),

@@ -33,14 +33,14 @@
         controller: 'contactsCtrl',
         controllerAs: 'vm'
       })
+      .when('/managedb', {
+        templateUrl: 'dbmanagement/dbmanagement.view.html',
+        controller: 'dbCtrl',
+        controllerAs: 'vm'
+      })
       .when('/patchnotes', {
         templateUrl: 'patchnotes/patchnotes.view.html',
         controller: 'homepageCtrl',
-        controllerAs: 'vm'
-      })
-      .when('/db', {
-        templateUrl: 'db/db.view.html',
-        controller: "dbCtrl",
         controllerAs: 'vm'
       })
       .otherwise({redirectTo: '/'});
