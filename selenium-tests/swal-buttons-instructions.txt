@@ -1,0 +1,2 @@
+login - ok button: class="swal2-confirm swal2-styled"
+contacts/done - ok button: SAME
