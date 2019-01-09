@@ -33,7 +33,7 @@
         controller: 'contactsCtrl',
         controllerAs: 'vm'
       })
-      .when('/managedb', {
+      .when('/db', {
         templateUrl: 'dbmanagement/dbmanagement.view.html',
         controller: 'dbCtrl',
         controllerAs: 'vm'
