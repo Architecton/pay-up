@@ -56,7 +56,7 @@ var user6 = {
 
 var user7 = {
 	"name": "Mia", 
-	"surname": "filić",
+	"surname": "Filić",
 	"username": "MiaTheGreat123",
 	"password": "tralala",
 	"email": "mia.filic@gmail.com",
@@ -341,7 +341,7 @@ var contact6 = {
 
 var contact7 = {
 	"name": "Mia", 
-	"surname": "filić",
+	"surname": "Filić",
 	"username": "MiaTheGreat123",
 	"email": "mia.filic@gmail.com",
 	"phone" : "+386123456",

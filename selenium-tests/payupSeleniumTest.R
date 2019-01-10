@@ -38,7 +38,7 @@ dockerStart <- function(dockerContainer = "selenium/standalone-chrome", waitTime
 #' @param dockerContainer
 #' @param waitTime
 #'
-dockerStop <- function(dockerContainer = "standalone-chrome-debug", waitTime = 3) {
+dockerStop <- function(dockerContainer = "selenium/standalone-chrome", waitTime = 3) {
   status <- tryCatch({
     system(paste0("docker ps | grep ", dockerContainer), intern = TRUE)
   }, warning = function(war) {
@@ -59,11 +59,14 @@ dockerStop <- function(dockerContainer = "standalone-chrome-debug", waitTime = 3
   }
 }
 
+# Library for coloring terminal output
+library(crayon)
+
 #'
 #' Inicialization of the interface to the Selenium server.
 #' Accessing the starting location of the application.
 #' 
-prepareEnvironment <- function() {
+prepareEnvironmentAndTest <- function() {
   libraries <- c("RSelenium", "stringr")
   invisible(sapply(libraries, function(library) {
     if (library %in% rownames(installed.packages()) == FALSE) { 
@@ -74,171 +77,248 @@ prepareEnvironment <- function() {
     invisible(lapply(libraries, require, character.only = TRUE))
   }))
   
-  cat("Selenium initialization ... ")
+  cat("Selenium initialization ... \n")
   rd <- remoteDriver(port = 4444L, browserName = "chrome")
   rd$open(silent = TRUE)
   
-  cat("Accessing the root of the application... ")
+  cat("Accessing the root of the application... \n")
   rd$navigate(urlAddress)  # Open the starting page
   
   # CLOUD9 PREVIEW BUTTON CLICK --- REMOVE WHEN ON HEROKU
   Sys.sleep(3)
   rd$findElement("xpath", "//a[contains(@class, 'solid fat info button')]")$clickElement()
+
+  # Website title ################################################################################################
+  cat('Checking website title: ')
   Sys.sleep(3)
-
-
-  print(rd$getTitle())
   if (rd$getTitle() == "PayUp") {
-    cat("[OK]")
+    cat(green("[OK]\n"))
     rd
   } else {
-    cat("[error]")
+    cat(red("[error]"))
     NULL
   }
-}
 
-#'
-#' Funkcionalni test filtriranje lokacij na začetni strani in 
-#' prikaz podrobnosti lokacije "ZOO Ljubljana".
-#'
-testirajZOOLjubljana <- function() {
-  # Pojdi na začetno stran
-  rd$navigate(urlAddress)
-  cat("[OK] Odpri začetno stran in počakaj na GPS lokacijo.\n")
-  
-  # Počakaj 7 s
-  Sys.sleep(7)
-  
-  # Preštej število lokacij
-  stLokacij <- length(rd$findElements("xpath", "//div[contains(@class, 'list-group')]/div"))
-  cat(ifelse(stLokacij == 2, "[OK] Našel 2 zanimivi lokaciji.\n", paste0("[NAPAKA] Našel ", stLokacija, " zanimivih lokacij.\n")));
-  
-  # Filtriraj lokacije na Ljubljano
-  rd$findElement("xpath", "//input[@id='filter']")$sendKeysToElement(list(key = "control", "a"))
-  rd$findElement("xpath", "//input[@id='filter']")$sendKeysToElement(list(key = "delete"))
-  rd$findElement("xpath", "//input[@id='filter']")$sendKeysToElement(list("Ljubljana"))
-  stLokacij <- length(rd$findElements("xpath", "//div[contains(@class, 'list-group')]/div"))
-  cat(ifelse(stLokacij == 1, "[OK] Filtriranje uspešno.\n", paste0("[NAPAKA] Filtriranje neuspešno.\n")));
-  Sys.sleep(3)
-  
-  # Izberi prikaz podrobnosti
-  rd$findElement("xpath", "//a[contains(text(), 'ZOO Ljubljana')]")$clickElement()
-  cat("[OK] Prikaži podrobnosti.\n")
-  
-  # Preveri podatke na strani
-  Sys.sleep(3)
-  naziv <- unlist(rd$findElement("xpath", "//h1")$getElementText());
-  cat(ifelse(naziv == "ZOO Ljubljana", "[OK] Pravilen naslov.\n", "[NAPAKA] Napačen naslov.\n"));
-  tretja_lastnost <- unlist(rd$findElement("xpath", "//h2[contains(text(), 'Lastnosti')]/../../div[@class='panel-body']/span[3]")$getElementText())
-  cat(ifelse(tretja_lastnost == "parkirišče je na voljo", "[OK] 3. lastnost je pravilna.\n", "[NAPAKA] 3. lastnost je napačna.\n"));
-}
+  # Log in modal window and log in functionality #################################################################
 
+  cat('Checking if the log in button exists and if so, clicking it and checking the contents of the modal window: ')
+  if (length(rd$findElements("xpath", "//a[contains(text(), 'Log In')]")) != 0) {
+  	rd$findElement("xpath", "//a[contains(text(), 'Log In')]")$clickElement()
+  	Sys.sleep(3)
+	  if (unlist(rd$findElement("xpath", "//h1[@id='welcomeBackTitle']")$getElementText()) == "Welcome Back!" &&
+	  	  unlist(rd$findElement("xpath", "//label[@id='usernameLabel']")$getElementText()) == "Username" &&
+	  	  unlist(rd$findElement("xpath", "//label[@id='passwordLabel']")$getElementText()) == "Password") {
+	    cat(green("[OK]\n"))
+	    rd
+	  } else {
+	    cat(red("[error]\n"))
+	    NULL
+	  }
+  } else {
+  	cat(red("[error]\n"))
+  	NULL
+  }
 
-#'
-#' Funkcionalni test strani z informacijami o aplikaciji.
-#'
-testirajInformacijeOAplikaciji <- function() {
-  # Pojdi na začetno stran
-  rd$navigate(urlAddress)
-  cat("[OK] Odpri začetno stran in počakaj na GPS lokacijo.\n")
-  
-  # Počakaj 7 s
-  Sys.sleep(7)
-  
-  # Izberi informacije o aplikaciji
-  rd$findElement("xpath", "//a[contains(text(), 'Informacije o aplikaciji')]")$clickElement()
-  
-  # Preveri vsebino strani
-  Sys.sleep(3)
-  naziv <- unlist(rd$findElement("xpath", "//h1")$getElementText());
-  cat(ifelse(naziv == "Informacije o aplikaciji EduGeoCache", "[OK] Pravilen naslov.\n", "[NAPAKA] Napačen naslov.\n"));
-  suppressMessages(tryCatch({
-    rd$findElement("xpath", "//p[contains(text(), 'EduGeoCache se uporablja za iskanje zanimivih lokacij v bli\u017eini, kjer lahko odpravite dolg\u010das.')]")
-    cat("[OK] Pravilno besedilo.\n")
-  }, error = function(e) {
-    cat("[NAPAKA] Napačno besedilo.\n")
-  }))
-}
-
-
-
-testirajRegistracijoInDodajanjeKomentarja <- function() {
-  # Pojdi na začetno stran
-  rd$navigate(urlAddress)
-  cat("[OK] Odpri začetno stran in počakaj na GPS lokacijo.\n")
-  
-  # Počakaj 7 s
-  Sys.sleep(7)
-  
-  # Izberi prijavo
-  rd$findElement("xpath", "//a[contains(text(), 'Prijava')]")$clickElement()
-  naziv <- unlist(rd$findElement("xpath", "//h1")$getElementText())
-  cat(ifelse(naziv == "Prijava v EduGeoCache", "[OK] Pravilen naslov prijavne strani.\n", "[NAPAKA] Napačen naslov prijavne strani.\n"));
-  
-  # Izberi registracijo
-  rd$findElement("xpath", "//a[contains(text(), 'registrirajte')]")$clickElement()
-  naziv <- unlist(rd$findElement("xpath", "//h1")$getElementText())
-  cat(ifelse(naziv == "Kreiranje novega EduGeoCache uporabniškega računa", "[OK] Pravilen naslov registracijske strani.\n", "[NAPAKA] Napačen naslov registracijske strani.\n"));
-  
-  # Vnesi prijavne podatke
-  rd$findElement("xpath", "//input[@id='ime']")$sendKeysToElement(list("Pia Lavbič"))
-  rd$findElement("xpath", "//input[@id='elektronskiNaslov']")$sendKeysToElement(list("pia@lavbic.net"))
-  rd$findElement("xpath", "//input[@id='geslo']")$sendKeysToElement(list("test"))
-  cat("[OK] Prijavni podatki vnešeni.\n");
-  
-  # Pritisni gumb za registracijo
+  cat('Entering log in information and trying to log in: ')
+  rd$findElement("xpath", "//input[@id='usernameInput']")$sendKeysToElement(list("jerry123"))
+  rd$findElement("xpath", "//input[@id='passwordInput']")$sendKeysToElement(list("geselce"))
   rd$findElement("xpath", "//button[@type='submit']")$clickElement()
-  
-  # Preveri prijavljenega uporabnika
-  Sys.sleep(7)
-  prijavljeniUporabnik <- unlist(rd$findElement("xpath", "//li[@class='dropdown']/a")$getElementText())
-  cat(ifelse(prijavljeniUporabnik == "Pia Lavbič", "[OK] Uporabnik je prijavljen.\n", "[NAPAKA] Uporabnik ni prijavljen.\n"));
-  
-  # Izberi podrobnosti ZOO Ljubljana
-  rd$findElement("xpath", "//a[contains(text(), 'ZOO Ljubljana')]")$clickElement()
-  cat("[OK] Prikaži podrobnosti.\n")
-  
-  # Zahtevaj dodajanje komentarja
   Sys.sleep(3)
-  nazivGumba <- unlist(rd$findElement("xpath", "//a[@ng-click='vm.prikaziPojavnoOknoObrazca()']")$getElementText())
-  cat(ifelse(nazivGumba == "Dodaj komentar", "[OK] Komentiranje je omogočeno.\n", "[NAPAKA] Komentiranje je onemogočeno.\n"));
-  rd$findElement("xpath", "//a[@ng-click='vm.prikaziPojavnoOknoObrazca()']")$clickElement()
-  
-  # Vnesi komentar
-  Sys.sleep(3)
-  naziv <- unlist(rd$findElement("xpath", "//h4")$getElementText())
-  cat(ifelse(naziv == "Dodaj komentar za ZOO Ljubljana", "[OK] Modalno okno je prikazano.\n", "[NAPAKA] Modalno okno ni prikazano.\n"));
-  rd$findElement("xpath", "//option[@value='3']")$clickElement()
-  rd$findElement("xpath", "//textarea[@id='komentar']")$sendKeysToElement(list("Najbolj so mi všeč igrala."))
-  rd$findElement("xpath", "//button[@type='submit']")$clickElement()
-  
-  # Preveri vnos komentarja
-  Sys.sleep(3)
-  zadnjiKomentar <- rd$findElement("xpath", "(//div[contains(@class, 'komentar-vsebnik')]//div[contains(@class, 'komentar')])[1]")
-  avtorKomentarja <- unlist(zadnjiKomentar$findChildElement("xpath", ".//span[contains(@class, 'komentarAvtor')]")$getElementText())
-  cat(ifelse(avtorKomentarja == "Pia Lavbič", "[OK] Avtor komentarja je ustrezen.\n", "[NAPAKA] Avtor komentarja ni ustrezen.\n"));
-  vsebinaKomentarja <- unlist(zadnjiKomentar$findChildElement("xpath", ".//p")$getElementText())
-  cat(ifelse(vsebinaKomentarja == "Najbolj so mi všeč igrala.", "[OK] Vsebina komentarja je ustrezna.\n", "[NAPAKA] Vsebina komentarja ni ustrezna.\n"));
-  
-  # Odjava uporabnika
-  rd$findElement("xpath", "//a[contains(text(), 'Pia Lavbič')]")$clickElement()
-  rd$findElement("xpath", "//a[contains(text(), 'Odjava')]")$clickElement()
-  Sys.sleep(7)
-  suppressMessages(tryCatch({
-    rd$findElement("xpath", "//a[contains(text(), 'Prijava')]")
-    cat("[OK] Odjava uspešna.\n")
-  }, error = function(e) {
-    cat("[NAPAKA] Odjava neuspešna.\n")
-  }))
-}
+  if (unlist(rd$findElement("xpath", "//h2[@id='swal2-title']")$getElementText()) == "Welcome Back!") {
+  	cat(green("[OK]\n"))
+  } else {
+  	cat(red("[error]\n"))
+  	NULL
+  }
+  # Click on the OK button.
+  rd$findElement("xpath", "//button[contains(text(), 'OK')]")$clickElement()
 
+  # Navigation bar check ###############################################################################################
+
+  cat("Inspecting the text of the navigation bar logged in user's drop down button: ")
+  Sys.sleep(2)
+  # Inspect text of drop down button.
+  if (unlist(rd$findElement("xpath", "//a[@id='dropdownButton']")$getElementText()) == "Logged in as jerry123") {
+	cat(green("[OK]\n"))
+  } else {
+  	cat(red("[error]\n"))
+  	NULL
+  }
+
+  # Automatic routing to dashboard check ###############################################################################
+
+  cat("Checking if located on /dashboard and if so, clicking the 'Contacts' button: ")
+  Sys.sleep(2)
+  if (length(rd$findElements("xpath", "//div[@id='dashboardMain']")) != 0 && length(rd$findElement("xpath", "//a[contains(text(), 'Contacts')]")) != 0 ) {
+  	cat(green("[OK]\n"))
+  } else {
+  	cat(red("[error]\n"))
+  	NULL
+  }
+  rd$findElement("xpath", "//a[contains(text(), 'Contacts')]")$clickElement()
+
+  # Location check ######################################################################################################
+
+  cat('Checking if located on /contacts: ')
+  Sys.sleep(3)
+  # Check if located on Contacts page
+  if (length(rd$findElements("xpath", "//h1[contains(text(), 'Your Contacts')]")) != 0 ) {
+  	cat(green("[OK]\n"))
+  } else {
+  	cat(red("[error]\n"))
+  	NULL
+  }
+
+	# Checking contents of contacts master table ###########################################################################
+
+  cat('Checking if contacts master table is empty: ')
+  Sys.sleep(1)
+  if (length(rd$findElements("xpath", "//tbody[contains(@class, 'selectableRow ng-scope')]")) == 0 ) {
+  	cat(green("[OK]\n"))
+  } else {
+  	cat(red("[error]\n"))
+  	NULL	
+  }
+
+  # Clicking the New Contact Button ######################################################################################
+
+  cat('Checking if New Contact button exists and if so, clicking on it: ')
+  Sys.sleep(1);
+  if (length(rd$findElements("xpath", "//button[contains(text(), 'New Contact')]")) != 0) {
+  	cat(green("[OK]\n"))
+  } else {
+  	cat(red("[error]\n"))
+  	NULL	
+  }
+  rd$findElement("xpath", "//button[contains(text(), 'New Contact')]")$clickElement()
+
+  # Inspecting the modal window contents #################################################################################
+
+  cat('Checking contents of modal window: ')
+  Sys.sleep(3)
+  if (length(rd$findElements("xpath", "//b[contains(text(), 'Add New Contact')]")) != 0 &&
+  	  length(rd$findElements("xpath", "//h2[contains(text(), 'Search Database for Users')]")) != 0 &&
+  	  length(rd$findElements("xpath", "//b[contains(text(), 'Found users:')]")) != 0 &&
+  	  length(rd$findElements("xpath", "//h2[contains(text(), 'Manually Add New Contact')]")) != 0 &&
+  	  length(rd$findElements("xpath", "//b[contains(text(), 'First Name')]")) != 0 &&
+  	  length(rd$findElements("xpath", "//b[contains(text(), 'Last Name')]")) != 0 &&
+  	  length(rd$findElements("xpath", "//b[contains(text(), 'E-mail')]")) != 0 &&
+  	  length(rd$findElements("xpath", "//b[contains(text(), 'Telephone number')]")) != 0 &&
+  	  length(rd$findElements("xpath", "//b[contains(text(), 'City/Region')]")) != 0 &&
+  	  length(rd$findElements("xpath", "//b[contains(text(), 'Username')]")) != 0)
+  {
+  	cat(green("[OK]\n"))
+  } else {
+  	cat(red("[error]\n"))
+  	NULL
+  }
+
+  # Testing the Search and contact adding Functionality #####################################################################
+
+  contactName <- "Mia"
+  contactSurname <- "Filić"
+  contactUsername <- "MiaTheGreat123"
+  contactFullSearchData <- "Mia Filić, MiaTheGreat123"
+  cat(sprintf("Checking if search input exists and if so, entering '%s' into it: ", contactName))
+  Sys.sleep(1)
+  if (length(rd$findElements("xpath", "//input[@id='databaseUserSearchField']")) != 0) {
+		rd$findElement("xpath", "//input[@id='databaseUserSearchField']")$sendKeysToElement(list(contactName))
+  	cat(green("[OK]\n"))
+  } else {
+  	cat(red("[error]\n"))
+  	NULL
+  }
+
+  cat(sprintf("Checking found items in the search dropdown menu - looking for '%s'. If found, selecting it: ", contactFullSearchData))
+  Sys.sleep(1)
+	if (length(rd$findElements("xpath", sprintf("//option[contains(text(), '%s')]", contactFullSearchData))) != 0) {
+		rd$findElement(using = 'xpath', "//select[@id = 'foundContacts']")$clickElement()
+		Sys.sleep(1)
+		rd$findElement(using = 'xpath', sprintf("//option[@value = '%s']", contactFullSearchData))$clickElement()
+  	cat(green("[OK]\n"))
+  } else {
+  	cat(red("[error]\n"))
+  	NULL
+  }
+
+
+   cat(sprintf("Checking for 'select' button and if exists, clicking it: ", contactFullSearchData))
+   Sys.sleep(1)
+	 if (length(rd$findElements("xpath", "//button[contains(text(), 'Select')]")) != 0) {
+		rd$findElement("xpath", "//button[contains(text(), 'Select')]")$clickElement()
+   	cat(green("[OK]\n"))
+   } else {
+   	cat(red("[error]\n"))
+   	NULL
+   }  
+
+  cat("Checking if necessary input fields exist and if so, adding rest of data: ")
+  Sys.sleep(1)
+	if (length(rd$findElements("xpath", "//input[@id='contactName']")) != 0 && 
+			length(rd$findElements("xpath", "//input[@id='contactSurname']")) != 0 &&
+			length(rd$findElements("xpath", "//input[@id='contactEmail']")) != 0 &&
+			length(rd$findElements("xpath", "//input[@id='contactPhone']")) != 0 &&
+			length(rd$findElements("xpath", "//input[@id='contactRegion']")) != 0 &&
+			length(rd$findElements("xpath", "//input[@id='contactUsername']"))) {
+
+		contactEmail <- "mia.filic@gmail.com"
+		contactPhone <- "070123456"
+		contactRegion <- "Zagreb"
+		rd$findElement("xpath", "//input[@id='contactEmail']")$sendKeysToElement(list("mia.filic@gmail.com"))
+		rd$findElement("xpath", "//input[@id='contactPhone']")$sendKeysToElement(list("070123456"))
+		rd$findElement("xpath", "//input[@id='contactRegion']")$sendKeysToElement(list("Zagreb"))
+		cat(green("[OK]\n"))
+	} else {
+		cat(red("[error]\n"))
+  	NULL	
+	}
+
+	cat("Checking if 'Add Contact' button exists and if so, clicking it: ")
+	Sys.sleep(1)
+	if (length(rd$findElements("xpath", "//button[contains(text(), 'Add Contact')]")) != 0) {
+		rd$findElement("xpath", "//button[@type='submit']")$clickElement()
+		cat(green("[OK]\n"))
+	} else {
+		cat(red("[error]\n"))
+  	NULL	
+	}
+
+	cat("Checking if contact accepted (is a valid contact) and if so, clicking 'OK': ")
+	Sys.sleep(3)
+	if (length(rd$findElements("xpath", "//h2[contains(text(), 'Done!')]")) != 0) {
+		rd$findElement("xpath", "//button[contains(text(), 'OK')]")$clickElement()
+		cat(green("[OK]\n"))
+	} else {
+		cat(red("[error]\n"))
+  	NULL	
+	}	
+	
+	contactName <- "Mia"
+  contactSurname <- "Filić"
+  contactUsername <- "MiaTheGreat123"
+
+	cat("Checking if added contact exists in contacts master table and if the values are correct: ")
+	Sys.sleep(3)
+	if (length(rd$findElements("xpath", "//tbody[contains(@class, 'selectableRow ng-scope')]")) != 0 &&
+			length(rd$findElements("xpath", sprintf("//td[contains(text(), ' %s ')]", contactName))) != 0 &&
+			length(rd$findElements("xpath", sprintf("//td[contains(text(), ' %s ')]", contactSurname))) != 0 &&
+			length(rd$findElements("xpath", sprintf("//td[contains(text(), ' %s ')]", contactUsername))) != 0) {
+		cat(green("[OK]\n"))
+	} else {
+		cat(red("[error]\n"))
+  	NULL	
+	}
+
+  #########################################################################################################################
+
+}
 
 # urlAddress = "https://sp-projekt2-excogitator.c9users.io"
 urlAddress = "https://sp-projekt2-excogitator.c9users.io/"
 
 dockerStart()
 
-rd <- prepareEnvironment()
+rd <- prepareEnvironmentAndTest()
 
 # testirajZOOLjubljana()
 # testirajInformacijeOAplikaciji()

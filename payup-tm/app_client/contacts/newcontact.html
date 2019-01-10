@@ -16,11 +16,11 @@
     <div class="container contactsContainer" >
         <h2 class="databaseSearchHeading">Search Database for Users</h2>
         
-        <input class="form-control" ng-model="vm.expression" placeholder="search..." />
+        <input id="databaseUserSearchField" class="form-control" ng-model="vm.expression" placeholder="search..." />
         
         <div class="contactSearch">
             <label><b>Found users:</b></label>
-            <select class="form-control" ng-model="vm.selectedContact">
+            <select id="foundContacts" class="form-control" ng-model="vm.selectedContact">
                 <option ng-repeat="x in vm.usersList.listAll | filter: vm.expression">{{ x.name }} {{ x.surname }}, {{ x._id }}</option>
             </select>
         </div>
@@ -37,11 +37,11 @@
         <label for="psw"><b>E-mail</b></label>
         <input type="text" placeholder="Enter e-mail" name="email" id="contactEmail" required>
         <label for="psw"><b>Telephone number</b></label>
-        <input type="text" placeholder="Enter telephone number" name="phone" id="contactPhone">
+        <input type="text" placeholder="Enter telephone number" name="phone" id="contactPhone" required>
         <label for="psw"><b>City/Region</b></label>
-        <input type="text" placeholder="Enter city/region" name="region" id="contactRegion">
+        <input type="text" placeholder="Enter city/region" name="region" id="contactRegion" required>
         <label for="psw"><b>Username</b></label>
-        <input type="text" placeholder="Enter username" name="username" id="contactUsername">
+        <input type="text" placeholder="Enter username" name="username" id="contactUsername" required>
         
         <button type="submit" class="contactAddedAlert btn btn-primary">Add Contact</button>
         

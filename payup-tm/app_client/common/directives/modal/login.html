@@ -8,16 +8,16 @@
     
     <!-- avatar image -->
     <div class="imgcontainer">
-        <h1><b>Welcome back!</b></h1>
+        <h1 id="welcomeBackTitle"><b>Welcome Back!</b></h1>
         <img src="images/avatar.jpg" alt="Avatar" class="avatar">
     </div>
     
     <!-- forms links and checkboxes -->
     <div class="container loginForms">
-        <label for="uname"><b>Username</b></label>
-        <input type="text" placeholder="Enter Username" name="uname" required ng-model="modvm.loginData.username">
-        <label for="psw"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="psw" required ng-model="modvm.loginData.password">
+        <label id="usernameLabel" for="uname"><b>Username</b></label>
+        <input id="usernameInput" type="text" placeholder="Enter Username" name="uname" required ng-model="modvm.loginData.username">
+        <label id="passwordLabel" for="psw"><b>Password</b></label>
+        <input id="passwordInput" type="password" placeholder="Enter Password" name="psw" required ng-model="modvm.loginData.password">
         <div class="loginBottom">
             <button type="submit" form="loginForms" class="loginButton btn btn-primary">Log In</button>
             <input class="rememberMe" style="margin-left: 10px;" type="checkbox" checked="checked" name="remember"> Remember me

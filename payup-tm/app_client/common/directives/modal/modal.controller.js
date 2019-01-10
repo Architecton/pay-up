@@ -129,7 +129,7 @@
             // Show confirmation alert
             /* global Swal  */
             Swal({
-              title: 'Welcome back!',
+              title: 'Welcome Back!',
               text: 'We missed you! See what\'s new by navigating to your dashboard!',
               imageUrl: '/style/images/avatar2.png',
               imageWidth: 180,
