@@ -3,64 +3,13 @@
 #' (1) $ sudo docker run -d -p 4444:4444 -v /dev/shm:/dev/shm selenium/standalone-chrome:3.141.59-dubnium
 #' (2) $ sudo R
 #' (3) > source('payupSeleniumTest.R')
-#' 
-#' 
-#' Start Docker container
-#' 
-#' @param dockerContainer
-#' @param waitTime
-#'
-dockerStart <- function(dockerContainer = "selenium/standalone-chrome", waitTime = 10) {
-  status <- tryCatch({
-    system(paste0("docker ps | grep ", dockerContainer), intern = TRUE)
-  }, warning = function(war) {
-    return(NA)
-  }, error = function(err) {
-    cat(paste0("error : ", err, "\n"))
-    return(NA)
-  }, finally = {})
-  
-  if (is.na(status)) {
-    cat(paste0(date(), " :: ",
-               "RUN Selenium Chrome server in Docker container '", dockerContainer, "'.\n"));
-    system(paste0("docker start ", dockerContainer), ignore.stdout = TRUE)
-    Sys.sleep(waitTime)
-  } else {
-    cat(paste0(date(), " :: ",
-               "Selenium Chrome server in Docker container '", dockerContainer, "' is already running.\n"));
-  }
-}
-
-
-#'
-#' Stop Docker container
-#' 
-#' @param dockerContainer
-#' @param waitTime
-#'
-dockerStop <- function(dockerContainer = "selenium/standalone-chrome", waitTime = 3) {
-  status <- tryCatch({
-    system(paste0("docker ps | grep ", dockerContainer), intern = TRUE)
-  }, warning = function(war) {
-    return(NA)
-  }, error = function(err) {
-    cat(paste0("Error : ", err, "\n"))
-    return(NA)
-  }, finally = {})
-  
-  if (!is.na(status)) {
-    cat(paste0(date(), " :: ",
-               "STOP Selenium Chrome server in Docker container '", dockerContainer, "'.\n"));
-    system(paste0("docker stop ", dockerContainer), ignore.stdout = TRUE)
-    Sys.sleep(waitTime)
-  } else {
-    cat(paste0(date(), " :: ",
-               "Selenium Chrome server in Docker container '", dockerContainer, "' is already stopped.\n"));
-  }
-}
 
 # Library for coloring terminal output
 library(crayon)
+
+
+num_tests <- 16
+num_completed <- 0
 
 #'
 #' Inicialization of the interface to the Selenium server.
@@ -89,19 +38,21 @@ prepareEnvironmentAndTest <- function() {
   rd$findElement("xpath", "//a[contains(@class, 'solid fat info button')]")$clickElement()
 
   # Website title ################################################################################################
-  cat('Checking website title: ')
+  cat('Checking website title. ')
   Sys.sleep(3)
   if (rd$getTitle() == "PayUp") {
     cat(green("[OK]\n"))
-    rd
+    num_completed <- num_completed + 1
   } else {
     cat(red("[error]"))
     NULL
   }
 
+
+
   # Log in modal window and log in functionality #################################################################
 
-  cat('Checking if the log in button exists and if so, clicking it and checking the contents of the modal window: ')
+  cat('Checking if the log in button exists and if so, clicking it and checking the contents of the modal window. ')
   if (length(rd$findElements("xpath", "//a[contains(text(), 'Log In')]")) != 0) {
   	rd$findElement("xpath", "//a[contains(text(), 'Log In')]")$clickElement()
   	Sys.sleep(3)
@@ -109,6 +60,7 @@ prepareEnvironmentAndTest <- function() {
 	  	  unlist(rd$findElement("xpath", "//label[@id='usernameLabel']")$getElementText()) == "Username" &&
 	  	  unlist(rd$findElement("xpath", "//label[@id='passwordLabel']")$getElementText()) == "Password") {
 	    cat(green("[OK]\n"))
+	    num_completed <- num_completed + 1
 	    rd
 	  } else {
 	    cat(red("[error]\n"))
@@ -119,13 +71,14 @@ prepareEnvironmentAndTest <- function() {
   	NULL
   }
 
-  cat('Entering log in information and trying to log in: ')
+  cat('Entering log in information and trying to log in. ')
   rd$findElement("xpath", "//input[@id='usernameInput']")$sendKeysToElement(list("jerry123"))
   rd$findElement("xpath", "//input[@id='passwordInput']")$sendKeysToElement(list("geselce"))
   rd$findElement("xpath", "//button[@type='submit']")$clickElement()
   Sys.sleep(3)
   if (unlist(rd$findElement("xpath", "//h2[@id='swal2-title']")$getElementText()) == "Welcome Back!") {
   	cat(green("[OK]\n"))
+  	num_completed <- num_completed + 1
   } else {
   	cat(red("[error]\n"))
   	NULL
@@ -135,11 +88,12 @@ prepareEnvironmentAndTest <- function() {
 
   # Navigation bar check ###############################################################################################
 
-  cat("Inspecting the text of the navigation bar logged in user's drop down button: ")
+  cat("Inspecting the text of the navigation bar logged in user's drop down button. ")
   Sys.sleep(2)
   # Inspect text of drop down button.
   if (unlist(rd$findElement("xpath", "//a[@id='dropdownButton']")$getElementText()) == "Logged in as jerry123") {
 	cat(green("[OK]\n"))
+	num_completed <- num_completed + 1
   } else {
   	cat(red("[error]\n"))
   	NULL
@@ -147,10 +101,11 @@ prepareEnvironmentAndTest <- function() {
 
   # Automatic routing to dashboard check ###############################################################################
 
-  cat("Checking if located on /dashboard and if so, clicking the 'Contacts' button: ")
+  cat("Checking if located on /dashboard and if so, clicking the 'Contacts' button. ")
   Sys.sleep(2)
   if (length(rd$findElements("xpath", "//div[@id='dashboardMain']")) != 0 && length(rd$findElement("xpath", "//a[contains(text(), 'Contacts')]")) != 0 ) {
   	cat(green("[OK]\n"))
+  	num_completed <- num_completed + 1
   } else {
   	cat(red("[error]\n"))
   	NULL
@@ -159,11 +114,12 @@ prepareEnvironmentAndTest <- function() {
 
   # Location check ######################################################################################################
 
-  cat('Checking if located on /contacts: ')
+  cat('Checking if located on /contacts. ')
   Sys.sleep(3)
   # Check if located on Contacts page
   if (length(rd$findElements("xpath", "//h1[contains(text(), 'Your Contacts')]")) != 0 ) {
   	cat(green("[OK]\n"))
+  	num_completed <- num_completed + 1
   } else {
   	cat(red("[error]\n"))
   	NULL
@@ -171,10 +127,11 @@ prepareEnvironmentAndTest <- function() {
 
 	# Checking contents of contacts master table ###########################################################################
 
-  cat('Checking if contacts master table is empty: ')
+  cat('Checking if contacts master table is empty. ')
   Sys.sleep(1)
   if (length(rd$findElements("xpath", "//tbody[contains(@class, 'selectableRow ng-scope')]")) == 0 ) {
   	cat(green("[OK]\n"))
+  	num_completed <- num_completed + 1
   } else {
   	cat(red("[error]\n"))
   	NULL	
@@ -182,10 +139,11 @@ prepareEnvironmentAndTest <- function() {
 
   # Clicking the New Contact Button ######################################################################################
 
-  cat('Checking if New Contact button exists and if so, clicking on it: ')
+  cat('Checking if New Contact button exists and if so, clicking on it. ')
   Sys.sleep(1);
   if (length(rd$findElements("xpath", "//button[contains(text(), 'New Contact')]")) != 0) {
   	cat(green("[OK]\n"))
+  	num_completed <- num_completed + 1
   } else {
   	cat(red("[error]\n"))
   	NULL	
@@ -194,7 +152,7 @@ prepareEnvironmentAndTest <- function() {
 
   # Inspecting the modal window contents #################################################################################
 
-  cat('Checking contents of modal window: ')
+  cat('Checking contents of modal window. ')
   Sys.sleep(3)
   if (length(rd$findElements("xpath", "//b[contains(text(), 'Add New Contact')]")) != 0 &&
   	  length(rd$findElements("xpath", "//h2[contains(text(), 'Search Database for Users')]")) != 0 &&
@@ -208,6 +166,7 @@ prepareEnvironmentAndTest <- function() {
   	  length(rd$findElements("xpath", "//b[contains(text(), 'Username')]")) != 0)
   {
   	cat(green("[OK]\n"))
+  	num_completed <- num_completed + 1
   } else {
   	cat(red("[error]\n"))
   	NULL
@@ -219,40 +178,43 @@ prepareEnvironmentAndTest <- function() {
   contactSurname <- "Filić"
   contactUsername <- "MiaTheGreat123"
   contactFullSearchData <- "Mia Filić, MiaTheGreat123"
-  cat(sprintf("Checking if search input exists and if so, entering '%s' into it: ", contactName))
+  cat(sprintf("Checking if search input exists and if so, entering '%s' into it. ", contactName))
   Sys.sleep(1)
   if (length(rd$findElements("xpath", "//input[@id='databaseUserSearchField']")) != 0) {
 		rd$findElement("xpath", "//input[@id='databaseUserSearchField']")$sendKeysToElement(list(contactName))
   	cat(green("[OK]\n"))
+  	num_completed <- num_completed + 1
   } else {
   	cat(red("[error]\n"))
   	NULL
   }
 
-  cat(sprintf("Checking found items in the search dropdown menu - looking for '%s'. If found, selecting it: ", contactFullSearchData))
+  cat(sprintf("Checking found items in the search dropdown menu - looking for '%s'. If found, selecting it. ", contactFullSearchData))
   Sys.sleep(1)
 	if (length(rd$findElements("xpath", sprintf("//option[contains(text(), '%s')]", contactFullSearchData))) != 0) {
 		rd$findElement(using = 'xpath', "//select[@id = 'foundContacts']")$clickElement()
 		Sys.sleep(1)
 		rd$findElement(using = 'xpath', sprintf("//option[@value = '%s']", contactFullSearchData))$clickElement()
   	cat(green("[OK]\n"))
+  	num_completed <- num_completed + 1
   } else {
   	cat(red("[error]\n"))
   	NULL
   }
 
 
-   cat(sprintf("Checking for 'select' button and if exists, clicking it: ", contactFullSearchData))
+   cat(sprintf("Checking for 'select' button and if exists, clicking it. ", contactFullSearchData))
    Sys.sleep(1)
 	 if (length(rd$findElements("xpath", "//button[contains(text(), 'Select')]")) != 0) {
 		rd$findElement("xpath", "//button[contains(text(), 'Select')]")$clickElement()
    	cat(green("[OK]\n"))
+   	num_completed <- num_completed + 1
    } else {
    	cat(red("[error]\n"))
    	NULL
    }  
 
-  cat("Checking if necessary input fields exist and if so, adding rest of data: ")
+  cat("Checking if necessary input fields exist and if so, adding rest of data. ")
   Sys.sleep(1)
 	if (length(rd$findElements("xpath", "//input[@id='contactName']")) != 0 && 
 			length(rd$findElements("xpath", "//input[@id='contactSurname']")) != 0 &&
@@ -268,47 +230,61 @@ prepareEnvironmentAndTest <- function() {
 		rd$findElement("xpath", "//input[@id='contactPhone']")$sendKeysToElement(list("070123456"))
 		rd$findElement("xpath", "//input[@id='contactRegion']")$sendKeysToElement(list("Zagreb"))
 		cat(green("[OK]\n"))
+		num_completed <- num_completed + 1
 	} else {
 		cat(red("[error]\n"))
   	NULL	
 	}
 
-	cat("Checking if 'Add Contact' button exists and if so, clicking it: ")
+	cat("Checking if 'Add Contact' button exists and if so, clicking it. ")
 	Sys.sleep(1)
 	if (length(rd$findElements("xpath", "//button[contains(text(), 'Add Contact')]")) != 0) {
 		rd$findElement("xpath", "//button[@type='submit']")$clickElement()
 		cat(green("[OK]\n"))
+		num_completed <- num_completed + 1
 	} else {
 		cat(red("[error]\n"))
   	NULL	
 	}
 
-	cat("Checking if contact accepted (is a valid contact) and if so, clicking 'OK': ")
+	cat("Checking if contact accepted (is a valid contact) and if so, clicking 'OK'. ")
 	Sys.sleep(3)
 	if (length(rd$findElements("xpath", "//h2[contains(text(), 'Done!')]")) != 0) {
 		rd$findElement("xpath", "//button[contains(text(), 'OK')]")$clickElement()
 		cat(green("[OK]\n"))
+		num_completed <- num_completed + 1
 	} else {
 		cat(red("[error]\n"))
   	NULL	
 	}	
 	
 	contactName <- "Mia"
-  contactSurname <- "Filić"
-  contactUsername <- "MiaTheGreat123"
+  	contactSurname <- "Filić"
+  	contactUsername <- "MiaTheGreat123"
 
-	cat("Checking if added contact exists in contacts master table and if the values are correct: ")
+	cat("Checking if added contact exists in contacts master table and if the values are correct. ")
 	Sys.sleep(3)
 	if (length(rd$findElements("xpath", "//tbody[contains(@class, 'selectableRow ng-scope')]")) != 0 &&
 			length(rd$findElements("xpath", sprintf("//td[contains(text(), ' %s ')]", contactName))) != 0 &&
 			length(rd$findElements("xpath", sprintf("//td[contains(text(), ' %s ')]", contactSurname))) != 0 &&
 			length(rd$findElements("xpath", sprintf("//td[contains(text(), ' %s ')]", contactUsername))) != 0) {
 		cat(green("[OK]\n"))
+		num_completed <- num_completed + 1
 	} else {
 		cat(red("[error]\n"))
   	NULL	
 	}
 
+  if (num_completed == num_tests) {
+  	cat("Passed ")
+  	cat(green(sprintf("%d/%d", num_completed, num_tests)))
+  	cat(" of tests.\n")
+  } else {
+  	cat("Passed ")
+  	cat(red(sprintf("%d/%d", num_completed, num_tests)))
+  	cat(" of tests.\n")
+  }
+  
   #########################################################################################################################
 
 }
@@ -316,12 +292,14 @@ prepareEnvironmentAndTest <- function() {
 # urlAddress = "https://sp-projekt2-excogitator.c9users.io"
 urlAddress = "https://sp-projekt2-excogitator.c9users.io/"
 
-dockerStart()
-
+# Run test
+cat("Starting docker image:\n")
+system('sudo docker run -d -p 4444:4444 -v /dev/shm:/dev/shm selenium/standalone-chrome:3.141.59-dubnium')
+cat('\n')
+Sys.sleep(3)
 rd <- prepareEnvironmentAndTest()
-
-# testirajZOOLjubljana()
-# testirajInformacijeOAplikaciji()
-# testirajRegistracijoInDodajanjeKomentarja()
-
-dockerStop()
+system('sudo docker stop $(sudo docker ps -a -q)')
+Sys.sleep(1)
+system('sudo docker stop $(sudo docker ps -a -q)')
+Sys.sleep(1)
+system('sudo docker rm $(sudo docker ps -aq)')
