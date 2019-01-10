@@ -73,9 +73,12 @@
     
     // set night mode checkbox
     angular.element(document).ready(function () {
-      if (authentication.isLoggedIn()) {
-        document.getElementById("nightmode").checked = authentication.currentUser().nightmode;
-      }
+      setTimeout(function () {
+        if (authentication.isLoggedIn()) {
+          document.getElementById("nightmode").checked = authentication.currentUser().nightmode;
+        }
+      }, 2000);
+      
     });
     
     // Data needed to log in
@@ -138,7 +141,6 @@
               animation: true
             }).then(function(ok) {
               // Redirect user to dashboard.
-              document.getElementById('id01').style.display='none';
               $location.path('/dashboard');
               $route.reload();  
             });
