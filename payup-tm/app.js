@@ -9,6 +9,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var helmet = require('helmet')
 
 var uglifyjs = require('uglify-js');
 var fs = require('fs');
@@ -41,7 +42,8 @@ if (minify) {
     'loansData.service.js' : fs.readFileSync('app_client/common/services/loansData.service.js', 'utf-8'),
     'loansList.service.js' : fs.readFileSync('app_client/common/services/loansList.service.js', 'utf-8'),
     'contactsData.service.js' : fs.readFileSync('app_client/common/services/contactsData.service.js', 'utf-8'),
-    'homepage.controller.js' : fs.readFileSync('app_client/homepage/homepage.controller.js', 'utf-8')
+    'homepage.controller.js' : fs.readFileSync('app_client/homepage/homepage.controller.js', 'utf-8'),
+    'bootstrap-formhelpers.min.js' : fs.readFileSync('app_client/style/form-helpers/dist/js/bootstrap-formhelpers.min.js', 'utf-8')
   });
   
   fs.writeFile('public/angular/payup.min.js', combined.code, function(error) {
