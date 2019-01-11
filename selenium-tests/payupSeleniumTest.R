@@ -33,9 +33,10 @@ prepareEnvironmentAndTest <- function() {
   cat("Accessing the root of the application... \n")
   rd$navigate(urlAddress)  # Open the starting page
   
-  # CLOUD9 PREVIEW BUTTON CLICK --- REMOVE WHEN ON HEROKU
+  
   Sys.sleep(3)
-  rd$findElement("xpath", "//a[contains(@class, 'solid fat info button')]")$clickElement()
+  # CLOUD9 PREVIEW BUTTON CLICK --- REMOVE WHEN ON HEROKU
+  # rd$findElement("xpath", "//a[contains(@class, 'solid fat info button')]")$clickElement()
 
   # Website title ################################################################################################
   cat('Checking website title. ')
@@ -289,8 +290,8 @@ prepareEnvironmentAndTest <- function() {
 
 }
 
-# urlAddress = "https://sp-projekt2-excogitator.c9users.io"
-urlAddress = "https://sp-projekt2-excogitator.c9users.io/"
+
+urlAddress = "https://tranquil-harbor-59737.herokuapp.com/"
 
 # Run test
 cat("Starting docker image:\n")
