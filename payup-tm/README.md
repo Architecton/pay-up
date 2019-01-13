@@ -44,6 +44,50 @@ Night mode: Color pallet swap (not implemented).
 Notes: An input field where the user can input characters, numbers, spaces and '.,:;!?&%/. It has a max length of 1000.
 Terms and Conditions: A checkbox that has to be checked in order to create an account.
 
+Extrenal integration:
+Upon sign-up, the new uses is prompted to tick a re-captcha box.
+
+Modal windows:
+The forms for logging in, adding a new loan, and adding a new contact are implemented as modal windows.
+
+User notifications:
+We use sweetalert2 to inform the user of succesful or failed requests. For example, upon creating a new contact, the user will revceive a small
+pop-up informing them that the contact has been created, or one informing them what went wrong.
+
+API documentation:
+https://tranquil-harbor-59737.herokuapp.com/api/doc/
+
+User types:
+1. Guest - can only view the application, but has the option to sign up or log in as a registered user
+2. Registered user - has access to the dashboard page, which allows him to create and manage contacts and loans
+3. Admin - has complete control over the app and database entries. Also has access to the /db page (accessible through the URL)
+
+The Admin:
+Upon starting the application, one admin is pre-declared in the .env file. Username: janezNovak123 Password: tralala
+Janez can do whatever he wants with the app and can be used to nuke/seed the database at  will.
+
+Page loading times:
+On both Firefox and Chrome, the app functions very quickly. After the initial load (which takes some 15-20ms total), accessing any part of the website
+takes < 5ms, and most of the time is spent acquiring the background images (which Chrome does not cache, but Firefox does - 
+as such, the app runs slightly faster on Firefox). The page that take the longest to load due to the large number of
+background images is the Home page (occasionally takes > 5ms depending on connection speed), but due to the amount of data
+transfered when accessing the Loans or Contacts page, loading those takes the longest (which is still only around 40ms total for 
+the Admin user, far less for conventional users)
+
+Selenium tests: 
+Included in the repository and have been carried out successfully.
+
+User tracking:
+Included with Google Analytics
+
+Apache JMeter:
+Ran and tested with .jmcx files included in repository.
+Tested on Aljaž's laptop, handled around 7000 users before becoming too slow for non-frustrating use:
+Intel(R) Core(TM) i7-6700HQ CPU @ 3.20GHz
+32.0 GB RAM
+M.2 SSD
+Windows10 Home 64-bit
+
 Compatible devices:
 desktop computer, laptop computer, tablet, mobile phone
 
