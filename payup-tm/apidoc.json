@@ -347,7 +347,7 @@
         }
       }
     },
-    "/loans" : {
+    "/inspectloans" : {
       "get" : {
         "tags" : [ "Loans" ],
         "summary" : "Get all loans of all users",
